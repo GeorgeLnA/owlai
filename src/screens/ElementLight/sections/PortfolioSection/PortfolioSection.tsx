@@ -4,7 +4,7 @@ export const PortfolioSection = (): JSX.Element => {
   return (
     <section id="platform" className="w-full">
       {/* Label */}
-      <div className="flex items-center w-full">
+      <div className="flex items-center w-full -ml-10 md:-ml-24">
         <div className="flex flex-col w-6 h-2 items-start pr-4">
           <div className="w-2 h-2 bg-wezomcomblack rounded" />
         </div>

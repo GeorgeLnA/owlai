@@ -19,8 +19,11 @@ const CATEGORIES: ExpertiseCategory[] = [
       "FILINGS",
       "TRANSCRIPTS",
       "MARKET DATA",
+      "PROGRAMMING",
       "ENTITY RESOLUTION",
+      "MATHEMATICS",
       "CITATIONS",
+      "RISK",
       "GUARDRAILS",
     ],
     description:
@@ -32,10 +35,13 @@ const CATEGORIES: ExpertiseCategory[] = [
     title: "Custom Integration",
     tags: [
       "S3 / DATA LAKE",
+      "PRODUCT DEVELOPMENT",
       "SNOWFLAKE",
       "FACTSET",
       "BLOOMBERG",
+      "MARKETING",
       "PERMISSIONS",
+      "COMMUNICATIONS",
       "SSO",
     ],
     description:
@@ -48,8 +54,10 @@ const CATEGORIES: ExpertiseCategory[] = [
     tags: [
       "PRIVATE DEPLOYMENT",
       "ENCRYPTION",
+      "CORPORATE GOVERNANCE",
       "AUDIT LOGS",
       "PII CONTROLS",
+      "ESG",
       "MODEL ISOLATION",
       "SOC2-READY",
     ],
@@ -61,30 +69,49 @@ const CATEGORIES: ExpertiseCategory[] = [
 
 
 export const InteractiveExpertise = (): JSX.Element => {
-  const [activeId, setActiveId] = useState<string>("software");
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   const activeCategory = useMemo(
     () => CATEGORIES.find((c) => c.id === activeId) ?? CATEGORIES[0],
     [activeId],
   );
 
+  const renderDescription = (text: string) => {
+    const parts = text.split(/(OWL AI)/gi);
+    return parts.map((part, index) =>
+      part.toLowerCase() === "owl ai" ? (
+        <span key={index} className="text-black font-semibold">
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  };
+
   return (
     <div className="w-full flex flex-col gap-8 md:gap-12">
       {/* Original expertise section */}
       <div className="w-full flex flex-col gap-4 md:gap-6">
-        {/* Header (aligned left like Section 3) */}
-        <div className="flex flex-col items-start gap-2 w-full">
-          <div className="flex items-center relative self-stretch w-full">
-            <div className="flex flex-col w-6 h-2 items-start pl-0 pr-3 py-0 relative">
-              <div className="relative w-2 h-2 bg-black rounded" />
+        {/* Header (aligned with BlogSection) */}
+        <div className="flex flex-col lg:flex-row items-start justify-center gap-8 w-full">
+          {/* Left rail label */}
+          <div className="flex flex-col w-full lg:max-w-[340px] lg:w-[340px] items-start">
+            <div className="flex items-center -ml-16 md:-ml-32">
+              <div className="flex flex-col w-6 h-2 items-start pr-4">
+                <div className="w-2 h-2 bg-wezomcomblack rounded" />
+              </div>
+              <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-4">
+                OUR EXPERTISE
+              </span>
             </div>
-            <span className="w-fit [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-black text-[11px] md:text-[13px] leading-4">
-              OUR EXPERTISE
-            </span>
           </div>
-          <h2 className="self-stretch [font-family:'Manrope',Helvetica] font-bold text-black text-[28px] md:text-[44px] leading-tight mt-[-1px]">
-            {activeCategory.title}
-          </h2>
+          {/* Right content aligned to top */}
+          <div className="flex flex-col w-full lg:max-w-[1020px] items-start">
+            <h2 className="[font-family:'Manrope',Helvetica] font-bold text-black text-3xl md:text-5xl lg:text-[56px] tracking-[-3px] leading-tight">
+              Expertise of [OWL AI]
+            </h2>
+          </div>
         </div>
 
         {/* Content row */}
@@ -108,7 +135,12 @@ export const InteractiveExpertise = (): JSX.Element => {
                 const isActive = activeId === category.id;
                 const orderNumber = `${String(index + 1).padStart(2, "0")}/`;
                 return (
-                  <div key={category.id} className="py-4">
+                  <div
+                    key={category.id}
+                    className="py-8 md:py-10 lg:py-12"
+                    onMouseEnter={() => setActiveId(category.id)}
+                    onMouseLeave={() => setActiveId(null)}
+                  >
                     <button
                       type="button"
                       onClick={() => setActiveId(category.id)}
@@ -152,7 +184,7 @@ export const InteractiveExpertise = (): JSX.Element => {
 
                       {/* Description */}
                       <p className="mt-3 max-w-[720px] text-wezomcomdove-gray text-sm md:text-base leading-6">
-                        {category.description}
+                        {renderDescription(category.description)}
                       </p>
 
                       {/* Learn more */}

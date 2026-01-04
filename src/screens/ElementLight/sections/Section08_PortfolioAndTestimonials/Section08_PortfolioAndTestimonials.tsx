@@ -1,4 +1,3 @@
-import React from "react";
 import { PortfolioSection } from "../PortfolioSection";
 
 export const Section08_PortfolioAndTestimonials = (): JSX.Element => {

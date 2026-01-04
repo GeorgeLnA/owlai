@@ -56,7 +56,7 @@ export const MainContentSection = (): JSX.Element => {
                   href={item.href}
                   className="inline-flex items-start relative"
                 >
-                  <span className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] tracking-[0] leading-[15.6px]">
+                  <span className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-black text-xs md:text-[13px] tracking-[0] leading-[15.6px]">
                     {item.title}
                   </span>
                 </a>
@@ -76,7 +76,7 @@ export const MainContentSection = (): JSX.Element => {
                   href={item.href}
                   className="inline-flex items-start relative"
                 >
-                  <span className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] tracking-[0] leading-[15.6px]">
+                  <span className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-black text-xs md:text-[13px] tracking-[0] leading-[15.6px]">
                     {item.title}
                   </span>
                 </a>
@@ -88,7 +88,7 @@ export const MainContentSection = (): JSX.Element => {
         <div className="flex flex-col items-start pl-0 md:pl-6 pr-0 pt-6 md:pt-[23.3px] pb-0 relative">
           <div className="flex flex-col w-full md:w-[200px] items-start gap-[7.99px] relative">
             <div className="flex flex-col items-start relative self-stretch w-full">
-              <h3 className="relative self-stretch mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] tracking-[0] leading-[15.6px]">
+              <h3 className="relative self-stretch mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-black text-xs md:text-[13px] tracking-[0] leading-[15.6px]">
                 OWL AI
                 <br />
                 OFFICES

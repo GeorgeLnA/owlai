@@ -22,7 +22,7 @@ export const OverlaySection = (): JSX.Element => {
             </div>
 
             <div className="pl-2">
-              <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] tracking-[-0.13px] leading-[15.6px]">
+              <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-black text-xs md:text-[13px] tracking-[-0.13px] leading-[15.6px]">
                 OWL AI OVERVIEW
               </span>
             </div>
@@ -43,7 +43,7 @@ export const OverlaySection = (): JSX.Element => {
                   alt="Separator"
                   src="/component-3-59.svg"
                 />
-                <span className="[font-family:'Manrope',Helvetica] font-medium text-wezomcomblack text-xs md:text-sm leading-[19.6px]">
+                <span className="[font-family:'Manrope',Helvetica] font-medium text-black text-xs md:text-sm leading-[19.6px]">
                   OWL AI
                 </span>
               </div>

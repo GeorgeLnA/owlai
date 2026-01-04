@@ -5,7 +5,7 @@ export const BlogSection = (): JSX.Element => {
     <section className="flex flex-col lg:flex-row items-start justify-center gap-8 w-full">
       {/* Left rail label */}
       <div className="flex flex-col w-full lg:max-w-[340px] lg:w-[340px] items-start">
-        <div className="flex items-center">
+        <div className="flex items-center -ml-16 md:-ml-32">
           <div className="flex flex-col w-6 h-2 items-start pr-4">
             <div className="w-2 h-2 bg-wezomcomblack rounded" />
           </div>
