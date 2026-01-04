@@ -20,55 +20,51 @@ export const BlogSection = (): JSX.Element => {
         <h2 className="[font-family:'Manrope',Helvetica] font-bold text-black text-3xl md:text-5xl lg:text-[56px] tracking-[-3px] leading-tight">
           Manual Research Is Holding Back Your Returns.
         </h2>
-        <p className="mt-4 max-w-[70ch] [font-family:'Manrope',Helvetica] text-wezomcomblack/80 text-lg md:text-xl leading-8">
-          Analysts spend 80% of their time collecting and organizing information instead of generating alpha.
-          Slow, fragmented workflows mean missed insights, missed opportunities, and slower growth.
-        </p>
 
         {/* Problem cards */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-          <div className="rounded-2xl border border-[#afafaf60] p-6 md:p-8 bg-white/70 backdrop-blur-sm flex flex-col">
-            <div className="[font-family:'Manrope',Helvetica] text-xl md:text-2xl font-bold text-black mb-4">
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 w-full items-stretch">
+          <div className="rounded-2xl border border-[#afafaf60] px-5 md:px-6 pt-5 md:pt-6 pb-5 md:pb-6 bg-white/70 backdrop-blur-sm flex flex-col h-full">
+            <div className="[font-family:'Manrope',Helvetica] text-lg md:text-xl font-bold text-black mb-3">
               1. Research doesn't start when it should
             </div>
-            <div className="[font-family:'Manrope',Helvetica] text-sm font-semibold text-wezomcomblack mb-3">
+            <div className="[font-family:'Manrope',Helvetica] text-xs font-semibold text-wezomcomblack mb-2">
               Reality:
             </div>
-            <div className="[font-family:'Manrope',Helvetica] text-base text-wezomcomblack/80 leading-7">
-              An ungodly amount of time is spent just finding, organizing, and uploading content before real analysis can begin.
+            <div className="[font-family:'Manrope',Helvetica] text-base text-wezomcomblack/80 leading-5 mb-0 last:mb-0">
+              <span className="text-black">Analysts spend 20–30% of their time just finding and organizing information before any real analysis begins.</span> An ungodly amount of time is spent just finding, organizing, and uploading content before real analysis can begin.
             </div>
           </div>
-          <div className="rounded-2xl border border-[#afafaf60] p-6 md:p-8 bg-white/70 backdrop-blur-sm flex flex-col">
-            <div className="[font-family:'Manrope',Helvetica] text-xl md:text-2xl font-bold text-black mb-4">
+          <div className="rounded-2xl border border-[#afafaf60] px-5 md:px-6 pt-5 md:pt-6 pb-5 md:pb-6 bg-white/70 backdrop-blur-sm flex flex-col h-full">
+            <div className="[font-family:'Manrope',Helvetica] text-lg md:text-xl font-bold text-black mb-3">
               2. Too much content, not enough signal
             </div>
-            <div className="[font-family:'Manrope',Helvetica] text-sm font-semibold text-wezomcomblack mb-3">
+            <div className="[font-family:'Manrope',Helvetica] text-xs font-semibold text-wezomcomblack mb-2">
               Reality:
             </div>
-            <div className="[font-family:'Manrope',Helvetica] text-base text-wezomcomblack/80 leading-7">
-              Analysts are inundated with more content than they can possibly monitor — leading to missed material information.
+            <div className="[font-family:'Manrope',Helvetica] text-base text-wezomcomblack/80 leading-5 mb-0 last:mb-0">
+              <span className="text-black">With over 90% of the world's data created in the last two years, analysts can realistically monitor only a fraction of what matters.</span> Analysts are inundated with more content than they can possibly monitor — leading to missed material information.
             </div>
           </div>
-          <div className="rounded-2xl border border-[#afafaf60] p-6 md:p-8 bg-white/70 backdrop-blur-sm flex flex-col">
-            <div className="[font-family:'Manrope',Helvetica] text-xl md:text-2xl font-bold text-black mb-4">
+          <div className="rounded-2xl border border-[#afafaf60] px-5 md:px-6 pt-5 md:pt-6 pb-5 md:pb-6 bg-white/70 backdrop-blur-sm flex flex-col h-full">
+            <div className="[font-family:'Manrope',Helvetica] text-lg md:text-xl font-bold text-black mb-3">
               3. Repetitive research drains high-value time
             </div>
-            <div className="[font-family:'Manrope',Helvetica] text-sm font-semibold text-wezomcomblack mb-3">
+            <div className="[font-family:'Manrope',Helvetica] text-xs font-semibold text-wezomcomblack mb-2">
               Reality:
             </div>
-            <div className="[font-family:'Manrope',Helvetica] text-base text-wezomcomblack/80 leading-7">
-              Routine, repeated research tasks consume time that should be spent on deep thinking.
+            <div className="[font-family:'Manrope',Helvetica] text-base text-wezomcomblack/80 leading-5 mb-0 last:mb-0">
+              <span className="text-black">Up to 60–70% of an analyst's workflow is consumed by repetitive, manual research tasks that add little incremental insight.</span> Routine, repeated research tasks consume time that should be spent on deep thinking.
             </div>
           </div>
-          <div className="rounded-2xl border border-[#afafaf60] p-6 md:p-8 bg-white/70 backdrop-blur-sm flex flex-col">
-            <div className="[font-family:'Manrope',Helvetica] text-xl md:text-2xl font-bold text-black mb-4">
+          <div className="rounded-2xl border border-[#afafaf60] px-5 md:px-6 pt-5 md:pt-6 pb-5 md:pb-6 bg-white/70 backdrop-blur-sm flex flex-col h-full">
+            <div className="[font-family:'Manrope',Helvetica] text-lg md:text-xl font-bold text-black mb-3">
               4. AI output you can't trust
             </div>
-            <div className="[font-family:'Manrope',Helvetica] text-sm font-semibold text-wezomcomblack mb-3">
+            <div className="[font-family:'Manrope',Helvetica] text-xs font-semibold text-wezomcomblack mb-2">
               Reality:
             </div>
-            <div className="[font-family:'Manrope',Helvetica] text-base text-wezomcomblack/80 leading-7">
-              Analysts are stuck double-checking low-quality AI outputs.
+            <div className="[font-family:'Manrope',Helvetica] text-base text-wezomcomblack/80 leading-5 mb-0 last:mb-0">
+              <span className="text-black">Nearly 40% of analysts report needing to manually verify AI outputs due to accuracy or sourcing issues, negating promised efficiency gains.</span> Analysts are stuck double-checking low-quality AI outputs.
             </div>
           </div>
         </div>

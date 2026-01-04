@@ -14,7 +14,9 @@ import TargetCursor from "../../components/ui/target-cursor";
 
 export const ElementLight = (): JSX.Element => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const brandStripRef = useRef<HTMLDivElement>(null);
   const [videoUnmuted, setVideoUnmuted] = useState(false);
+  const [showMuteButton, setShowMuteButton] = useState(true);
 
   const toggleSound = () => {
     const video = videoRef.current;
@@ -73,6 +75,43 @@ export const ElementLight = (): JSX.Element => {
     }
   }, []);
 
+  // Track when Section01_BrandStrip reaches the top of the screen to hide mute button
+  useEffect(() => {
+    const brandStripElement = brandStripRef.current;
+    if (!brandStripElement) return;
+
+    let ticking = false;
+
+    const checkScrollPosition = () => {
+      const rect = brandStripElement.getBoundingClientRect();
+      // Hide mute button when the top of the brand strip reaches or passes the top of the viewport
+      // Show button when brand strip top is below viewport top (still in hero section)
+      setShowMuteButton(rect.top > 0);
+      ticking = false;
+    };
+
+    const scrollHandler = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(checkScrollPosition);
+        ticking = true;
+      }
+    };
+
+    const resizeHandler = () => {
+      checkScrollPosition();
+    };
+    
+    window.addEventListener('scroll', scrollHandler, { passive: true });
+    window.addEventListener('resize', resizeHandler, { passive: true });
+    // Initial check
+    checkScrollPosition();
+
+    return () => {
+      window.removeEventListener('scroll', scrollHandler);
+      window.removeEventListener('resize', resizeHandler);
+    };
+  }, []);
+
   return (
     <div className="relative w-full bg-white overflow-x-hidden">
       <TargetCursor spinDuration={6} hideDefaultCursor={true} />
@@ -129,14 +168,16 @@ export const ElementLight = (): JSX.Element => {
             {/* Light overlay for better text readability */}
             <div className="absolute inset-0 bg-black bg-opacity-10 z-10"></div>
             
-            {/* Sound indicator */}
-            <div className="absolute top-4 right-4 z-30">
-              <div className="bg-black/50 backdrop-blur-sm rounded-full px-2.5 py-2 border border-white/20">
-                <div className="text-white text-base">
-                  {videoUnmuted ? "🔊" : "🔇"}
+            {/* Sound indicator - shows until Section01_BrandStrip is scrolled past */}
+            {showMuteButton && (
+              <div className="fixed top-4 right-4 z-30 transition-opacity duration-300">
+                <div className="bg-black/50 backdrop-blur-sm rounded-full px-2.5 py-2 border border-white/20">
+                  <div className="text-white text-base">
+                    {videoUnmuted ? "🔊" : "🔇"}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
             
             {/* Content */}
             <div className="relative z-20 text-center px-4 sm:px-6 mt-40 sm:mt-56 md:mt-72 lg:mt-80">
@@ -152,7 +193,7 @@ export const ElementLight = (): JSX.Element => {
             </div>
 
             {/* Social Proof - Trusted by Leading Institutions - Positioned at bottom */}
-            <div className="absolute bottom-0 left-0 right-0 z-30">
+            <div ref={brandStripRef} className="absolute bottom-0 left-0 right-0 z-30">
               <Section01_BrandStrip />
             </div>
           </section>

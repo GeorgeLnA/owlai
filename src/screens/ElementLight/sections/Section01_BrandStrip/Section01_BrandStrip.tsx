@@ -31,6 +31,7 @@ export const Section01_BrandStrip = (): JSX.Element => {
   const halfWidthRef = useRef<number>(0);
   const draggableInstanceRef = useRef<Draggable | null>(null);
   const [offset, setOffset] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -59,22 +60,73 @@ export const Section01_BrandStrip = (): JSX.Element => {
 
     window.addEventListener("resize", handleResize);
 
+    // Handle click/tap to swipe
+    const handleClickSwipe = (e: MouseEvent | TouchEvent) => {
+      if (!proxyRef.current || isDraggingRef.current) return;
+      
+      const rect = proxyRef.current.getBoundingClientRect();
+      const clickX = 'clientX' in e ? e.clientX : e.touches[0].clientX;
+      const centerX = rect.left + rect.width / 2;
+      const direction = clickX < centerX ? -1 : 1; // Left side = swipe right, right side = swipe left
+      
+      const loopWidth = halfWidthRef.current;
+      if (loopWidth > 0) {
+        const swipeAmount = loopWidth / 3; // Swipe 1/3 of the width on click
+        const startOffset = offsetRef.current;
+        let targetOffset = startOffset + (swipeAmount * direction);
+        
+        // Handle seamless loop
+        while (targetOffset < 0) {
+          targetOffset += loopWidth;
+        }
+        while (targetOffset >= loopWidth) {
+          targetOffset -= loopWidth;
+        }
+        
+        // Create animatable object for GSAP
+        const animObj = { value: startOffset };
+        
+        // Animate the swipe
+        gsap.to(animObj, {
+          value: targetOffset,
+          duration: 0.6,
+          ease: "power2.out",
+          onUpdate: () => {
+            let currentOffset = animObj.value;
+            // Handle seamless loop during animation
+            while (currentOffset < 0) {
+              currentOffset += loopWidth;
+            }
+            while (currentOffset >= loopWidth) {
+              currentOffset -= loopWidth;
+            }
+            offsetRef.current = currentOffset;
+            setOffset(currentOffset);
+          }
+        });
+      }
+    };
+
     // Set up Draggable with proxy element
     const setupDraggable = () => {
       if (proxyRef.current && !draggableInstanceRef.current) {
         let startX = 0;
         let startOffset = 0;
+        let clickStartTime = 0;
+        let clickStartX = 0;
         
         draggableInstanceRef.current = Draggable.create(proxyRef.current, {
           type: "x",
           inertia: true,
           dragResistance: 0.1,
           allowEventDefault: false,
-          onPress: function() {
+          onPress: function(e) {
             startX = this.x;
             startOffset = offsetRef.current;
             isDraggingRef.current = true;
             pausedRef.current = true;
+            clickStartTime = Date.now();
+            clickStartX = 'clientX' in e ? e.clientX : e.touches[0].clientX;
           },
           onDrag: function() {
             if (!mounted) return;
@@ -96,7 +148,20 @@ export const Section01_BrandStrip = (): JSX.Element => {
               setOffset(offsetRef.current);
             }
           },
-          onRelease: function() {
+          onRelease: function(e) {
+            const dragTime = Date.now() - clickStartTime;
+            const dragDistance = Math.abs(this.x - startX);
+            
+            // If it was a quick click with minimal movement, trigger swipe
+            if (dragTime < 250 && dragDistance < 8) {
+              // Create a synthetic event for handleClickSwipe
+              const syntheticEvent = {
+                clientX: clickStartX,
+                touches: [{ clientX: clickStartX }]
+              } as MouseEvent;
+              handleClickSwipe(syntheticEvent);
+            }
+            
             isDraggingRef.current = false;
             pausedRef.current = false;
             // Reset proxy position for next drag
@@ -176,13 +241,30 @@ export const Section01_BrandStrip = (): JSX.Element => {
     <section className="relative w-full border-y border-[#66666620] bg-white" aria-label="Section — Social Proof">
       <div
         ref={containerRef}
-        className="relative w-full overflow-hidden py-3 sm:py-4 md:py-5 group cursor-grab active:cursor-grabbing"
+        className="relative w-full overflow-hidden py-3 sm:py-4 md:py-5 group"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
       >
         {/* Proxy element for drag tracking */}
         <div
           ref={proxyRef}
-          className="absolute inset-0 cursor-grab active:cursor-grabbing z-10"
-          style={{ touchAction: "none", userSelect: "none", WebkitUserSelect: "none" }}
+          className="absolute inset-0 z-10 transition-cursor duration-150"
+          style={{ 
+            touchAction: "none", 
+            userSelect: "none", 
+            WebkitUserSelect: "none",
+            cursor: isHovering ? "grab" : "pointer"
+          }}
+          onMouseDown={(e) => {
+            if (e.currentTarget.style) {
+              e.currentTarget.style.cursor = "grabbing";
+            }
+          }}
+          onMouseUp={(e) => {
+            if (e.currentTarget.style && isHovering) {
+              e.currentTarget.style.cursor = "grab";
+            }
+          }}
         />
         {/* Left and right fade overlays */}
         <div className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-16 md:w-24 bg-gradient-to-r from-white to-transparent z-20" />
