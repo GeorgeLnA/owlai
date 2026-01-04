@@ -1,0 +1,1 @@
+export { HorizontalBorderWrapperSection } from "./HorizontalBorderWrapperSection";

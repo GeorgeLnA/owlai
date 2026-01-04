@@ -1,0 +1,1 @@
+export { VerticalBorderWrapperSection } from "./VerticalBorderWrapperSection";

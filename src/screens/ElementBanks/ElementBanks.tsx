@@ -1,0 +1,151 @@
+import React, { useEffect, useRef, useState } from "react";
+import { NavigationHeaderSection } from "../ElementLight/sections/NavigationHeaderSection";
+import TargetCursor from "../../components/ui/target-cursor";
+import { BrandStripBanks } from "./sections/BrandStripBanks";
+import { ProblemSectionBanks } from "./sections/ProblemSectionBanks";
+import { SolutionSectionBanks } from "./sections/SolutionSectionBanks";
+import { PlatformSectionBanks } from "./sections/PlatformSectionBanks";
+import { ResultsSectionBanks } from "./sections/ResultsSectionBanks";
+import { FinalCTABanks } from "./sections/FinalCTABanks";
+import { FooterBanks } from "./sections/FooterBanks";
+
+export const ElementBanks = (): JSX.Element => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoUnmuted, setVideoUnmuted] = useState(false);
+
+  const toggleSound = () => {
+    const video = videoRef.current;
+    if (video) {
+      video.muted = !video.muted;
+      setVideoUnmuted(!video.muted);
+      console.log('Banks: Video sound toggled, muted:', video.muted);
+    }
+  };
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      console.log('Banks video element found, starting load...');
+      video.load();
+      const tryPlay = async () => {
+        try {
+          console.log('Attempting to play Banks video...');
+          await video.play();
+          console.log('Banks video playing successfully');
+          const fallback = document.getElementById('fallback-bg-banks');
+          if (fallback) fallback.style.display = 'none';
+        } catch (e) {
+          console.error('Banks video failed to play:', e);
+          const fallback = document.getElementById('fallback-bg-banks');
+          if (fallback) fallback.style.display = 'block';
+        }
+      };
+      video.addEventListener('canplay', () => {
+        console.log('Banks video can play');
+        tryPlay();
+      });
+      video.addEventListener('loadeddata', () => {
+        console.log('Banks video data loaded');
+        tryPlay();
+      });
+      video.addEventListener('error', (e) => {
+        console.error('Banks video error:', e);
+        const fallback = document.getElementById('fallback-bg-banks');
+        if (fallback) fallback.style.display = 'block';
+      });
+      tryPlay();
+      return () => {
+        video.removeEventListener('canplay', tryPlay);
+        video.removeEventListener('loadeddata', tryPlay);
+      };
+    } else {
+      console.log('Banks video element not found');
+    }
+  }, []);
+
+  return (
+    <div className="relative w-full bg-white overflow-x-hidden">
+      <TargetCursor spinDuration={6} hideDefaultCursor={true} />
+      <div className="flex flex-col w-full items-start">
+        <div className="relative w-full">
+          {/* ICP Island + Book a Call */}
+          <NavigationHeaderSection />
+
+          {/* Logo */}
+          <div className="fixed top-8 left-1/2 -translate-x-1/2 z-50">
+            <img src="/cropped-OWL-AI-white.png" alt="OWL AI Logo" className="h-16 md:h-20 w-auto" />
+          </div>
+
+          {/* Hero */}
+          <section 
+            className="relative w-full h-[640px] sm:h-[720px] md:h-[760px] lg:h-[800px] bg-black flex items-center justify-center overflow-hidden cursor-pointer" 
+            onClick={toggleSound}
+          >
+            <video
+              ref={videoRef}
+              className="absolute inset-0 w-full h-full object-cover z-0"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+            >
+              <source src="/OWLAI DEMO.mp4" type="video/mp4" />
+              <source src="/OWLAI DEMO.mov" type="video/quicktime" />
+              Your browser does not support the video tag.
+            </video>
+
+            {/* Fallback gradient */}
+            <div id="fallback-bg-banks" className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800 z-0" />
+            <div className="absolute inset-0 bg-black/10 z-10" />
+
+            {/* Sound indicator */}
+            <div className="absolute top-4 right-4 z-30">
+              <div className="bg-black/50 backdrop-blur-sm rounded-full p-2 border border-white/20">
+                <div className="text-white text-xs">
+                  {videoUnmuted ? "🔊 Click hero to mute" : "🔇 Click hero for sound"}
+                </div>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="relative z-20 text-center px-4 sm:px-6 mt-28 sm:mt-32 md:mt-36">
+              <h1 className="text-white text-3xl sm:text-4xl md:text-6xl font-bold mb-6 sm:mb-8 md:mb-12">Automate Governance. Accelerate Research. Strengthen Compliance.</h1>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+                <a href="#final-cta" className="cursor-target inline-flex items-center justify-center h-11 sm:h-12 px-6 sm:px-8 rounded-[40px] bg-white text-black font-semibold transition-colors duration-300 focus:outline-none">
+                  Request a Demo
+                </a>
+                <a href="#platform" className="cursor-target inline-flex items-center justify-center h-11 sm:h-12 px-6 sm:px-8 rounded-[40px] border border-solid border-white text-white hover:bg-white hover:text-black transition-colors duration-300 focus:outline-none">
+                  See Lampost in Action
+                </a>
+              </div>
+            </div>
+          </section>
+
+          {/* Trust strip with heading */}
+          <BrandStripBanks />
+
+          {/* Main content */}
+          <div className="relative w-full bg-white overflow-x-hidden">
+            {/* Problem */}
+            <ProblemSectionBanks />
+            {/* Solution */}
+            <SolutionSectionBanks />
+            {/* Platform */}
+            <PlatformSectionBanks />
+            {/* Results */}
+            <ResultsSectionBanks />
+            {/* Final CTA */}
+            <FinalCTABanks />
+            {/* Footer */}
+            <FooterBanks />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ElementBanks;
+
+

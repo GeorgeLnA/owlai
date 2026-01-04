@@ -1,0 +1,156 @@
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .all-\[unset\] {
+    all: unset;
+  }
+}
+
+:root {
+  --wezom-com-IBM-plex-mono-semibold-font-family: "IBM Plex Mono", Helvetica;
+  --wezom-com-IBM-plex-mono-semibold-font-size: 16px;
+  --wezom-com-IBM-plex-mono-semibold-font-style: normal;
+  --wezom-com-IBM-plex-mono-semibold-font-weight: 600;
+  --wezom-com-IBM-plex-mono-semibold-letter-spacing: 0px;
+  --wezom-com-IBM-plex-mono-semibold-line-height: 22.399999618530273px;
+  --wezom-com-IBM-plex-mono-semibold-underline-upper-font-family: "IBM Plex Mono",
+    Helvetica;
+  --wezom-com-IBM-plex-mono-semibold-underline-upper-font-size: 13px;
+  --wezom-com-IBM-plex-mono-semibold-underline-upper-font-style: normal;
+  --wezom-com-IBM-plex-mono-semibold-underline-upper-font-weight: 600;
+  --wezom-com-IBM-plex-mono-semibold-underline-upper-letter-spacing: 0px;
+  --wezom-com-IBM-plex-mono-semibold-underline-upper-line-height: 15.600000381469727px;
+  --wezom-com-IBM-plex-mono-semibold-upper-font-family: "IBM Plex Mono",
+    Helvetica;
+  --wezom-com-IBM-plex-mono-semibold-upper-font-size: 11.699999809265137px;
+  --wezom-com-IBM-plex-mono-semibold-upper-font-style: normal;
+  --wezom-com-IBM-plex-mono-semibold-upper-font-weight: 600;
+  --wezom-com-IBM-plex-mono-semibold-upper-letter-spacing: 0px;
+  --wezom-com-IBM-plex-mono-semibold-upper-line-height: 14.399999618530273px;
+  --wezom-com-manrope-bold-font-family: "Manrope", Helvetica;
+  --wezom-com-manrope-bold-font-size: 72px;
+  --wezom-com-manrope-bold-font-style: normal;
+  --wezom-com-manrope-bold-font-weight: 700;
+  --wezom-com-manrope-bold-letter-spacing: -4.320000171661377px;
+  --wezom-com-manrope-bold-line-height: 72px;
+  --wezom-com-manrope-medium-font-family: "Manrope", Helvetica;
+  --wezom-com-manrope-medium-font-size: 16.200000762939453px;
+  --wezom-com-manrope-medium-font-style: normal;
+  --wezom-com-manrope-medium-font-weight: 500;
+  --wezom-com-manrope-medium-letter-spacing: -0.3199999928474426px;
+  --wezom-com-manrope-medium-line-height: 22.68000030517578px;
+  --wezom-com-manrope-medium-underline-font-family: "Manrope", Helvetica;
+  --wezom-com-manrope-medium-underline-font-size: 14px;
+  --wezom-com-manrope-medium-underline-font-style: normal;
+  --wezom-com-manrope-medium-underline-font-weight: 500;
+  --wezom-com-manrope-medium-underline-letter-spacing: 0px;
+  --wezom-com-manrope-medium-underline-line-height: 19.600000381469727px;
+  --wezom-com-manrope-semibold-font-family: "Manrope", Helvetica;
+  --wezom-com-manrope-semibold-font-size: 15px;
+  --wezom-com-manrope-semibold-font-style: normal;
+  --wezom-com-manrope-semibold-font-weight: 600;
+  --wezom-com-manrope-semibold-letter-spacing: -0.1500000059604645px;
+  --wezom-com-manrope-semibold-line-height: 21px;
+  --wezom-com-manrope-semibold-underline-font-family: "Manrope", Helvetica;
+  --wezom-com-manrope-semibold-underline-font-size: 21.600000381469727px;
+  --wezom-com-manrope-semibold-underline-font-style: normal;
+  --wezom-com-manrope-semibold-underline-font-weight: 600;
+  --wezom-com-manrope-semibold-underline-letter-spacing: -0.4320000112056733px;
+  --wezom-com-manrope-semibold-underline-line-height: 25.920000076293945px;
+  --wezom-com-manrope-semibold-upper-font-family: "Manrope", Helvetica;
+  --wezom-com-manrope-semibold-upper-font-size: 13px;
+  --wezom-com-manrope-semibold-upper-font-style: normal;
+  --wezom-com-manrope-semibold-upper-font-weight: 600;
+  --wezom-com-manrope-semibold-upper-letter-spacing: 0px;
+  --wezom-com-manrope-semibold-upper-line-height: 15.600000381469727px;
+  --wezom-com-roboto-regular-upper-font-family: "Roboto", Helvetica;
+  --wezom-com-roboto-regular-upper-font-size: 11px;
+  --wezom-com-roboto-regular-upper-font-style: normal;
+  --wezom-com-roboto-regular-upper-font-weight: 400;
+  --wezom-com-roboto-regular-upper-letter-spacing: 1.100000023841858px;
+  --wezom-com-roboto-regular-upper-line-height: normal;
+  --wezom-com-semantic-heading-2-font-family: "Manrope", Helvetica;
+  --wezom-com-semantic-heading-2-font-size: 57.599998474121094px;
+  --wezom-com-semantic-heading-2-font-style: normal;
+  --wezom-com-semantic-heading-2-font-weight: 700;
+  --wezom-com-semantic-heading-2-letter-spacing: -3.4560000896453857px;
+  --wezom-com-semantic-heading-2-line-height: 57.599998474121094px;
+  --wezom-com-semantic-heading-3-font-family: "Manrope", Helvetica;
+  --wezom-com-semantic-heading-3-font-size: 32.400001525878906px;
+  --wezom-com-semantic-heading-3-font-style: normal;
+  --wezom-com-semantic-heading-3-font-weight: 800;
+  --wezom-com-semantic-heading-3-letter-spacing: -1.2960000038146973px;
+  --wezom-com-semantic-heading-3-line-height: 38.880001068115234px;
+  --wezom-com-semantic-link-upper-font-family: "IBM Plex Mono", Helvetica;
+  --wezom-com-semantic-link-upper-font-size: 13px;
+  --wezom-com-semantic-link-upper-font-style: normal;
+  --wezom-com-semantic-link-upper-font-weight: 600;
+  --wezom-com-semantic-link-upper-letter-spacing: 0px;
+  --wezom-com-semantic-link-upper-line-height: 15.600000381469727px;
+  --wezomcomabbey: rgba(74, 82, 85, 1);
+  --wezomcomalizarin-crimson: rgba(230, 36, 21, 1);
+  --wezomcombig-stone: rgba(23, 49, 59, 1);
+  --wezomcomblack: rgba(0, 0, 0, 1);
+  --wezomcomblack-20: rgba(0, 0, 0, 0.2);
+  --wezomcomblack-40: rgba(0, 0, 0, 0.4);
+  --wezomcomblue-ribbon: rgba(20, 106, 255, 1);
+  --wezomcomcod-gray: rgba(10, 10, 10, 1);
+  --wezomcomcod-gray-40: rgba(10, 10, 10, 0.4);
+  --wezomcomconcrete: rgba(243, 243, 243, 1);
+  --wezomcomcornflower-blue: rgba(71, 139, 236, 1);
+  --wezomcomcrusta: rgba(255, 126, 41, 1);
+  --wezomcomdove-gray: rgba(102, 102, 102, 1);
+  --wezomcomdove-gray-50: rgba(102, 102, 102, 0.5);
+  --wezomcomflamingo: rgba(245, 93, 45, 1);
+  --wezomcomgolden-tainoi: rgba(255, 205, 79, 1);
+  --wezomcomlucky-point: rgba(25, 20, 93, 1);
+  --wezomcommercury: rgba(233, 233, 233, 1);
+  --wezomcommine-shaft: rgba(33, 33, 33, 1);
+  --wezomcommona-lisa: rgba(255, 160, 144, 1);
+  --wezomcomneon-carrot: rgba(255, 158, 61, 1);
+  --wezomcomneon-carrot-0: rgba(255, 158, 61, 0);
+  --wezomcomorange: rgba(255, 91, 20, 1);
+  --wezomcomoslo-gray: rgba(153, 154, 154, 1);
+  --wezomcomoslo-gray-50: rgba(153, 154, 154, 0.5);
+  --wezomcomred-orange: rgba(255, 61, 46, 1);
+  --wezomcomrolling-stone: rgba(125, 131, 135, 1);
+  --wezomcomrolling-stone-50: rgba(125, 131, 135, 0.5);
+  --wezomcomsalmon: rgba(255, 126, 110, 1);
+  --wezomcomsilver-chalice-50: rgba(175, 175, 175, 0.5);
+  --wezomcomsunset-orange: rgba(252, 88, 78, 1);
+  --wezomcomthunderbird: rgba(180, 29, 27, 1);
+  --wezomcomwhite: rgba(255, 255, 255, 1);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global helper for TargetCursor to hide OS cursor */
+.tcursor-hide, .tcursor-hide * { cursor: none !important; }
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
