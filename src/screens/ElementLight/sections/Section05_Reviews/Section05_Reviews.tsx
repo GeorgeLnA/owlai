@@ -14,14 +14,29 @@ const testimonials: Testimonial[] = [
     company: "Global Asset Management Firm"
   },
   {
+    quote: "OWL's partnership approach to making insights available for our customers is truly unique. OWL has understood our specific needs and those of our customers and helped deliver accessible and useful data.",
+    author: "Marshall Smith, CIPM",
+    company: "Chief Operating Officer | FirstRate"
+  },
+  {
     quote: "10x faster insight generation with enterprise-grade security.",
     author: "Head of Research",
     company: "Hedge Fund"
   },
   {
+    quote: "OWL's data-based research and fundamental insights allow us to enhance our investment solutions.",
+    author: "Shoichiro Aoyama",
+    company: "Fund Manager, Index Solution Group | Asset Management One Co.,Ltd."
+  },
+  {
     quote: "Finally, AI that understands financial nuance and compliance.",
     author: "Chief Investment Officer",
     company: "Pension Fund"
+  },
+  {
+    quote: "WisdomTree leverages OWL's data as part of its ESG investment process in seeking to provide ESG ETFs that are truly impactful and sustainable. The dynamic, consensus-based approach to company ratings provided by OWL provides a level of objectivity that can serve as a true differentiator in this fast-changing space.",
+    author: "Ben Wallach",
+    company: "Head of Product Development & Management | WisdomTree Asset Management"
   },
   {
     quote: "Seamless integration with our existing data infrastructure.",
@@ -37,14 +52,40 @@ const testimonials: Testimonial[] = [
 
 export const Section05_Reviews = (): JSX.Element => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [opacity, setOpacity] = useState(1);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
+    if (isHovered) return; // Don't auto-advance when hovered
+
     const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+      setOpacity(0);
+      setTimeout(() => {
+        setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+        setOpacity(1);
+      }, 300); // Fade out duration
     }, 4000); // Change every 4 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isHovered]);
+
+  const handleTestimonialChange = (index: number) => {
+    setOpacity(0);
+    setTimeout(() => {
+      setCurrentTestimonial(index);
+      setOpacity(1);
+    }, 300);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    // Immediately change to next testimonial when hovering out
+    setOpacity(0);
+    setTimeout(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+      setOpacity(1);
+    }, 300);
+  };
 
   return (
     <section
@@ -85,27 +126,39 @@ export const Section05_Reviews = (): JSX.Element => {
 
       {/* Testimonials Carousel */}
       <div className="mt-6 w-full">
-        <div className="rounded-2xl border border-[#afafaf60] bg-white/70 backdrop-blur-sm p-6 md:p-8 min-h-[120px] flex items-center">
-          <blockquote className="[font-family:'Manrope',Helvetica] text-wezomcomblack/90 text-lg leading-8 transition-opacity duration-500">
+        <button
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={handleMouseLeave}
+          onClick={() => handleTestimonialChange((currentTestimonial + 1) % testimonials.length)}
+          className="w-full rounded-2xl border border-[#afafaf60] bg-white/70 backdrop-blur-sm p-6 md:p-8 h-[180px] md:h-[200px] lg:h-[220px] flex items-center hover:bg-white/90 hover:border-[#afafaf90] transition-all duration-300 cursor-pointer text-left"
+          aria-label="Next testimonial"
+        >
+          <blockquote 
+            className="[font-family:'Manrope',Helvetica] text-wezomcomblack/90 text-lg leading-8 transition-opacity duration-300 ease-in-out w-full"
+            style={{ opacity }}
+          >
             "{testimonials[currentTestimonial].quote}"
             <span className="block mt-2 text-sm text-wezomcomdove-gray">
               — {testimonials[currentTestimonial].author}, {testimonials[currentTestimonial].company}
             </span>
           </blockquote>
-        </div>
+        </button>
         
         {/* Dots indicator */}
         <div className="flex justify-center mt-4 space-x-2">
-          {testimonials.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentTestimonial(index)}
-              className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                index === currentTestimonial ? 'bg-wezomcomblack' : 'bg-gray-300'
-              }`}
-              aria-label={`Go to testimonial ${index + 1}`}
-            />
-          ))}
+          {Array.from({ length: 4 }).map((_, index) => {
+            const isActive = (currentTestimonial % 4) === index;
+            return (
+              <button
+                key={index}
+                onClick={() => handleTestimonialChange(index)}
+                className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+                  isActive ? 'bg-wezomcomblack' : 'bg-gray-300'
+                }`}
+                aria-label={`Go to testimonial group ${index + 1}`}
+              />
+            );
+          })}
         </div>
       </div>
     </section>
