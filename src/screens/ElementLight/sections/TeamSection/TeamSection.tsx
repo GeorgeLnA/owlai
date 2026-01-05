@@ -172,7 +172,7 @@ export const TeamSection = (): JSX.Element => {
                 <div className="flex items-start relative self-stretch w-full">
                   <div className="inline-flex items-center justify-center relative">
                     <div className="inline-flex flex-col items-center relative">
-                      <div className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-[13px] text-center tracking-[-0.13px] leading-[18.2px] whitespace-nowrap">
+                      <div className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] text-center tracking-[-0.13px] leading-[18.2px] whitespace-nowrap">
                         READ MORE
                       </div>
                     </div>

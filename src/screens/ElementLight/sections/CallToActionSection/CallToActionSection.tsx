@@ -19,7 +19,7 @@ export const CallToActionSection = (): JSX.Element => {
           <div className="flex flex-col w-6 h-2 items-start pl-0 pr-4 py-0 relative">
             <div className="relative w-2 h-2 bg-white rounded" />
           </div>
-          <span className="w-fit [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-white text-xs md:text-[13px] tracking-[0] leading-4">
+          <span className="w-fit [font-family:'Manrope',Helvetica] font-semibold text-white text-xs md:text-[13px] tracking-[0] leading-4">
             FINAL CTA
           </span>
         </div>
@@ -44,7 +44,7 @@ export const CallToActionSection = (): JSX.Element => {
         {/* CTA Button */}
         <div className="flex items-center gap-4">
           <Button className="cursor-target inline-flex items-center justify-center h-10 md:h-12 px-6 md:px-8 rounded-[40px] border border-white text-white hover:bg-white hover:text-black transition-colors bg-transparent">
-            <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-sm md:text-base tracking-[-0.16px] leading-[22.4px]">
+            <span className="[font-family:'Manrope',Helvetica] font-semibold text-sm md:text-base tracking-[-0.16px] leading-[22.4px]">
               Book a Strategy Call
             </span>
             <ArrowRightIcon className="ml-4 md:ml-6 w-3 md:w-4 h-3 md:h-4" />

@@ -42,7 +42,7 @@ export const TestimonialsSection = (): JSX.Element => {
         <div className="flex flex-col w-6 h-2 items-start pr-4">
           <div className="w-2 h-2 bg-wezomcomblack rounded" />
         </div>
-        <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-4">
+        <span className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-4">
           What clients say
         </span>
       </div>
@@ -53,7 +53,7 @@ export const TestimonialsSection = (): JSX.Element => {
           <li key={article.id} className="border-b border-black/10 pb-6 last:border-0 last:pb-0">
             <div className="flex items-center gap-2">
               <Badge className="bg-wezomcomrolling-stone hover:bg-wezomcomrolling-stone text-white rounded-[40px] px-3 py-1.5">
-                <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-[13px] leading-[15.6px]">
+                <span className="[font-family:'Manrope',Helvetica] font-semibold text-[13px] leading-[15.6px]">
                   {article.category}
                 </span>
               </Badge>

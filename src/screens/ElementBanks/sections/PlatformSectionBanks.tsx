@@ -7,7 +7,7 @@ export const PlatformSectionBanks = (): JSX.Element => {
         <div className="flex flex-col w-6 h-2 items-start pr-4">
           <div className="w-2 h-2 bg-wezomcomblack rounded" />
         </div>
-        <div className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-4">
+        <div className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-4">
           THE PLATFORM
         </div>
       </div>

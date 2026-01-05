@@ -19,7 +19,7 @@ export const VerticalDividerSection = (): JSX.Element => {
 
             <div className="pt-6 lg:pt-10 px-4 lg:px-10">
               <Button className="rounded-[40px] px-6 lg:px-8 py-3 lg:py-[12.8px] bg-[#553194] hover:bg-[#553194]/90">
-                <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-white text-sm lg:text-base tracking-[-0.16px] leading-[22.4px]">
+                <span className="[font-family:'Manrope',Helvetica] font-semibold text-white text-sm lg:text-base tracking-[-0.16px] leading-[22.4px]">
                   ABOUT US
                 </span>
                 <ArrowRightIcon className="ml-4 lg:ml-6 w-3 lg:w-4 h-3 lg:h-4" />

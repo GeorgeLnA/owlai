@@ -27,7 +27,7 @@ export const MainContentSection = (): JSX.Element => {
 
   return (
     <div className="flex flex-col w-full items-start relative">
-      <div className="flex flex-wrap items-start gap-6 md:gap-8 lg:gap-10 pt-8 md:pt-10 lg:pt-12 pb-0">
+      <div className="flex flex-wrap items-start gap-4 md:gap-6 lg:gap-8">
         {footerLinks.map((item, index) => (
           <div
             key={`footer-link-${index}`}
@@ -35,9 +35,9 @@ export const MainContentSection = (): JSX.Element => {
           >
             <a
               href={item.href}
-              className="inline-flex items-start relative"
+              className="inline-flex items-start relative hover:opacity-70 transition-opacity"
             >
-              <span className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-black text-xs md:text-[13px] tracking-[0] leading-[15.6px]">
+              <span className="relative w-fit [font-family:'Manrope',Helvetica] font-semibold text-black text-xs md:text-sm tracking-[0] leading-[15.6px]">
                 {item.title}
               </span>
             </a>

@@ -66,7 +66,7 @@ export const HorizontalBorderWrapperSection = (): JSX.Element => {
                         <div className="min-w-0 md:min-w-56">
                           <div className="flex">
                             <div className="flex flex-col gap-[5px]">
-                              <div className="font-wezom-com-roboto-regular-upper text-wezomcomabbey tracking-[var(--wezom-com-roboto-regular-upper-letter-spacing)] leading-[var(--wezom-com-roboto-regular-upper-line-height)] text-xs md:text-base">
+                              <div className="[font-family:'Manrope',Helvetica] text-wezomcomabbey tracking-[var(--wezom-com-roboto-regular-upper-letter-spacing)] leading-[var(--wezom-com-roboto-regular-upper-line-height)] text-xs md:text-base">
                                 {column.leftContent.title}
                               </div>
 
@@ -116,7 +116,7 @@ export const HorizontalBorderWrapperSection = (): JSX.Element => {
                                   </div>
 
                                   <div className="flex">
-                                    <div className="font-['Roboto',Helvetica] font-normal text-wezomcomabbey text-xs md:text-sm tracking-[1.00px] leading-normal">
+                                    <div className="[font-family:'Manrope',Helvetica] font-normal text-wezomcomabbey text-xs md:text-sm tracking-[1.00px] leading-normal">
                                       {column.leftContent.reviewCount}
                                     </div>
                                   </div>

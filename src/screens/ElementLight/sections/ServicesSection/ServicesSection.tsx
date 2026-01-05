@@ -48,7 +48,7 @@ export const ServicesSection = (): JSX.Element => {
             variant="outline"
             className="rounded-2xl border-[#7d838780] px-2 py-1 lg:py-[5.5px]"
           >
-            <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-xs lg:text-[13px] leading-[13px]">
+            <span className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-xs lg:text-[13px] leading-[13px]">
               55 DEVELOPERS
             </span>
           </Badge>
@@ -80,7 +80,7 @@ export const ServicesSection = (): JSX.Element => {
               </div>
 
               <div className="text-right">
-                <p className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomdove-gray text-xs lg:text-[13px] leading-[15.6px] whitespace-pre-line">
+                <p className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomdove-gray text-xs lg:text-[13px] leading-[15.6px] whitespace-pre-line">
                   {card.label}
                 </p>
               </div>

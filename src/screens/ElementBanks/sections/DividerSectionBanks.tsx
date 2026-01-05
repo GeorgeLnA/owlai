@@ -98,7 +98,7 @@ export const DividerSectionBanks = (): JSX.Element => {
             <div className="flex flex-wrap gap-4 pt-2">
               {study.metrics.map((metric, index) => (
                 <div key={index} className="flex flex-col items-start">
-                  <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-bold text-white text-lg">
+                  <span className="[font-family:'Manrope',Helvetica] font-bold text-white text-lg">
                     {metric.value}
                   </span>
                   <span className="text-white/60 text-xs">
@@ -131,7 +131,7 @@ export const DividerSectionBanks = (): JSX.Element => {
               variant="outline"
               className="w-full rounded-[20px] border-white/20 text-white hover:bg-white hover:text-black transition-colors duration-300"
             >
-              <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-sm">
+              <span className="[font-family:'Manrope',Helvetica] font-semibold text-sm">
                 VIEW CASE
               </span>
               <ArrowRightIcon className="ml-2 w-4 h-4" />

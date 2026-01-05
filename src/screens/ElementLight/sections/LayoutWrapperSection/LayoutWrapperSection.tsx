@@ -5,14 +5,17 @@ export const LayoutWrapperSection = (): JSX.Element => {
   const contactInfo = ["hello@owlai.com", "+1 (555) 123-4567"];
 
   return (
-    <section className="flex flex-col w-full lg:max-w-[680px] gap-8 md:gap-10 relative">
+    <section className="flex flex-col w-full lg:w-auto relative">
       {/* Contact information section */}
-      <div className="flex flex-col pl-8 md:pl-16 lg:pl-24 xl:pl-32 pt-8 md:pt-10 lg:pt-12">
+      <div className="flex flex-col gap-2">
         {contactInfo.map((info, index) => (
-          <div key={index} className="w-full mb-2">
-            <p className="font-medium text-sm md:text-base text-wezomcomblack leading-[19.6px]">
+          <div key={index} className="w-full">
+            <a 
+              href={info.includes("@") ? `mailto:${info}` : `tel:${info.replace(/\s/g, "")}`}
+              className="[font-family:'Manrope',Helvetica] font-medium text-sm md:text-base text-wezomcomblack leading-[19.6px] hover:opacity-70 transition-opacity"
+            >
               {info}
-            </p>
+            </a>
           </div>
         ))}
       </div>

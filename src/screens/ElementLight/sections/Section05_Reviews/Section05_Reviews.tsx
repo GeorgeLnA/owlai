@@ -89,7 +89,7 @@ export const Section05_Reviews = (): JSX.Element => {
 
   return (
     <section
-      className="flex flex-col max-w-[1640px] mx-auto w-full items-start gap-6 md:gap-10 pr-6 md:pr-14 pl-14 md:pl-28 py-8 md:py-16"
+      className="flex flex-col max-w-[1640px] mx-auto w-full items-start gap-6 md:gap-10 px-6 md:px-14 py-8 md:py-16"
       aria-label="Section 5 — Results"
     >
       {/* Heading */}
@@ -97,7 +97,7 @@ export const Section05_Reviews = (): JSX.Element => {
         <div className="flex flex-col w-6 h-2 items-start pr-4">
           <div className="w-2 h-2 bg-wezomcomblack rounded" />
         </div>
-        <div className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-4">
+        <div className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-4">
           THE RESULTS
         </div>
       </div>

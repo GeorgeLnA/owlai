@@ -104,7 +104,7 @@ export const DividerSection = (): JSX.Element => {
                       {cs.metrics.map((m, mIdx) => (
                         <div
                           key={`${cs.id}-metric-${mIdx}`}
-                          className="pl-4 border-l-4 border-[#553194]"
+                          className="pl-4 border-l-4 border-[#60a5fa]"
                         >
                           <div className="[font-family:'Manrope',Helvetica] font-bold text-wezomcomwhite text-2xl md:text-3xl">
                             {m.value}
@@ -121,9 +121,9 @@ export const DividerSection = (): JSX.Element => {
                   <div className="mt-8">
                     <Button
                       variant="outline"
-                      className="h-12 px-8 rounded-[40px] border border-solid border-[#553194] bg-transparent hover:bg-[#55319420]"
+                      className="h-12 px-8 rounded-[40px] border border-solid border-[#60a5fa] bg-transparent hover:bg-[#60a5fa20]"
                     >
-                      <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomwhite text-base tracking-[-0.16px] leading-[22.4px]">
+                      <span className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomwhite text-base tracking-[-0.16px] leading-[22.4px]">
                         VIEW CASE
                       </span>
                       <ArrowRightIcon className="ml-4 w-4 h-4 text-wezomcomwhite" />

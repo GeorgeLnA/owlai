@@ -61,7 +61,7 @@ export const SectionWrapper = (): JSX.Element => {
           <div className="flex flex-col w-6 h-2 items-start pr-4">
             <div className="w-2 h-2 bg-wezomcomblack rounded" />
           </div>
-          <div className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-4">
+          <div className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-4">
             Common questions from our clients
           </div>
         </div>
@@ -73,7 +73,7 @@ export const SectionWrapper = (): JSX.Element => {
 
         {/* CTA Button */}
         <div className="pt-2">
-          <Button className="h-10 md:h-12 rounded-[40px] bg-[#553194] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-white text-sm md:text-base tracking-[-0.16px] leading-[22.4px] px-6 md:px-8">
+          <Button className="h-10 md:h-12 rounded-[40px] bg-[#553194] [font-family:'Manrope',Helvetica] font-semibold text-white text-sm md:text-base tracking-[-0.16px] leading-[22.4px] px-6 md:px-8">
             GET IN TOUCH
             <div className="pl-4 md:pl-6">
               <ArrowRightIcon className="w-3 md:w-4 h-3 md:h-4" />

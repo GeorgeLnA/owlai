@@ -22,7 +22,7 @@ export const FAQSection = (): JSX.Element => {
         {/* GET IN TOUCH badge positioned at the very top */}
         <div className="absolute top-0 right-0 z-10">
           <Badge className="rounded-[40px] border border-solid border-[#7d838780] px-4 py-2">
-            <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-[15.6px]">
+            <span className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-[15.6px]">
               GET IN TOUCH
             </span>
           </Badge>
@@ -34,7 +34,7 @@ export const FAQSection = (): JSX.Element => {
               <div className="flex flex-col w-6 h-2 items-start pr-4">
                 <div className="w-2 h-2 bg-wezomcomblack rounded" />
               </div>
-              <div className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-4">
+              <div className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-4">
                 FAQ
               </div>
             </div>

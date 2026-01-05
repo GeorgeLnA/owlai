@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { NavigationHeaderSection } from "../ElementLight/sections/NavigationHeaderSection";
 import TargetCursor from "../../components/ui/target-cursor";
 import { BrandStripBanks } from "./sections/BrandStripBanks";
 import { ProblemSectionBanks } from "./sections/ProblemSectionBanks";
@@ -68,12 +67,17 @@ export const ElementBanks = (): JSX.Element => {
       <TargetCursor spinDuration={6} hideDefaultCursor={true} />
       <div className="flex flex-col w-full items-start">
         <div className="relative w-full">
-          {/* ICP Island + Book a Call */}
-          <NavigationHeaderSection />
-
           {/* Logo */}
-          <div className="fixed top-8 left-1/2 -translate-x-1/2 z-50">
-            <img src="/cropped-OWL-AI-white.png" alt="OWL AI Logo" className="h-16 md:h-20 w-auto" />
+          <div className="fixed top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+            <div className="relative">
+              {/* Smooth blend backdrop */}
+              <div className="absolute inset-0 bg-black/8 backdrop-blur-[120px] rounded-3xl blur-md -z-10 scale-110 mix-blend-soft-light"></div>
+              <img 
+                src="/photo logos hero/cropped-OWL-AI-white.png" 
+                alt="OWL AI Logo" 
+                className="h-16 md:h-20 w-auto drop-shadow-[0_0_20px_rgba(0,0,0,0.9),0_0_10px_rgba(255,255,255,0.4)]"
+              />
+            </div>
           </div>
 
           {/* Hero */}

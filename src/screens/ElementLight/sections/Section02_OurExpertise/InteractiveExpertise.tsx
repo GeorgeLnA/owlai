@@ -94,24 +94,18 @@ export const InteractiveExpertise = (): JSX.Element => {
       {/* Original expertise section */}
       <div className="w-full flex flex-col gap-4 md:gap-6">
         {/* Header (aligned with BlogSection) */}
-        <div className="flex flex-col lg:flex-row items-start justify-center gap-8 w-full">
-          {/* Left rail label */}
-          <div className="flex flex-col w-full lg:max-w-[340px] lg:w-[340px] items-start">
-            <div className="flex items-center -ml-16 md:-ml-32">
-              <div className="flex flex-col w-6 h-2 items-start pr-4">
-                <div className="w-2 h-2 bg-wezomcomblack rounded" />
-              </div>
-              <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-4">
-                OUR EXPERTISE
-              </span>
+        <div className="flex flex-col w-full items-start mb-4 md:mb-6">
+          <div className="flex items-center mb-4 md:mb-6">
+            <div className="flex flex-col w-6 h-2 items-start pr-4">
+              <div className="w-2 h-2 bg-wezomcomblack rounded" />
             </div>
+            <span className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-4">
+              OUR EXPERTISE
+            </span>
           </div>
-          {/* Right content aligned to top */}
-          <div className="flex flex-col w-full lg:max-w-[1020px] items-start">
-            <h2 className="[font-family:'Manrope',Helvetica] font-bold text-black text-3xl md:text-5xl lg:text-[56px] tracking-[-3px] leading-tight">
-              Expertise of [OWL AI]
-            </h2>
-          </div>
+          <h2 className="[font-family:'Manrope',Helvetica] font-bold text-black text-3xl md:text-5xl lg:text-[56px] tracking-[-3px] leading-tight w-full">
+            Expertise of [OWL AI]
+          </h2>
         </div>
 
         {/* Content row */}
@@ -147,7 +141,7 @@ export const InteractiveExpertise = (): JSX.Element => {
                       className="w-full text-left group"
                     >
                       <div className="flex items-baseline gap-3">
-                        <span className="w-10 md:w-12 font-['IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomdove-gray text-xs md:text-sm transition-colors duration-300 group-hover:text-[#553194]">
+                        <span className="w-10 md:w-12 [font-family:'Manrope',Helvetica] font-semibold text-wezomcomdove-gray text-xs md:text-sm transition-colors duration-300 group-hover:text-[#553194]">
                           {orderNumber}
                         </span>
                         <span
@@ -171,7 +165,7 @@ export const InteractiveExpertise = (): JSX.Element => {
                     >
                       {/* Tags */}
                       <div className="flex flex-wrap gap-2 md:gap-3">
-                        {category.tags.map((tag) => (
+                        {category.tags.slice(0, 4).map((tag) => (
                           <Badge
                             key={`${category.id}-${tag}`}
                             variant="outline"
@@ -183,7 +177,7 @@ export const InteractiveExpertise = (): JSX.Element => {
                       </div>
 
                       {/* Description */}
-                      <p className="mt-3 max-w-[720px] text-wezomcomdove-gray text-sm md:text-base leading-6">
+                      <p className="mt-3 max-w-[720px] text-wezomcomdove-gray text-sm md:text-base leading-6 [font-family:'Manrope',Helvetica]">
                         {renderDescription(category.description)}
                       </p>
 
@@ -191,7 +185,7 @@ export const InteractiveExpertise = (): JSX.Element => {
                       <div className="mt-3 flex items-center gap-3">
                         <button
                           type="button"
-                          className="text-[13px] font-semibold text-wezomcomblack hover:text-[#553194] hover:underline transition-all duration-300 hover:scale-105"
+                          className="text-[13px] font-semibold text-wezomcomblack hover:text-[#553194] hover:underline transition-all duration-300 hover:scale-105 [font-family:'Manrope',Helvetica]"
                         >
                           LEARN MORE
                         </button>

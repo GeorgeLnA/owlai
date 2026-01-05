@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { HeroSection } from "./sections/HeroSection";
-import { NavigationHeaderSection } from "./sections/NavigationHeaderSection";
 import { Section01_BrandStrip } from "./sections/Section01_BrandStrip";
 import { Section02_OurExpertise } from "./sections/Section02_OurExpertise";
 import { Section03_CallToAction } from "./sections/Section03_CallToAction";
@@ -12,9 +13,16 @@ import { Section10_IntroductionAndInsights } from "./sections/Section10_Introduc
 import { Section11_Footer } from "./sections/Section11_Footer";
 import TargetCursor from "../../components/ui/target-cursor";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export const ElementLight = (): JSX.Element => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const brandStripRef = useRef<HTMLDivElement>(null);
+  const topOverlayRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLImageElement>(null);
+  const logoContainerRef = useRef<HTMLDivElement>(null);
+  const demoButtonRef = useRef<HTMLAnchorElement>(null);
+  const demoButtonTextRef = useRef<HTMLSpanElement>(null);
   const [videoUnmuted, setVideoUnmuted] = useState(false);
   const [showMuteButton, setShowMuteButton] = useState(true);
 
@@ -112,24 +120,73 @@ export const ElementLight = (): JSX.Element => {
     };
   }, []);
 
+  // Smooth white overlay transition at top when scrolling
+  useEffect(() => {
+    const overlay = topOverlayRef.current;
+    const logo = logoRef.current;
+    const logoContainer = logoContainerRef.current;
+    if (!overlay) return;
+
+    const heroSection = document.querySelector('section');
+    if (!heroSection) return;
+
+    const scrollTrigger = ScrollTrigger.create({
+      trigger: heroSection,
+      start: "top -200px",
+      end: "center top",
+      scrub: 4,
+      onUpdate: (self) => {
+        const progress = Math.min(self.progress, 1);
+        // Use smoother easing curve
+        const easedProgress = progress * progress * (3 - 2 * progress); // Smoothstep function
+        const opacity = easedProgress * 1.6; // Increase opacity by 60%
+        const clampedOpacity = Math.min(opacity, 1); // Ensure it doesn't exceed 1
+        overlay.style.background = `linear-gradient(to bottom, rgba(0, 0, 0, ${clampedOpacity * 0.7}) 0%, rgba(0, 0, 0, ${clampedOpacity * 0.5}) 30%, rgba(0, 0, 0, ${clampedOpacity * 0.2}) 60%, rgba(0, 0, 0, 0) 75%)`;
+        
+        // Move logo up as overlay appears
+        if (logoContainer) {
+          const moveUp = easedProgress * -18; // Move up by 18px max
+          logoContainer.style.transform = `translate(-50%, ${moveUp}px)`;
+        }
+        
+        // Keep logo white with original shadows
+        if (logo) {
+          logo.style.filter = 'drop-shadow(0 0 20px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.4))';
+        }
+      }
+    });
+
+    return () => {
+      scrollTrigger.kill();
+    };
+  }, []);
+
   return (
     <div className="relative w-full bg-white overflow-x-hidden">
       <TargetCursor spinDuration={6} hideDefaultCursor={true} />
       
-      {/* OWL AI Logo - Floating Independent Element */}
-      <div className="fixed top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
-        <img 
-          src="/cropped-OWL-AI-white.png" 
-          alt="OWL AI Logo" 
-          className="h-16 md:h-20 w-auto mix-blend-screen filter brightness-110 contrast-110 drop-shadow-2xl"
-        />
+      {/* Smooth white overlay at top when scrolling */}
+      <div 
+        ref={topOverlayRef}
+        className="fixed top-0 left-0 right-0 h-[144px] bg-transparent pointer-events-none z-40"
+      ></div>
+      
+      {/* OWL AI Logo - Center Top */}
+      <div ref={logoContainerRef} className="fixed top-8 left-1/2 z-50 pointer-events-none">
+        <div className="relative">
+          {/* Smooth blend backdrop */}
+          <div className="absolute inset-0 bg-black/8 backdrop-blur-[120px] rounded-3xl blur-md -z-10 scale-110 mix-blend-soft-light"></div>
+          <img 
+            ref={logoRef}
+            src="/photo logos hero/cropped-OWL-AI-white.png" 
+            alt="OWL AI Logo" 
+            className="h-16 md:h-20 w-auto drop-shadow-[0_0_20px_rgba(0,0,0,0.9),0_0_10px_rgba(255,255,255,0.4)] transition-all duration-300"
+          />
+        </div>
       </div>
-
+      
       <div className="flex flex-col w-full items-start">
         <div className="relative w-full">
-          {/* Floating Navigation Header */}
-          <NavigationHeaderSection />
-
           {/* Hero Section */}
           <section 
             className="relative w-full min-h-screen bg-black flex items-center justify-center overflow-hidden cursor-pointer" 
@@ -181,12 +238,18 @@ export const ElementLight = (): JSX.Element => {
             
             {/* Content */}
             <div className="relative z-20 text-center px-4 sm:px-6 mt-40 sm:mt-56 md:mt-72 lg:mt-80">
-              <h1 className="text-white text-3xl sm:text-4xl md:text-6xl font-bold mb-6 sm:mb-8 md:mb-10 md:mb-12">Turn Every Analyst Into an Alpha Engine.</h1>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-                <a href="#final-cta" className="cursor-target inline-flex items-center justify-center h-11 sm:h-12 px-6 sm:px-8 rounded-[40px] border border-solid border-white text-white hover:bg-white hover:text-black transition-colors duration-300 focus:outline-none">
-                  Request a Demo
+              <h1 className="text-white text-3xl sm:text-4xl md:text-6xl font-bold mb-6 sm:mb-8 md:mb-10 md:mb-12">Turn Every Analyst Into an Alpha Engine</h1>
+              <div className="flex flex-col items-center justify-center gap-4 sm:gap-5">
+                {/* Primary CTA - Stands out more */}
+                <a 
+                  href="#final-cta" 
+                  ref={demoButtonRef}
+                  className="cursor-target inline-flex items-center justify-center h-12 sm:h-14 md:h-16 px-8 sm:px-10 md:px-12 rounded-[40px] bg-white text-black font-semibold text-base sm:text-lg md:text-xl hover:bg-gray-100 hover:scale-105 transition-transform duration-300 focus:outline-none shadow-[0_4px_20px_rgba(255,255,255,0.3)]"
+                >
+                  <span ref={demoButtonTextRef} className="inline-block">Request a Demo</span>
                 </a>
-                <a href="#platform" className="cursor-target inline-flex items-center justify-center h-11 sm:h-12 px-6 sm:px-8 rounded-[40px] border border-solid border-white text-white hover:bg-white hover:text-black transition-colors duration-300 focus:outline-none">
+                {/* Secondary CTA - Outline style */}
+                <a href="#platform" className="cursor-target inline-flex items-center justify-center h-11 sm:h-12 px-6 sm:px-8 rounded-[40px] border-2 border-solid border-white text-white hover:bg-white/10 hover:border-white/80 transition-all duration-300 focus:outline-none text-sm sm:text-base">
                   See How OWL AI Fits Your Firm
                 </a>
               </div>

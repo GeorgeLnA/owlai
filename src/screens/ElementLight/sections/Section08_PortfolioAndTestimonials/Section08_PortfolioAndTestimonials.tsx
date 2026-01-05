@@ -3,10 +3,10 @@ import { PortfolioSection } from "../PortfolioSection";
 export const Section08_PortfolioAndTestimonials = (): JSX.Element => {
   return (
     <section
-      className="flex flex-col w-full items-start py-8 md:py-12 lg:py-16 px-4 md:px-8 lg:px-12 xl:px-16"
+      className="flex flex-col max-w-[1640px] mx-auto w-full items-start gap-6 md:gap-10 px-6 md:px-14 py-8 md:py-16"
       aria-label="Section 8 — Platform"
     >
-      <div className="w-full max-w-[1640px] mx-auto">
+      <div className="w-full rounded-3xl md:rounded-[40px] bg-gray-50 md:bg-gray-100 p-6 md:p-8 lg:p-10">
         <PortfolioSection />
       </div>
     </section>

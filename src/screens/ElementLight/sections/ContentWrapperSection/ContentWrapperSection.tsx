@@ -52,7 +52,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                       className="inline-flex flex-col items-start pl-2 pr-0 pt-2 pb-0 relative self-stretch flex-[0_0_auto]"
                     >
                       <Badge className="inline-flex min-h-10 items-center justify-center pt-[12.2px] pb-[12.21px] px-6 relative flex-[0_0_auto] rounded-[40px] overflow-hidden bg-[#553194]">
-                        <span className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-white text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
+                        <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-white text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                           {location}
                         </span>
                       </Badge>
@@ -72,7 +72,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                           variant="outline"
                           className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-[40px] overflow-hidden border border-solid border-[#afafaf80]"
                         >
-                          <span className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
+                          <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                             {serviceTags[0].name}
                           </span>
                         </Badge>
@@ -83,7 +83,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                           variant="outline"
                           className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-[40px] overflow-hidden border border-solid border-[#afafaf80]"
                         >
-                          <span className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
+                          <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                             {serviceTags[1].name}
                           </span>
                         </Badge>
@@ -97,7 +97,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                           variant="outline"
                           className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-[40px] overflow-hidden border border-solid border-[#afafaf80]"
                         >
-                          <span className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
+                          <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                             {serviceTags[2].name}
                           </span>
                         </Badge>
@@ -108,7 +108,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                           variant="outline"
                           className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-[40px] overflow-hidden border border-solid border-[#afafaf80]"
                         >
-                          <span className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
+                          <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                             {serviceTags[3].name}
                           </span>
                         </Badge>
@@ -121,7 +121,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                         variant="outline"
                         className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-[40px] overflow-hidden border border-solid border-[#afafaf80]"
                       >
-                        <span className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
+                        <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                           {serviceTags[4].name}
                         </span>
                       </Badge>
@@ -133,7 +133,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                           variant="outline"
                           className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-[40px] overflow-hidden border border-solid border-[#afafaf80]"
                         >
-                          <span className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
+                          <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                             {serviceTags[5].name}
                           </span>
                         </Badge>
@@ -144,7 +144,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                           variant="outline"
                           className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-[40px] overflow-hidden border border-solid border-[#afafaf80]"
                         >
-                          <span className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
+                          <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                             {serviceTags[6].name}
                           </span>
                         </Badge>
@@ -172,7 +172,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                   <div className="flex flex-col max-w-[697.33px] items-start pl-4 pr-0 pt-4 pb-0 relative flex-1 w-full grow">
                     <div className="inline-flex items-center justify-center gap-[4.26e-14px] relative flex-[0_0_auto]">
                       <Button variant="link" className="p-0 h-auto">
-                        <span className="relative w-fit mt-[-1.00px] [font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[-0.13px] leading-[18.2px] whitespace-nowrap">
+                        <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[-0.13px] leading-[18.2px] whitespace-nowrap">
                           LEARN MORE
                         </span>
                         

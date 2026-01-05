@@ -27,7 +27,7 @@ export const InsightsSection = (): JSX.Element => {
               <div className="w-6 h-2 flex items-center justify-center mr-4">
                 <div className="w-2 h-2 bg-white rounded" />
               </div>
-              <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-white text-xs md:text-[13px] leading-4">
+              <span className="[font-family:'Manrope',Helvetica] font-semibold text-white text-xs md:text-[13px] leading-4">
                 AGILE PROJECT MANAGEMENT
               </span>
             </div>
@@ -47,7 +47,7 @@ export const InsightsSection = (): JSX.Element => {
               customer experiences at every digital touchpoint.
             </p>
             <Button className="mt-4 inline-flex items-center gap-3 rounded-[40px] bg-[#553194] px-6 py-2">
-              <span className="[font-family:'IBM_Plex_Mono',Helvetica] font-semibold text-white text-sm md:text-[14.4px]">
+              <span className="[font-family:'Manrope',Helvetica] font-semibold text-white text-sm md:text-[14.4px]">
                 HOW WE WORK
               </span>
               <ChevronRightIcon className="w-4 h-4" />
