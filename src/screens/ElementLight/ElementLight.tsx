@@ -172,7 +172,7 @@ export const ElementLight = (): JSX.Element => {
       ></div>
       
       {/* OWL AI Logo - Center Top */}
-      <div ref={logoContainerRef} className="fixed top-8 left-1/2 z-50 pointer-events-none">
+      <div ref={logoContainerRef} className="fixed top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
         <div className="relative">
           {/* Smooth blend backdrop */}
           <div className="absolute inset-0 bg-black/8 backdrop-blur-[120px] rounded-3xl blur-md -z-10 scale-110 mix-blend-soft-light"></div>
@@ -244,12 +244,12 @@ export const ElementLight = (): JSX.Element => {
                 <a 
                   href="#final-cta" 
                   ref={demoButtonRef}
-                  className="cursor-target inline-flex items-center justify-center h-12 sm:h-14 md:h-16 px-8 sm:px-10 md:px-12 rounded-[40px] bg-white text-black font-semibold text-base sm:text-lg md:text-xl hover:bg-gray-100 hover:scale-105 transition-transform duration-300 focus:outline-none shadow-[0_4px_20px_rgba(255,255,255,0.3)]"
+                  className="cursor-target inline-flex items-center justify-center h-12 sm:h-14 md:h-16 px-8 sm:px-10 md:px-12 rounded-[40px] bg-white text-black font-semibold text-base sm:text-lg md:text-xl hover:bg-gray-100 hover:scale-105 transition-transform duration-300 focus:outline-none shadow-[0_4px_20px_rgba(255,255,255,0.3)] [font-family:'Manrope',Helvetica]"
                 >
                   <span ref={demoButtonTextRef} className="inline-block">Request a Demo</span>
                 </a>
                 {/* Secondary CTA - Outline style */}
-                <a href="#platform" className="cursor-target inline-flex items-center justify-center h-11 sm:h-12 px-6 sm:px-8 rounded-[40px] border-2 border-solid border-white text-white hover:bg-white/10 hover:border-white/80 transition-all duration-300 focus:outline-none text-sm sm:text-base">
+                <a href="#platform" className="cursor-target inline-flex items-center justify-center h-11 sm:h-12 px-6 sm:px-8 rounded-[40px] border-2 border-solid border-white text-white hover:bg-white/10 hover:border-white/80 transition-all duration-300 focus:outline-none text-sm sm:text-base [font-family:'Manrope',Helvetica]">
                   See How OWL AI Fits Your Firm
                 </a>
               </div>
