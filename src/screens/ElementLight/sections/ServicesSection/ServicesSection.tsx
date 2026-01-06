@@ -60,7 +60,7 @@ export const ServicesSection = (): JSX.Element => {
                       <Card key={card.id} className="bg-gray-100 rounded-2xl border-none">
             <div className="flex items-center justify-between px-4 lg:px-6 py-2 lg:py-4">
               <div className="flex w-12 lg:w-16 h-12 lg:h-16 items-center justify-center">
-                <div className="rounded-lg overflow-hidden">
+                <div className="rounded-xl overflow-hidden">
                   <div className="w-12 lg:w-16 h-12 lg:h-16 overflow-hidden relative">
                     {card.id === 3 || card.id === 4 || card.id === 5 ? (
                       <img

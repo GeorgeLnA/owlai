@@ -6,25 +6,23 @@ type LoadingScreenProps = {
 };
 
 const LoadingScreen: React.FC<LoadingScreenProps> = ({ loop = false, onComplete }) => {
-  const [letterStep, setLetterStep] = useState(0);
+  const [logoOpacity, setLogoOpacity] = useState(0);
   const [exitProgress, setExitProgress] = useState(0); // 0 -> 1
   const rafIdRef = useRef<number | null>(null);
 
-  const letters = ["O", "W", "L", "   ", "A", "I"];
-
   useEffect(() => {
-    let loopTimer: number | null = null;
     let completeTimer: number | null = null;
-    let letterTimeouts: number[] = [];
 
     const startCurtainExit = () => {
-      const durationMs = 600; // faster, smoother exit
+      const durationMs = 1000; // slower, smoother exit
       const startTime = performance.now();
 
       const step = (now: number) => {
         const elapsed = now - startTime;
         const progress = Math.min(1, elapsed / durationMs);
-        setExitProgress(progress);
+        // Use easing for smoother animation
+        const easedProgress = 1 - Math.pow(1 - progress, 3); // cubic ease-out
+        setExitProgress(easedProgress);
         if (progress < 1) {
           rafIdRef.current = requestAnimationFrame(step);
         } else {
@@ -35,42 +33,22 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ loop = false, onComplete 
       rafIdRef.current = requestAnimationFrame(step);
     };
 
-    const runAnimation = () => {
-      // Clear any existing timeouts
-      letterTimeouts.forEach(clearTimeout);
-      letterTimeouts = [];
+    // Fade in logo
+    const fadeInDelay = setTimeout(() => {
+      setLogoOpacity(1);
+    }, 300);
 
-      setLetterStep(0);
-      setExitProgress(0);
-
-      // Letter animations
-      letters.forEach((_, i) => {
-        letterTimeouts.push(
-          window.setTimeout(() => setLetterStep(i + 1), 200 + i * 100)
-        );
-      });
-
-      const totalDuration = 200 + letters.length * 100 + 300; // letters + buffer
-
-      if (loop) {
-        loopTimer = window.setTimeout(runAnimation, totalDuration);
-      } else {
-        // After sequence, perform curtain-up exit once
-        completeTimer = window.setTimeout(() => {
-          startCurtainExit();
-        }, totalDuration);
-      }
-    };
-
-    runAnimation();
+    // After logo is shown, perform curtain-up exit
+    completeTimer = window.setTimeout(() => {
+      startCurtainExit();
+    }, 1500); // Show logo for about 1.2 seconds
 
     return () => {
-      if (loopTimer) window.clearTimeout(loopTimer);
+      clearTimeout(fadeInDelay);
       if (completeTimer) window.clearTimeout(completeTimer);
-      letterTimeouts.forEach(clearTimeout);
       if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
     };
-  }, [loop, onComplete]);
+  }, [onComplete]);
 
   return (
     <div
@@ -83,21 +61,16 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ loop = false, onComplete 
         WebkitTransform: `translate3d(0, -${exitProgress * 100}%, 0)`,
       }}
     >
-      <div className="relative w-64 h-16 flex items-center justify-center">
-        {/* OWL AI */}
-        <div className="text-2xl font-light tracking-widest text-white">
-          {letters.map((letter, i) => (
-            <span
-              key={i}
-              className={`inline-block transition-all duration-150 ease-out ${letterStep > i ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}
-              style={{
-                willChange: letterStep <= i ? "opacity, transform" : "auto"
-              }}
-            >
-              {letter}
-            </span>
-          ))}
-        </div>
+      <div className="relative w-full h-auto flex items-center justify-center">
+        <img
+          src="/photo logos hero/cropped-OWL-AI-white.png"
+          alt="OWL AI Logo"
+          className="h-16 md:h-20 lg:h-24 w-auto mx-auto transition-opacity duration-500 ease-in-out"
+          style={{
+            opacity: logoOpacity,
+            willChange: logoOpacity < 1 ? "opacity" : "auto"
+          }}
+        />
       </div>
     </div>
   );

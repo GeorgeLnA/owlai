@@ -68,7 +68,7 @@ export const NavigationHeaderSection = (): JSX.Element => {
                   <Button
                     key={index}
                     asChild
-                    className="group relative px-2 py-1.5 rounded-md bg-transparent hover:bg-white/10 text-white border-0 transition-all duration-300 hover:scale-105 w-full justify-center"
+                    className="group relative px-2 py-1.5 rounded-xl bg-transparent hover:bg-white/10 text-white border-0 transition-all duration-300 hover:scale-105 w-full justify-center"
                     style={{ 
                       animation: `fadeInUp 0.4s ease-out forwards`,
                       animationDelay: `${150 + index * 50}ms`,

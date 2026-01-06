@@ -238,10 +238,10 @@ export const Section01_BrandStrip = (): JSX.Element => {
   }, []);
 
   return (
-    <section className="relative w-full border-y border-[#66666620] bg-white" aria-label="Section — Social Proof">
+    <section className="relative w-full h-full border-y border-[#66666620] bg-white" aria-label="Section — Social Proof">
       <div
         ref={containerRef}
-        className="relative w-full overflow-hidden py-3 sm:py-4 md:py-5 group"
+        className="relative w-full h-full overflow-hidden flex items-center group"
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >

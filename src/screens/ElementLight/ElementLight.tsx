@@ -25,6 +25,7 @@ export const ElementLight = (): JSX.Element => {
   const logoContainerRef = useRef<HTMLDivElement>(null);
   const demoButtonRef = useRef<HTMLAnchorElement>(null);
   const demoButtonTextRef = useRef<HTMLSpanElement>(null);
+  const demoButtonContainerRef = useRef<HTMLDivElement>(null);
   const muteButtonRef = useRef<HTMLDivElement>(null);
   const [videoUnmuted, setVideoUnmuted] = useState(false);
   const [showMuteButton, setShowMuteButton] = useState(true);
@@ -47,17 +48,13 @@ export const ElementLight = (): JSX.Element => {
 
     if (!heroElement || !brandStripElement) return false;
 
-    // Check if cursor is within hero section bounds (excluding brand strip at bottom)
+    // Check if cursor is within hero section bounds
     const heroRect = heroElement.getBoundingClientRect();
-    const brandStripRect = brandStripElement.getBoundingClientRect();
-    
-    // Hero section should exclude the brand strip area at the bottom
-    const heroBottom = Math.min(heroRect.bottom, brandStripRect.top);
     const isInHeroSection = 
       x >= heroRect.left &&
       x <= heroRect.right &&
       y >= heroRect.top &&
-      y <= heroBottom;
+      y <= heroRect.bottom;
 
     // Check if cursor is over blog section
     let isOverBlog = false;
@@ -71,6 +68,7 @@ export const ElementLight = (): JSX.Element => {
     }
 
     // Check if cursor is over brand strip
+    const brandStripRect = brandStripElement.getBoundingClientRect();
     const isOverBrandStrip = 
       x >= brandStripRect.left &&
       x <= brandStripRect.right &&
@@ -243,6 +241,92 @@ export const ElementLight = (): JSX.Element => {
 
     const triggers: ScrollTrigger[] = [];
 
+    // GSAP animation for logo and button hide/show (not scroll-scrubbed, triggered animations)
+    let lastScrollY = window.scrollY;
+    let isHidden = false;
+    let scrollTimeout: number | null = null;
+    const demoButtonContainer = demoButtonContainerRef.current;
+    
+    const handleScroll = () => {
+      if (!logoContainer) return;
+      
+      const currentScrollY = window.scrollY;
+      const scrollingDown = currentScrollY > lastScrollY;
+      
+      // Clear existing timeout
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+      
+      // If scrolling down and scrolled past threshold, hide logo and button
+      if (scrollingDown && currentScrollY > 50 && !isHidden) {
+        gsap.to(logoContainer, {
+          y: -100,
+          duration: 0.5,
+          ease: 'power2.inOut',
+          overwrite: true
+        });
+        if (demoButtonContainer) {
+          gsap.to(demoButtonContainer, {
+            y: -100,
+            duration: 0.5,
+            ease: 'power2.inOut',
+            overwrite: true
+          });
+        }
+        isHidden = true;
+      } 
+      // If scrolling up or at top, show logo and button
+      else if ((!scrollingDown || currentScrollY <= 50) && isHidden) {
+        gsap.to(logoContainer, {
+          y: 0,
+          duration: 0.5,
+          ease: 'power2.inOut',
+          overwrite: true
+        });
+        if (demoButtonContainer) {
+          gsap.to(demoButtonContainer, {
+            y: 0,
+            duration: 0.5,
+            ease: 'power2.inOut',
+            overwrite: true
+          });
+        }
+        isHidden = false;
+      }
+      
+      lastScrollY = currentScrollY;
+      
+      // Set timeout to handle scroll end - show logo and button if near top
+      scrollTimeout = window.setTimeout(() => {
+        if (currentScrollY <= 50 && logoContainer && isHidden) {
+          gsap.to(logoContainer, {
+            y: 0,
+            duration: 0.5,
+            ease: 'power2.inOut',
+            overwrite: true
+          });
+          if (demoButtonContainer) {
+            gsap.to(demoButtonContainer, {
+              y: 0,
+              duration: 0.5,
+              ease: 'power2.inOut',
+              overwrite: true
+            });
+          }
+          isHidden = false;
+        }
+      }, 150);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Cleanup
+    const scrollCleanup = () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+    };
+
     // Function to detect background color at logo position
     const detectBackgroundColor = (element: Element): 'light' | 'dark' => {
       const rect = element.getBoundingClientRect();
@@ -281,34 +365,32 @@ export const ElementLight = (): JSX.Element => {
         // Keep overlay transparent (no dark effect)
         overlay.style.background = 'transparent';
         
-        // Move logo up as scrolling
-        if (logoContainer) {
-          const moveUp = easedProgress * -18; // Move up by 18px max
-          logoContainer.style.transform = `translate(-50%, ${moveUp}px)`;
-        }
+        // Small movement during hero scroll (will be combined with hide animation)
+        // The hide animation takes priority, so this is minimal
         
         // Detect background and apply appropriate blend mode and filter
         const bgType = detectBackgroundColor(heroSection);
         const isDarkBg = bgType === 'dark' || progress < 0.4;
         
+        // Keep logo white (normal blend) when on hero section
+        // Blend mode will be applied when scrolling off hero via separate trigger
         if (isDarkBg) {
-          // Over dark background: white logo with screen blend to show through
           const blendProgress = Math.min(progress / 0.4, 1);
-          logo.style.mixBlendMode = 'screen';
+          logo.style.mixBlendMode = 'normal';
           gsap.to(logo, {
-            filter: `drop-shadow(0 0 20px rgba(0, 0, 0, ${0.9 * (1 - blendProgress * 0.3)})) drop-shadow(0 0 10px rgba(255, 255, 255, ${0.4 * (1 - blendProgress * 0.2)}))`,
-            opacity: 0.9 + blendProgress * 0.1, // Slightly transparent to allow blend
+            filter: 'none',
+            opacity: 1, // Full opacity
             duration: 0.3,
             ease: 'power2.out',
             overwrite: true
           });
         } else {
-          // Transition to multiply for light backgrounds - logo will blend with colors/lines
+          // Still white on hero, blend will be applied when off hero
           const transitionProgress = (progress - 0.4) / 0.6;
-          logo.style.mixBlendMode = 'multiply';
+          logo.style.mixBlendMode = 'normal';
           gsap.to(logo, {
-            filter: `invert(${transitionProgress}) brightness(${0.85 + transitionProgress * 0.3}) drop-shadow(0 2px 8px rgba(0, 0, 0, ${0.2 * (1 - transitionProgress)}))`,
-            opacity: 0.85 + transitionProgress * 0.15, // More visible blend
+            filter: 'none',
+            opacity: 1, // Full opacity
             duration: 0.3,
             ease: 'power2.out',
             overwrite: true
@@ -318,43 +400,8 @@ export const ElementLight = (): JSX.Element => {
     });
     triggers.push(heroScrollTrigger);
 
-    // Create scroll trigger to check when past hero section with dynamic color detection
-    const pastHeroTrigger = ScrollTrigger.create({
-      trigger: heroSection,
-      start: "bottom top",
-      onEnter: () => {
-        // When hero section is completely scrolled past, detect background and adjust
-        const nextSection = heroSection.nextElementSibling;
-        const bgType = nextSection ? detectBackgroundColor(nextSection) : 'light';
-        
-        if (logo) {
-          logo.style.mixBlendMode = bgType === 'light' ? 'multiply' : 'screen';
-          gsap.to(logo, {
-            filter: bgType === 'light' 
-              ? 'invert(1) brightness(1.1) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15))'
-              : 'drop-shadow(0 0 20px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.4))',
-            opacity: bgType === 'light' ? 0.9 : 0.95, // Slightly more transparent for better blend
-            duration: 0.6,
-            ease: 'power2.inOut',
-            overwrite: true
-          });
-        }
-      },
-      onLeaveBack: () => {
-        // When scrolling back to hero, logo should be white with screen blend
-        if (logo) {
-          logo.style.mixBlendMode = 'screen';
-          gsap.to(logo, {
-            filter: 'drop-shadow(0 0 20px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.4))',
-            opacity: 0.95, // Slightly transparent for better blend effect
-            duration: 0.6,
-            ease: 'power2.inOut',
-            overwrite: true
-          });
-        }
-      }
-    });
-    triggers.push(pastHeroTrigger);
+    // Note: Blend mode switching is handled by heroBlendTrigger below
+    // This trigger is kept for any other future effects
 
     // Monitor all sections for background color changes
     const allSections = document.querySelectorAll('section, [class*="Section"]');
@@ -367,49 +414,121 @@ export const ElementLight = (): JSX.Element => {
         end: "bottom center",
         onEnter: () => {
           const bgType = detectBackgroundColor(section);
+          // Keep blend mode when off hero (handled by heroBlendTrigger)
           if (logo) {
-            logo.style.mixBlendMode = bgType === 'light' ? 'multiply' : 'screen';
+            logo.style.mixBlendMode = 'difference';
             gsap.to(logo, {
-              filter: bgType === 'light'
-                ? 'invert(1) brightness(1.1) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15))'
-                : 'drop-shadow(0 0 20px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.4))',
-              opacity: bgType === 'light' ? 0.9 : 0.95, // Better blend visibility
+              filter: 'none',
+              opacity: 1, // Full opacity
               duration: 0.5,
               ease: 'power2.inOut',
               overwrite: true
             });
           }
+          if (demoButton) {
+            demoButton.style.mixBlendMode = 'difference';
+            demoButton.classList.remove('text-white');
+            demoButton.classList.add('text-black');
+          }
         },
         onEnterBack: () => {
           const bgType = detectBackgroundColor(section);
+          // Keep blend mode when off hero (handled by heroBlendTrigger)
           if (logo) {
-            logo.style.mixBlendMode = bgType === 'light' ? 'multiply' : 'screen';
+            logo.style.mixBlendMode = 'difference';
             gsap.to(logo, {
-              filter: bgType === 'light'
-                ? 'invert(1) brightness(1.1) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15))'
-                : 'drop-shadow(0 0 20px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.4))',
-              opacity: bgType === 'light' ? 0.9 : 0.95, // Better blend visibility
+              filter: 'none',
+              opacity: 1, // Full opacity
               duration: 0.5,
               ease: 'power2.inOut',
               overwrite: true
             });
+          }
+          if (demoButton) {
+            demoButton.style.mixBlendMode = 'difference';
+            demoButton.classList.remove('text-white');
+            demoButton.classList.add('text-black');
           }
         }
       });
       triggers.push(sectionTrigger);
     });
 
-    // Initialize logo blend mode with GSAP
+    // Initialize logo - white on hero (no blend)
     if (logo) {
-      logo.style.mixBlendMode = 'screen';
+      logo.style.mixBlendMode = 'normal';
       gsap.set(logo, {
-        filter: 'drop-shadow(0 0 20px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.4))',
-        opacity: 0.95 // Slightly transparent for better blend effect
+        filter: 'none',
+        opacity: 1, // Full opacity
+        backdropFilter: 'blur(0px)' // Can be enhanced if needed
+      });
+    }
+
+    // Initialize button - white on hero (no blend)
+    const demoButton = demoButtonRef.current;
+    if (demoButton) {
+      demoButton.style.mixBlendMode = 'normal';
+      gsap.set(demoButton, {
+        opacity: 1
+      });
+    }
+
+    // Scroll trigger to switch from white (on hero) to blend (off hero)
+    const heroBlendTrigger = ScrollTrigger.create({
+      trigger: heroSection,
+      start: "bottom top",
+      onEnter: () => {
+        // Scrolled off hero - apply blend mode
+        if (logo) {
+          logo.style.mixBlendMode = 'difference';
+        }
+        if (logoContainer) {
+          logoContainer.classList.add('mix-blend-difference');
+        }
+        if (demoButton) {
+          demoButton.style.mixBlendMode = 'difference';
+        }
+        if (demoButtonContainer) {
+          demoButtonContainer.classList.add('mix-blend-difference');
+        }
+      },
+      onLeaveBack: () => {
+        // Scrolled back to hero - remove blend mode, make white
+        if (logo) {
+          logo.style.mixBlendMode = 'normal';
+        }
+        if (logoContainer) {
+          logoContainer.classList.remove('mix-blend-difference');
+        }
+        if (demoButton) {
+          demoButton.style.mixBlendMode = 'normal';
+        }
+        if (demoButtonContainer) {
+          demoButtonContainer.classList.remove('mix-blend-difference');
+        }
+      }
+    });
+    triggers.push(heroBlendTrigger);
+
+    // Initialize logo container position (top left)
+    if (logoContainer) {
+      gsap.set(logoContainer, {
+        x: 0, // Top left, no centering
+        y: 0 // At top (will slide up/down)
+      });
+    }
+
+    // Initialize demo button container position (top right)
+    if (demoButtonContainer) {
+      gsap.set(demoButtonContainer, {
+        x: 0, // Top right, no centering
+        y: 0 // At top (will slide up/down)
       });
     }
 
     return () => {
       triggers.forEach(trigger => trigger.kill());
+      scrollCleanup();
     };
   }, []);
 
@@ -423,18 +542,41 @@ export const ElementLight = (): JSX.Element => {
         className="fixed top-0 left-0 right-0 h-[144px] bg-transparent pointer-events-none z-40"
       ></div>
       
-      {/* OWL AI Logo - Center Top */}
-      <div ref={logoContainerRef} className="fixed top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+      {/* OWL AI Logo - Top Left (Independent Element, slides with GSAP) */}
+      <div 
+        ref={logoContainerRef} 
+        className="fixed top-6 sm:top-7 md:top-8 left-6 md:left-14 z-50 pointer-events-none"
+      >
         <img 
           ref={logoRef}
           src="/photo logos hero/cropped-OWL-AI-white.png" 
           alt="OWL AI Logo" 
-          className="h-12 md:h-16 w-auto"
+          className="h-11 sm:h-12 md:h-14 w-auto"
           style={{ 
-            mixBlendMode: 'screen',
+            mixBlendMode: 'normal',
+            filter: 'none',
             willChange: 'mix-blend-mode, filter, opacity'
           }}
         />
+      </div>
+
+      {/* Request a Demo Button - Top Right (Independent Element, slides with GSAP) */}
+      <div
+        ref={demoButtonContainerRef}
+        className="fixed top-6 sm:top-7 md:top-8 right-6 md:right-14 z-50 pointer-events-auto"
+      >
+        <a 
+          href="#final-cta" 
+          ref={demoButtonRef}
+          className="cursor-target inline-flex items-center justify-center h-10 sm:h-11 md:h-12 px-6 sm:px-8 md:px-10 rounded-xl bg-white text-black font-semibold text-sm sm:text-base md:text-lg hover:bg-gray-100 transition-colors duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
+          style={{ 
+            mixBlendMode: 'normal',
+            opacity: 1,
+            willChange: 'mix-blend-mode, opacity'
+          }}
+        >
+          <span ref={demoButtonTextRef} className="inline-block">Free Demo</span>
+        </a>
       </div>
       
       <div className="flex flex-col w-full items-start">
@@ -442,7 +584,7 @@ export const ElementLight = (): JSX.Element => {
           {/* Hero Section */}
           <section 
             ref={heroSectionRef}
-            className="relative w-full min-h-screen bg-black flex items-center justify-center overflow-hidden cursor-pointer" 
+            className="relative w-full h-[90vh] bg-black flex items-end justify-center overflow-hidden cursor-pointer" 
             onClick={toggleSound}
           >
             {/* Background Video */}
@@ -485,34 +627,34 @@ export const ElementLight = (): JSX.Element => {
                 showMuteButton ? 'opacity-100' : 'opacity-0'
               }`}
             >
-              <div className="bg-black/50 backdrop-blur-sm rounded-full px-2.5 py-2 border border-white/20">
-                <div className="text-white text-xs sm:text-sm [font-family:'Manrope',Helvetica]">
+              <div className="bg-white rounded-xl px-2.5 py-2">
+                <div className="text-black text-[10px] sm:text-xs [font-family:'Manrope',Helvetica]">
                   {videoUnmuted ? "Sound Off" : "Sound On"}
                 </div>
               </div>
             </div>
             
             {/* Content */}
-            <div className="relative z-20 text-center px-4 sm:px-6 mt-48 sm:mt-64 md:mt-80 lg:mt-[26rem]">
-              <h1 className="text-white text-3xl sm:text-4xl md:text-6xl font-bold mb-6 sm:mb-8 md:mb-10 md:mb-12">Turn Every Analyst Into an Alpha Engine</h1>
+            <div className="relative z-20 text-center px-4 sm:px-6 mb-12 sm:mb-16 md:mb-20 lg:mb-24">
+              <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-5 sm:mb-6 md:mb-8">Turn Every Analyst Into an Alpha Engine</h1>
               <div className="flex flex-col items-center justify-center gap-4 sm:gap-5">
                 {/* Primary CTA - Stands out more */}
                 <a 
                   href="#final-cta" 
                   ref={demoButtonRef}
                   onClick={(e) => e.stopPropagation()}
-                  className="cursor-target inline-flex items-center justify-center h-12 sm:h-14 md:h-16 px-8 sm:px-10 md:px-12 rounded-[40px] bg-white text-black font-semibold text-base sm:text-lg md:text-xl hover:bg-gray-100 hover:scale-105 transition-transform duration-300 focus:outline-none shadow-[0_4px_20px_rgba(255,255,255,0.3)] [font-family:'Manrope',Helvetica]"
+                  className="cursor-target inline-flex items-center justify-center h-12 sm:h-14 md:h-16 px-8 sm:px-10 md:px-12 rounded-xl bg-white text-black font-semibold text-base sm:text-lg md:text-xl hover:bg-gray-100 hover:scale-105 transition-transform duration-300 focus:outline-none shadow-[0_4px_20px_rgba(255,255,255,0.3)] [font-family:'Manrope',Helvetica]"
                 >
                   <span ref={demoButtonTextRef} className="inline-block">Request a Demo</span>
                 </a>
               </div>
             </div>
-
-            {/* Social Proof - Trusted by Leading Institutions - Positioned at bottom */}
-            <div ref={brandStripRef} className="absolute bottom-0 left-0 right-0 z-30">
-              <Section01_BrandStrip />
-            </div>
           </section>
+
+          {/* Brand Strip - Separate section filling remaining 10% */}
+          <div ref={brandStripRef} className="relative w-full h-[10vh]">
+            <Section01_BrandStrip />
+          </div>
 
           {/* Main Content Area */}
           <div className="relative w-full bg-white overflow-x-hidden">
@@ -521,11 +663,11 @@ export const ElementLight = (): JSX.Element => {
               <Section04_BlogAndStats />
             </div>
 
-            {/* Solution */}
-            <Section02_OurExpertise />
-
             {/* Platform */}
             <Section08_PortfolioAndTestimonials />
+
+            {/* Solution */}
+            <Section02_OurExpertise />
 
             {/* Results */}
             <Section05_Reviews />

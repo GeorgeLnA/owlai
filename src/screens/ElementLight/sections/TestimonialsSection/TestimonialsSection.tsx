@@ -52,7 +52,7 @@ export const TestimonialsSection = (): JSX.Element => {
         {articles.map((article) => (
           <li key={article.id} className="border-b border-black/10 pb-6 last:border-0 last:pb-0">
             <div className="flex items-center gap-2">
-              <Badge className="bg-wezomcomrolling-stone hover:bg-wezomcomrolling-stone text-white rounded-[40px] px-3 py-1.5">
+              <Badge className="bg-wezomcomrolling-stone hover:bg-wezomcomrolling-stone text-white rounded-xl px-3 py-1.5">
                 <span className="[font-family:'Manrope',Helvetica] font-semibold text-[13px] leading-[15.6px]">
                   {article.category}
                 </span>

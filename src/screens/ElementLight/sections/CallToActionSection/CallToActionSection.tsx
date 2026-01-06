@@ -1,4 +1,3 @@
-import { ArrowRightIcon } from "lucide-react";
 import React from "react";
 import { Badge } from "../../../../components/ui/badge";
 import { Button } from "../../../../components/ui/button";
@@ -43,13 +42,12 @@ export const CallToActionSection = (): JSX.Element => {
 
         {/* CTA Button */}
         <div className="flex items-center gap-4">
-          <Button className="cursor-target inline-flex items-center justify-center h-10 md:h-12 px-6 md:px-8 rounded-[40px] border border-white text-white hover:bg-white hover:text-black transition-colors bg-transparent">
+          <Button className="cursor-target inline-flex items-center justify-center h-10 md:h-12 px-6 md:px-8 rounded-xl border border-white text-white hover:bg-white hover:text-black transition-colors bg-transparent">
             <span className="[font-family:'Manrope',Helvetica] font-semibold text-sm md:text-base tracking-[-0.16px] leading-[22.4px]">
               Book a Strategy Call
             </span>
-            <ArrowRightIcon className="ml-4 md:ml-6 w-3 md:w-4 h-3 md:h-4" />
           </Button>
-          <a href="#platform" className="cursor-target inline-flex items-center justify-center h-10 md:h-12 px-6 md:px-8 rounded-[40px] border border-white text-white hover:bg-white hover:text-black transition-colors">
+          <a href="#platform" className="cursor-target inline-flex items-center justify-center h-10 md:h-12 px-6 md:px-8 rounded-xl border border-white text-white hover:bg-white hover:text-black transition-colors">
             Explore the Platform
           </a>
         </div>

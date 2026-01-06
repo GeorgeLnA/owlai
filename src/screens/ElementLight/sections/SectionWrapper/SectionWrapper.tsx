@@ -73,7 +73,7 @@ export const SectionWrapper = (): JSX.Element => {
 
         {/* CTA Button */}
         <div className="pt-2">
-          <Button className="h-10 md:h-12 rounded-[40px] bg-[#553194] [font-family:'Manrope',Helvetica] font-semibold text-white text-sm md:text-base tracking-[-0.16px] leading-[22.4px] px-6 md:px-8">
+          <Button className="h-10 md:h-12 rounded-xl bg-[#553194] [font-family:'Manrope',Helvetica] font-semibold text-white text-sm md:text-base tracking-[-0.16px] leading-[22.4px] px-6 md:px-8">
             GET IN TOUCH
             <div className="pl-4 md:pl-6">
               <ArrowRightIcon className="w-3 md:w-4 h-3 md:h-4" />

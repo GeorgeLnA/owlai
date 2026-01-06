@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback, useMemo } from "react";
+import { useEffect, useRef, useCallback, useMemo, useState } from "react";
 import { gsap } from "gsap";
 
 export type TargetCursorProps = {
@@ -9,16 +9,50 @@ export type TargetCursorProps = {
 
 const HIDE_CLASS = "tcursor-hide";
 
+// Check if device is mobile or tablet
+const isMobileOrTablet = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  
+  // Check screen width (tablets are typically 768px - 1024px, mobile < 768px)
+  const width = window.innerWidth;
+  const isSmallScreen = width < 1024;
+  
+  // Check for touch capability
+  const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  
+  // Check user agent for mobile/tablet indicators
+  const userAgent = navigator.userAgent.toLowerCase();
+  const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+  
+  // Hide on mobile/tablet: if it's a small screen with touch, or if user agent indicates mobile/tablet
+  return isSmallScreen || (hasTouch && width < 1280) || isMobileUA;
+};
+
 const TargetCursor = ({
   // Include common logo selectors in default targets
   targetSelector = "button, a, [role='button'], img[alt*='logo' i], .logo, [data-logo='true'], .cursor-target",
   spinDuration = 2,
   hideDefaultCursor = true,
 }: TargetCursorProps): JSX.Element => {
+  const [isMobile, setIsMobile] = useState(false);
   const cursorRef = useRef<HTMLDivElement | null>(null);
   const cornersRef = useRef<NodeListOf<HTMLDivElement> | null>(null);
   const spinTl = useRef<gsap.core.Timeline | null>(null);
   const iconOnlyRef = useRef<boolean>(false);
+
+  // Check if device is mobile/tablet on mount and resize
+  useEffect(() => {
+    const checkDevice = () => {
+      setIsMobile(isMobileOrTablet());
+    };
+    
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+    };
+  }, []);
 
   const constants = useMemo(
     () => ({
@@ -41,7 +75,8 @@ const TargetCursor = ({
   }, []);
 
   useEffect(() => {
-    if (!cursorRef.current) return;
+    // Don't initialize cursor on mobile/tablet
+    if (isMobile || !cursorRef.current) return;
 
     const originalCursor = document.body.style.cursor;
     const htmlEl = document.documentElement;
@@ -95,9 +130,19 @@ const TargetCursor = ({
     window.addEventListener("mousemove", moveHandler);
 
     const pickEffectiveTarget = (direct: HTMLElement): HTMLElement | null => {
-      // Gather matching ancestors including the node itself
-      const matches: HTMLElement[] = [];
+      // First, check if the direct target or any ancestor is a .cursor-target
+      // If so, prefer that over button/other parent elements
       let cur: HTMLElement | null = direct;
+      while (cur && cur !== document.body) {
+        if (cur.classList.contains('cursor-target') || cur.matches('.cursor-target')) {
+          return cur;
+        }
+        cur = cur.parentElement as HTMLElement | null;
+      }
+
+      // If no .cursor-target found, use the original logic
+      const matches: HTMLElement[] = [];
+      cur = direct;
       while (cur && cur !== document.body) {
         if (cur.matches(targetSelector)) matches.push(cur);
         cur = cur.parentElement as HTMLElement | null;
@@ -335,7 +380,7 @@ const TargetCursor = ({
       document.body.style.cursor = originalCursor;
       document.documentElement.classList.remove(HIDE_CLASS);
     };
-  }, [targetSelector, spinDuration, moveCursor, constants, hideDefaultCursor]);
+  }, [targetSelector, spinDuration, moveCursor, constants, hideDefaultCursor, isMobile]);
 
   useEffect(() => {
     if (!cursorRef.current || !spinTl.current) return;
@@ -347,6 +392,11 @@ const TargetCursor = ({
         .to(cursorRef.current, { rotation: "+=360", duration: spinDuration, ease: "none" });
     }
   }, [spinDuration]);
+
+  // Don't render cursor on mobile/tablet
+  if (isMobile) {
+    return <></>;
+  }
 
   return (
     <div

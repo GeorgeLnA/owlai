@@ -18,7 +18,7 @@ export const VerticalDividerSection = (): JSX.Element => {
             </div>
 
             <div className="pt-6 lg:pt-10 px-4 lg:px-10">
-              <Button className="rounded-[40px] px-6 lg:px-8 py-3 lg:py-[12.8px] bg-[#553194] hover:bg-[#553194]/90">
+              <Button className="rounded-xl px-6 lg:px-8 py-3 lg:py-[12.8px] bg-[#553194] hover:bg-[#553194]/90">
                 <span className="[font-family:'Manrope',Helvetica] font-semibold text-white text-sm lg:text-base tracking-[-0.16px] leading-[22.4px]">
                   ABOUT US
                 </span>

@@ -34,7 +34,7 @@ const testimonials: Testimonial[] = [
     company: "Pension Fund"
   },
   {
-    quote: "WisdomTree leverages OWL's data as part of its ESG investment process in seeking to provide ESG ETFs that are truly impactful and sustainable. The dynamic, consensus-based approach to company ratings provided by OWL provides a level of objectivity that can serve as a true differentiator in this fast-changing space.",
+    quote: "OWL's objective, consensus-based ratings are a true differentiator in ESG investing.",
     author: "Ben Wallach",
     company: "Head of Product Development & Management | WisdomTree Asset Management"
   },
@@ -125,19 +125,19 @@ export const Section05_Reviews = (): JSX.Element => {
 
       {/* Metrics */}
       <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-        <Card className="border border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
+        <Card className="border border-[#afafaf60] rounded-xl bg-white/70 backdrop-blur-sm shadow-sm">
           <CardContent className="p-6 md:p-8">
             <div className="text-4xl font-bold text-wezomcomblack">10x</div>
             <div className="text-sm text-wezomcomdove-gray mt-1">Analyst productivity</div>
           </CardContent>
         </Card>
-        <Card className="border border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
+        <Card className="border border-[#afafaf60] rounded-xl bg-white/70 backdrop-blur-sm shadow-sm">
           <CardContent className="p-6 md:p-8">
             <div className="text-4xl font-bold text-wezomcomblack">75%</div>
             <div className="text-sm text-wezomcomdove-gray mt-1">Faster insight generation</div>
           </CardContent>
         </Card>
-        <Card className="border border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
+        <Card className="border border-[#afafaf60] rounded-xl bg-white/70 backdrop-blur-sm shadow-sm">
           <CardContent className="p-6 md:p-8">
             <div className="text-4xl font-bold text-wezomcomblack">15%</div>
             <div className="text-sm text-wezomcomdove-gray mt-1">Higher data accuracy</div>
@@ -147,23 +147,21 @@ export const Section05_Reviews = (): JSX.Element => {
 
       {/* Testimonials Carousel */}
       <div className="mt-6 w-full">
-        <button
+        <div
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={handleMouseLeave}
-          onClick={() => handleTestimonialChange((currentTestimonial + 1) % testimonials.length)}
-          className="w-full rounded-2xl border border-[#afafaf60] bg-white/70 backdrop-blur-sm p-6 md:p-8 h-[180px] md:h-[200px] lg:h-[220px] flex items-center hover:bg-white/90 hover:border hover:border-[#afafaf90] transition-all duration-300 cursor-pointer text-left"
-          aria-label="Next testimonial"
+          className="w-full rounded-xl border border-[#afafaf60] bg-white/70 backdrop-blur-sm p-4 sm:p-6 md:p-8 min-h-[140px] sm:h-[180px] md:h-[200px] lg:h-[220px] flex items-center hover:bg-white/90 hover:border hover:border-[#afafaf90] transition-all duration-300 text-left"
         >
           <blockquote 
-            className="[font-family:'Manrope',Helvetica] text-wezomcomblack/90 text-lg leading-8 transition-opacity duration-300 ease-in-out w-full"
+            className="[font-family:'Manrope',Helvetica] text-wezomcomblack/90 text-sm sm:text-base md:text-lg leading-6 sm:leading-7 md:leading-8 transition-opacity duration-300 ease-in-out w-full"
             style={{ opacity }}
           >
             "{testimonials[currentTestimonial].quote}"
-            <span className="block mt-2 text-sm text-wezomcomdove-gray">
+            <span className="block mt-2 text-xs sm:text-sm text-wezomcomdove-gray">
               — {testimonials[currentTestimonial].author}, {testimonials[currentTestimonial].company}
             </span>
           </blockquote>
-        </button>
+        </div>
         
         {/* Dots indicator */}
         <div className="flex justify-center mt-4 space-x-2">
@@ -185,7 +183,7 @@ export const Section05_Reviews = (): JSX.Element => {
 
       {/* Contact Form */}
       <div className="mt-8 md:mt-12 w-full">
-        <Card className="border border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
+        <Card className="border border-[#afafaf60] rounded-xl bg-white/70 backdrop-blur-sm shadow-sm">
           <CardContent className="p-6 md:p-8">
             <h3 className="text-2xl md:text-3xl font-bold text-wezomcomblack mb-6 tracking-tight [font-family:'Manrope',Helvetica]">
               Get in Touch

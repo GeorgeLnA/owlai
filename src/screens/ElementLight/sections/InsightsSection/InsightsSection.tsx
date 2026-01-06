@@ -46,7 +46,7 @@ export const InsightsSection = (): JSX.Element => {
               We’ll turn your custom tech solutions into powerful brands by crafting unique
               customer experiences at every digital touchpoint.
             </p>
-            <Button className="mt-4 inline-flex items-center gap-3 rounded-[40px] bg-[#553194] px-6 py-2">
+            <Button className="mt-4 inline-flex items-center gap-3 rounded-xl bg-[#553194] px-6 py-2">
               <span className="[font-family:'Manrope',Helvetica] font-semibold text-white text-sm md:text-[14.4px]">
                 HOW WE WORK
               </span>
@@ -65,7 +65,7 @@ export const InsightsSection = (): JSX.Element => {
                   <button
                     type="button"
                     onClick={() => setActive(phase)}
-                    className={`cursor-target group inline-flex lg:block items-center lg:items-start px-2 lg:px-0 py-1.5 lg:py-2 rounded-md transition-colors ${
+                    className={`cursor-target group inline-flex lg:block items-center lg:items-start px-2 lg:px-0 py-1.5 lg:py-2 rounded-xl transition-colors ${
                       active === phase ? "text-[#553194]" : "text-gray-300 hover:text-white"
                     }`}
                     aria-current={active === phase ? "true" : undefined}

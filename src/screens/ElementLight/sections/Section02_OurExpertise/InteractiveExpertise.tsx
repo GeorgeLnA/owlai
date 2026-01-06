@@ -147,7 +147,7 @@ export const InteractiveExpertise = (): JSX.Element => {
                           data-cursor-inline
                           className={
                             "cursor-target inline font-['Manrope',Helvetica] font-bold text-[24px] md:text-[40px] tracking-[-2px] leading-[1.05] transition-colors duration-200 " +
-                            (isActive ? "text-[#553194]" : "text-wezomcomblack group-hover:text-[#553194]")
+                            (isActive ? "text-[#246193]" : "text-wezomcomblack group-hover:text-[#246193]")
                           }
                         >
                           {category.title}
@@ -168,7 +168,7 @@ export const InteractiveExpertise = (): JSX.Element => {
                           <Badge
                             key={`${category.id}-${tag}`}
                             variant="outline"
-                            className="rounded-[999px] border border-[#afafaf80] px-3 py-1 text-[12px] md:text-[13px] font-semibold"
+                            className="rounded-xl border border-[#afafaf80] px-3 py-1 text-[12px] md:text-[13px] font-semibold"
                           >
                             {tag}
                           </Badge>

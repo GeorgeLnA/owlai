@@ -51,7 +51,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                       key={`location-${index}`}
                       className="inline-flex flex-col items-start pl-2 pr-0 pt-2 pb-0 relative self-stretch flex-[0_0_auto]"
                     >
-                      <Badge className="inline-flex min-h-10 items-center justify-center pt-[12.2px] pb-[12.21px] px-6 relative flex-[0_0_auto] rounded-[40px] overflow-hidden bg-[#553194]">
+                      <Badge className="inline-flex min-h-10 items-center justify-center pt-[12.2px] pb-[12.21px] px-6 relative flex-[0_0_auto] rounded-xl overflow-hidden bg-[#553194]">
                         <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-white text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                           {location}
                         </span>
@@ -70,7 +70,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                       <div className="inline-flex flex-col h-10 items-start pl-2 pr-0 pt-2 pb-0 absolute top-0 left-0">
                         <Badge
                           variant="outline"
-                          className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-[40px] overflow-hidden border border-solid border-[#afafaf80]"
+                          className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-xl overflow-hidden border border-solid border-[#afafaf80]"
                         >
                           <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                             {serviceTags[0].name}
@@ -81,7 +81,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                       <div className="inline-flex flex-col h-10 items-start pl-2 pr-0 pt-2 pb-0 absolute top-0 left-[141px]">
                         <Badge
                           variant="outline"
-                          className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-[40px] overflow-hidden border border-solid border-[#afafaf80]"
+                          className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-xl overflow-hidden border border-solid border-[#afafaf80]"
                         >
                           <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                             {serviceTags[1].name}
@@ -95,7 +95,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                       <div className="inline-flex flex-col h-10 items-start pl-2 pr-0 pt-2 pb-0 absolute top-0 left-0">
                         <Badge
                           variant="outline"
-                          className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-[40px] overflow-hidden border border-solid border-[#afafaf80]"
+                          className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-xl overflow-hidden border border-solid border-[#afafaf80]"
                         >
                           <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                             {serviceTags[2].name}
@@ -106,7 +106,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                       <div className="inline-flex flex-col h-10 items-start pl-2 pr-0 pt-2 pb-0 absolute top-0 left-[188px]">
                         <Badge
                           variant="outline"
-                          className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-[40px] overflow-hidden border border-solid border-[#afafaf80]"
+                          className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-xl overflow-hidden border border-solid border-[#afafaf80]"
                         >
                           <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                             {serviceTags[3].name}
@@ -119,7 +119,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                     <div className="inline-flex flex-col h-10 items-start pl-2 pr-0 pt-2 pb-0 absolute top-10 left-0">
                       <Badge
                         variant="outline"
-                        className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-[40px] overflow-hidden border border-solid border-[#afafaf80]"
+                        className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-xl overflow-hidden border border-solid border-[#afafaf80]"
                       >
                         <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                           {serviceTags[4].name}
@@ -131,7 +131,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                       <div className="inline-flex flex-col h-10 items-start pl-2 pr-0 pt-2 pb-0 absolute top-0 left-0">
                         <Badge
                           variant="outline"
-                          className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-[40px] overflow-hidden border border-solid border-[#afafaf80]"
+                          className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-xl overflow-hidden border border-solid border-[#afafaf80]"
                         >
                           <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                             {serviceTags[5].name}
@@ -142,7 +142,7 @@ export const ContentWrapperSection = (): JSX.Element => {
                       <div className="inline-flex flex-col h-10 items-start pl-2 pr-0 pt-2 pb-0 absolute top-0 left-[204px]">
                         <Badge
                           variant="outline"
-                          className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-[40px] overflow-hidden border border-solid border-[#afafaf80]"
+                          className="inline-flex min-h-8 items-center justify-center pt-[8.2px] pb-[8.21px] px-4 relative flex-[0_0_auto] mb-[-0.41px] rounded-xl overflow-hidden border border-solid border-[#afafaf80]"
                         >
                           <span className="relative w-fit mt-[-1.00px] [font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-[13px] tracking-[0] leading-[15.6px] whitespace-nowrap">
                             {serviceTags[6].name}

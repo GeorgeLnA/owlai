@@ -92,7 +92,7 @@ export const TeamSection = (): JSX.Element => {
               {/* Testimonial Image Section */}
               <div className="flex flex-col items-start pt-0 pb-6 px-0 relative self-stretch w-full">
                 <div className="flex flex-col items-start relative self-stretch w-full overflow-hidden">
-                  <div className="relative self-stretch w-full h-[290.55px] rounded-2xl overflow-hidden">
+                  <div className="relative self-stretch w-full h-[290.55px] rounded-xl overflow-hidden">
                     <div className="flex flex-col w-full h-[291px] items-start relative">
                       <div className="flex flex-col w-full h-[290.55px] items-center justify-center relative overflow-hidden">
                         <div className="relative w-[441.08px] h-[290.55px] ml-[-1.87px] mr-[-1.87px] bg-[url(${testimonial.backgroundImage})] bg-[100%_100%]">
@@ -110,7 +110,7 @@ export const TeamSection = (): JSX.Element => {
                       className={`flex ${testimonial.person.boxWidth} items-center relative -top-2 -left-4`}
                     >
                       <div className="inline-flex items-start pl-4 pr-0 pt-4 pb-0 relative flex-[0_0_auto]">
-                        <Avatar className="w-14 h-14 rounded-2xl">
+                        <Avatar className="w-14 h-14 rounded-xl">
                           <AvatarImage
                             src={testimonial.person.image}
                             alt={testimonial.person.name}
@@ -180,7 +180,7 @@ export const TeamSection = (): JSX.Element => {
                     <Button
                       variant="outline"
                       size="icon"
-                      className="ml-6 w-8 h-8 rounded-2xl border border-solid border-[#553194] p-0"
+                      className="ml-6 w-8 h-8 rounded-xl border border-solid border-[#553194] p-0"
                     >
                       <img
                         className="w-3 h-3"

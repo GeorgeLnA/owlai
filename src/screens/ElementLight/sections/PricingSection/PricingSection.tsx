@@ -25,7 +25,7 @@ export const PricingSection = (): JSX.Element => {
       {/* Right section - CTA button */}
       <div className="flex flex-col w-full lg:max-w-[340px] lg:w-[340px] items-start lg:items-end justify-end pt-4 pb-0 px-0 relative">
         <div className="flex flex-col w-full lg:max-w-[340px] items-start lg:items-end relative">
-                      <Button className="h-10 md:h-12 px-6 md:px-8 py-2 md:py-[12.8px] rounded-[40px] bg-[#553194] text-white">
+                      <Button className="h-10 md:h-12 px-6 md:px-8 py-2 md:py-[12.8px] rounded-xl bg-[#553194] text-white">
             <span className="[font-family:'Manrope',Helvetica] font-semibold text-sm md:text-base tracking-[-0.16px] leading-[22.4px]">
               DISCOVER MORE
             </span>

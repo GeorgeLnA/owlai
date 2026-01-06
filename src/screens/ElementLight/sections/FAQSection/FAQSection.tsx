@@ -21,7 +21,7 @@ export const FAQSection = (): JSX.Element => {
       <div className="relative w-full">
         {/* GET IN TOUCH badge positioned at the very top */}
         <div className="absolute top-0 right-0 z-10">
-          <Badge className="rounded-[40px] border border-solid border-[#7d838780] px-4 py-2">
+          <Badge className="rounded-xl border border-solid border-[#7d838780] px-4 py-2">
             <span className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-xs md:text-[13px] leading-[15.6px]">
               GET IN TOUCH
             </span>
