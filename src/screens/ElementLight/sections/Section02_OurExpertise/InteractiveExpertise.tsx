@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
 import { Badge } from "../../../../components/ui/badge";
-import { ArrowUpRight } from "lucide-react";
 import { Card, CardContent } from "../../../../components/ui/card";
 
 type ExpertiseCategory = {
@@ -104,7 +103,7 @@ export const InteractiveExpertise = (): JSX.Element => {
             </span>
           </div>
           <h2 className="[font-family:'Manrope',Helvetica] font-bold text-black text-3xl md:text-5xl lg:text-[56px] tracking-[-3px] leading-tight w-full">
-            Expertise of [OWL AI]
+            Expertise of OWL <span className="ml-1">AI</span>
           </h2>
         </div>
 
@@ -141,13 +140,13 @@ export const InteractiveExpertise = (): JSX.Element => {
                       className="w-full text-left group"
                     >
                       <div className="flex items-baseline gap-3">
-                        <span className="w-10 md:w-12 [font-family:'Manrope',Helvetica] font-semibold text-wezomcomdove-gray text-xs md:text-sm transition-colors duration-300 group-hover:text-[#553194]">
+                        <span className="w-10 md:w-12 [font-family:'Manrope',Helvetica] font-semibold text-wezomcomdove-gray text-xs md:text-sm transition-colors duration-200">
                           {orderNumber}
                         </span>
                         <span
                           data-cursor-inline
                           className={
-                            "cursor-target inline font-['Manrope',Helvetica] font-bold text-[24px] md:text-[40px] tracking-[-2px] leading-[1.05] transition-all duration-300 hover:scale-105 " +
+                            "cursor-target inline font-['Manrope',Helvetica] font-bold text-[24px] md:text-[40px] tracking-[-2px] leading-[1.05] transition-colors duration-200 " +
                             (isActive ? "text-[#553194]" : "text-wezomcomblack group-hover:text-[#553194]")
                           }
                         >
@@ -156,11 +155,11 @@ export const InteractiveExpertise = (): JSX.Element => {
                       </div>
                     </button>
 
-                    {/* Expanded details */}
+                    {/* Expanded details - normal flow to push other items down */}
                     <div
                       className={
-                        "pl-[48px] md:pl-[64px] overflow-hidden transition-all duration-300 " +
-                        (isActive ? "max-h-[420px] opacity-100 pt-3" : "max-h-0 opacity-0")
+                        "pl-[48px] md:pl-[64px] overflow-hidden transition-all duration-300 ease-in-out " +
+                        (isActive ? "max-h-[500px] opacity-100 pt-3" : "max-h-0 opacity-0")
                       }
                     >
                       {/* Tags */}
@@ -169,7 +168,7 @@ export const InteractiveExpertise = (): JSX.Element => {
                           <Badge
                             key={`${category.id}-${tag}`}
                             variant="outline"
-                            className="rounded-[999px] border-[#afafaf80] px-3 py-1 text-[12px] md:text-[13px] font-semibold"
+                            className="rounded-[999px] border border-[#afafaf80] px-3 py-1 text-[12px] md:text-[13px] font-semibold"
                           >
                             {tag}
                           </Badge>
@@ -180,19 +179,6 @@ export const InteractiveExpertise = (): JSX.Element => {
                       <p className="mt-3 max-w-[720px] text-wezomcomdove-gray text-sm md:text-base leading-6 [font-family:'Manrope',Helvetica]">
                         {renderDescription(category.description)}
                       </p>
-
-                      {/* Learn more */}
-                      <div className="mt-3 flex items-center gap-3">
-                        <button
-                          type="button"
-                          className="text-[13px] font-semibold text-wezomcomblack hover:text-[#553194] hover:underline transition-all duration-300 hover:scale-105 [font-family:'Manrope',Helvetica]"
-                        >
-                          LEARN MORE
-                        </button>
-                        <span className="inline-flex items-center justify-center h-8 w-8 rounded-full border border-[#553194] text-[#553194] hover:bg-[#553194] hover:border-[#553194] hover:text-white transition-all duration-300 hover:scale-110 cursor-pointer">
-                          <ArrowUpRight className="h-4 w-4" />
-                        </span>
-                      </div>
                     </div>
                   </div>
                 );

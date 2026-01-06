@@ -24,15 +24,15 @@ export const ProblemSectionBanks = (): JSX.Element => {
 
         {/* Stats */}
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
-          <div className="rounded-2xl border border-[#afafaf60] p-6 bg-white/70 backdrop-blur-sm">
+          <div className="rounded-2xl border-4 border-[#afafaf60] p-6 bg-white/70 backdrop-blur-sm">
             <div className="text-3xl font-bold text-black">60%</div>
             <div className="text-sm text-wezomcomdove-gray mt-1">Analyst time lost to data prep</div>
           </div>
-          <div className="rounded-2xl border border-[#afafaf60] p-6 bg-white/70 backdrop-blur-sm">
+          <div className="rounded-2xl border-4 border-[#afafaf60] p-6 bg-white/70 backdrop-blur-sm">
             <div className="text-3xl font-bold text-black">90%</div>
             <div className="text-sm text-wezomcomdove-gray mt-1">Firms increasing AI budgets</div>
           </div>
-          <div className="rounded-2xl border border-[#afafaf60] p-6 bg-white/70 backdrop-blur-sm">
+          <div className="rounded-2xl border-4 border-[#afafaf60] p-6 bg-white/70 backdrop-blur-sm">
             <div className="text-3xl font-bold text-black">2x</div>
             <div className="text-sm text-wezomcomdove-gray mt-1">Growth in governance data volume</div>
           </div>

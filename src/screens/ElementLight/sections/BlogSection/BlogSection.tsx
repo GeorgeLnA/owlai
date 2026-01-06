@@ -20,7 +20,7 @@ export const BlogSection = (): JSX.Element => {
 
       {/* Problem cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full items-stretch">
-          <div className="cursor-pointer cursor-target rounded-2xl border-2 border-[#afafaf80] px-5 md:px-6 pt-5 md:pt-6 pb-5 md:pb-6 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
+          <div className="cursor-pointer cursor-target rounded-2xl border border-[#afafaf80] px-5 md:px-6 pt-5 md:pt-6 pb-5 md:pb-6 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
             <div className="[font-family:'Manrope',Helvetica] text-lg md:text-xl font-bold text-black mb-3">
               1. Research doesn't start when it should
             </div>
@@ -31,7 +31,7 @@ export const BlogSection = (): JSX.Element => {
               <span className="text-black">Analysts spend 20–30% of their time just finding and organizing information before any real analysis begins.</span>
             </div>
           </div>
-          <div className="cursor-pointer cursor-target rounded-2xl border-2 border-[#afafaf80] px-5 md:px-6 pt-5 md:pt-6 pb-5 md:pb-6 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
+          <div className="cursor-pointer cursor-target rounded-2xl border border-[#afafaf80] px-5 md:px-6 pt-5 md:pt-6 pb-5 md:pb-6 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
             <div className="[font-family:'Manrope',Helvetica] text-lg md:text-xl font-bold text-black mb-3">
               2. Too much content, not enough signal
             </div>
@@ -42,7 +42,7 @@ export const BlogSection = (): JSX.Element => {
               <span className="text-black">With over 90% of the world's data created in the last two years, analysts can realistically monitor only a fraction of what matters.</span>
             </div>
           </div>
-          <div className="cursor-pointer cursor-target rounded-2xl border-2 border-[#afafaf80] px-5 md:px-6 pt-5 md:pt-6 pb-5 md:pb-6 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
+          <div className="cursor-pointer cursor-target rounded-2xl border border-[#afafaf80] px-5 md:px-6 pt-5 md:pt-6 pb-5 md:pb-6 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
             <div className="[font-family:'Manrope',Helvetica] text-lg md:text-xl font-bold text-black mb-3">
               3. Repetitive research drains high-value time
             </div>
@@ -53,7 +53,7 @@ export const BlogSection = (): JSX.Element => {
               <span className="text-black">Up to 60–70% of an analyst's workflow is consumed by repetitive, manual research tasks that add little incremental insight.</span>
             </div>
           </div>
-          <div className="cursor-pointer cursor-target rounded-2xl border-2 border-[#afafaf80] px-5 md:px-6 pt-5 md:pt-6 pb-5 md:pb-6 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
+          <div className="cursor-pointer cursor-target rounded-2xl border border-[#afafaf80] px-5 md:px-6 pt-5 md:pt-6 pb-5 md:pb-6 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
             <div className="[font-family:'Manrope',Helvetica] text-lg md:text-xl font-bold text-black mb-3">
               4. AI output you can't trust
             </div>

@@ -23,7 +23,7 @@ export const SolutionSectionBanks = (): JSX.Element => {
 
       {/* Feature cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-        <Card className="border border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
+        <Card className="border-4 border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
           <CardContent className="p-6 md:p-8">
             <div className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-lg leading-tight">
               Automated Proxy Voting Research
@@ -33,7 +33,7 @@ export const SolutionSectionBanks = (): JSX.Element => {
             </p>
           </CardContent>
         </Card>
-        <Card className="border border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
+        <Card className="border-4 border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
           <CardContent className="p-6 md:p-8">
             <div className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-lg leading-tight">
               Governance Data Extraction
@@ -43,7 +43,7 @@ export const SolutionSectionBanks = (): JSX.Element => {
             </p>
           </CardContent>
         </Card>
-        <Card className="border border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
+        <Card className="border-4 border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
           <CardContent className="p-6 md:p-8">
             <div className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-lg leading-tight">
               Audit-Ready Workflows

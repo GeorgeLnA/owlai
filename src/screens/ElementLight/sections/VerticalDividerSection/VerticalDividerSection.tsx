@@ -7,7 +7,7 @@ export const VerticalDividerSection = (): JSX.Element => {
   const missionText = "Our objective is to develop a profitable and effective solution that helps clients to expand their businesses and overcome financial constraints. We are committed to exceptional service and utilizing all resources to bring the finest products & services.";
 
   return (
-    <div className="border-b lg:border-b-0 lg:border-r border-[#afafaf80] relative self-stretch">
+    <div className="border-b-4 lg:border-b-0 lg:border-r-4 border-[#afafaf80] relative self-stretch">
       <div className="flex flex-col items-start relative pt-6 pb-6 lg:pb-0 pl-0">
         <Card className="border-none shadow-none bg-transparent w-full">
           <CardContent className="flex flex-col items-start p-0 text-left">

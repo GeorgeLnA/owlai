@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "../../../../components/ui/card";
 
 type Testimonial = {
@@ -54,6 +54,11 @@ export const Section05_Reviews = (): JSX.Element => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [opacity, setOpacity] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    telephone: ''
+  });
 
   useEffect(() => {
     if (isHovered) return; // Don't auto-advance when hovered
@@ -85,6 +90,22 @@ export const Section05_Reviews = (): JSX.Element => {
       setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
       setOpacity(1);
     }, 300);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Handle form submission here
+    console.log('Form submitted:', formData);
+    // Reset form after submission
+    setFormData({ name: '', email: '', telephone: '' });
   };
 
   return (
@@ -130,7 +151,7 @@ export const Section05_Reviews = (): JSX.Element => {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={handleMouseLeave}
           onClick={() => handleTestimonialChange((currentTestimonial + 1) % testimonials.length)}
-          className="w-full rounded-2xl border border-[#afafaf60] bg-white/70 backdrop-blur-sm p-6 md:p-8 h-[180px] md:h-[200px] lg:h-[220px] flex items-center hover:bg-white/90 hover:border-[#afafaf90] transition-all duration-300 cursor-pointer text-left"
+          className="w-full rounded-2xl border border-[#afafaf60] bg-white/70 backdrop-blur-sm p-6 md:p-8 h-[180px] md:h-[200px] lg:h-[220px] flex items-center hover:bg-white/90 hover:border hover:border-[#afafaf90] transition-all duration-300 cursor-pointer text-left"
           aria-label="Next testimonial"
         >
           <blockquote 
@@ -160,6 +181,77 @@ export const Section05_Reviews = (): JSX.Element => {
             );
           })}
         </div>
+      </div>
+
+      {/* Contact Form */}
+      <div className="mt-8 md:mt-12 w-full">
+        <Card className="border border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
+          <CardContent className="p-6 md:p-8">
+            <h3 className="text-2xl md:text-3xl font-bold text-wezomcomblack mb-6 tracking-tight [font-family:'Manrope',Helvetica]">
+              Get in Touch
+            </h3>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              {/* Name Field */}
+              <div className="flex flex-col gap-2">
+                <label htmlFor="name" className="text-sm md:text-base font-semibold text-wezomcomblack [font-family:'Manrope',Helvetica]">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="Enter your name"
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-[#afafaf80] bg-white text-wezomcomblack text-sm md:text-base hover:border-wezomcomblack focus:outline-none focus:border-wezomcomblack transition-colors [font-family:'Manrope',Helvetica]"
+                />
+              </div>
+
+              {/* Email Field */}
+              <div className="flex flex-col gap-2">
+                <label htmlFor="email" className="text-sm md:text-base font-semibold text-wezomcomblack [font-family:'Manrope',Helvetica]">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Enter your email"
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-[#afafaf80] bg-white text-wezomcomblack text-sm md:text-base hover:border-wezomcomblack focus:outline-none focus:border-wezomcomblack transition-colors [font-family:'Manrope',Helvetica]"
+                />
+              </div>
+
+              {/* Telephone Field */}
+              <div className="flex flex-col gap-2">
+                <label htmlFor="telephone" className="text-sm md:text-base font-semibold text-wezomcomblack [font-family:'Manrope',Helvetica]">
+                  Telephone Number
+                </label>
+                <input
+                  type="tel"
+                  id="telephone"
+                  name="telephone"
+                  value={formData.telephone}
+                  onChange={handleInputChange}
+                  placeholder="Enter your telephone number"
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-[#afafaf80] bg-white text-wezomcomblack text-sm md:text-base hover:border-wezomcomblack focus:outline-none focus:border-wezomcomblack transition-colors [font-family:'Manrope',Helvetica]"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="w-full px-6 py-3 rounded-xl bg-wezomcomblack text-white font-semibold text-base md:text-lg hover:bg-transparent hover:text-wezomcomblack hover:border hover:border-[#afafaf80] disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 shadow-lg [font-family:'Manrope',Helvetica]"
+              >
+                Submit
+              </button>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </section>
   );

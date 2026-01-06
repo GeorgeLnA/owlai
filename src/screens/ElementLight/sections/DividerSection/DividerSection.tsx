@@ -65,6 +65,11 @@ export const DividerSection = (): JSX.Element => {
             {cs.videoUrl ? (
               <video
                 className="absolute inset-0 w-full h-full object-cover"
+                style={{
+                  transform: 'scale(1.25)',
+                  transformOrigin: 'center left',
+                  objectPosition: 'center left'
+                }}
                 src={cs.videoUrl}
                 autoPlay
                 muted
@@ -104,7 +109,7 @@ export const DividerSection = (): JSX.Element => {
                       {cs.metrics.map((m, mIdx) => (
                         <div
                           key={`${cs.id}-metric-${mIdx}`}
-                          className="pl-4 border-l-4 border-[#60a5fa]"
+                          className="pl-4 border-l-4 border-[#246193]"
                         >
                           <div className="[font-family:'Manrope',Helvetica] font-bold text-wezomcomwhite text-2xl md:text-3xl">
                             {m.value}
@@ -121,7 +126,7 @@ export const DividerSection = (): JSX.Element => {
                   <div className="mt-8">
                     <Button
                       variant="outline"
-                      className="h-12 px-8 rounded-[40px] border border-solid border-[#60a5fa] bg-transparent hover:bg-[#60a5fa20]"
+                      className="h-12 px-8 rounded-[40px] border border-solid border-[#246193] bg-transparent hover:bg-[#24619320]"
                     >
                       <span className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomwhite text-base tracking-[-0.16px] leading-[22.4px]">
                         VIEW CASE

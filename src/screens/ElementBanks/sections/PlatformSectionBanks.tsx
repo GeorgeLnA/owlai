@@ -22,7 +22,7 @@ export const PlatformSectionBanks = (): JSX.Element => {
           <li>• Integration with internal content libraries, risk models, and compliance dashboards.</li>
           <li>• Customizable governance templates and reporting automation.</li>
         </ul>
-        <div className="min-h-[320px] rounded-2xl border border-[#afafaf60] bg-white/60 backdrop-blur-sm flex items-center justify-center">
+        <div className="min-h-[320px] rounded-2xl border-4 border-[#afafaf60] bg-white/60 backdrop-blur-sm flex items-center justify-center">
           <span className="text-wezomcomdove-gray">Governance analytics dashboard preview</span>
         </div>
       </div>

@@ -50,12 +50,12 @@ export const HorizontalBorderWrapperSection = (): JSX.Element => {
   ];
 
   return (
-    <section className="flex flex-col items-start w-full border-t border-[#afafaf80]">
+    <section className="flex flex-col items-start w-full border-t-4 border-[#afafaf80]">
       <div className="flex flex-col lg:flex-row w-full">
         {columns.map((column, index) => (
           <div key={`column-${index}`} className="flex-1 min-w-0 mb-6 lg:mb-0">
             <div
-              className={`flex flex-col ${index < columns.length - 1 ? "lg:border-r border-[#afafaf80] border-b lg:border-b-0 pb-6 lg:pb-0" : ""}`}
+              className={`flex flex-col ${index < columns.length - 1 ? "lg:border-r-4 border-[#afafaf80] border-b-4 lg:border-b-0 pb-6 lg:pb-0" : ""}`}
             >
               <div className="flex flex-col md:flex-row">
                 {/* Left side of the column */}

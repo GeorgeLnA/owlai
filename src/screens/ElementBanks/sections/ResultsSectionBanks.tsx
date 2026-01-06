@@ -16,19 +16,19 @@ export const ResultsSectionBanks = (): JSX.Element => {
 
       {/* Metrics */}
       <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-        <Card className="border border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
+        <Card className="border-4 border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
           <CardContent className="p-6 md:p-8">
             <div className="text-4xl font-bold text-wezomcomblack">90%</div>
             <div className="text-sm text-wezomcomdove-gray mt-1">Faster governance report generation</div>
           </CardContent>
         </Card>
-        <Card className="border border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
+        <Card className="border-4 border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
           <CardContent className="p-6 md:p-8">
             <div className="text-4xl font-bold text-wezomcomblack">50%</div>
             <div className="text-sm text-wezomcomdove-gray mt-1">Lower analyst time cost</div>
           </CardContent>
         </Card>
-        <Card className="border border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
+        <Card className="border-4 border-[#afafaf60] rounded-2xl bg-white/70 backdrop-blur-sm shadow-sm">
           <CardContent className="p-6 md:p-8">
             <div className="text-4xl font-bold text-wezomcomblack">99%</div>
             <div className="text-sm text-wezomcomdove-gray mt-1">Audit confidence</div>
@@ -37,7 +37,7 @@ export const ResultsSectionBanks = (): JSX.Element => {
       </div>
 
       {/* Testimonial */}
-      <div className="mt-6 rounded-2xl border border-[#afafaf60] bg-white/70 backdrop-blur-sm p-6 md:p-8">
+      <div className="mt-6 rounded-2xl border-4 border-[#afafaf60] bg-white/70 backdrop-blur-sm p-6 md:p-8">
         <blockquote className="[font-family:'Manrope',Helvetica] text-wezomcomblack/90 text-lg leading-8">
           “Lampost has transformed how we manage proxy research — faster, smarter, and fully audit-ready.”
           <span className="block mt-2 text-sm text-wezomcomdove-gray">— Head of Governance, Global Bank</span>
