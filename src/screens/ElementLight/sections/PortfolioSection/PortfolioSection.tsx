@@ -516,17 +516,12 @@ export const PortfolioSection = (): JSX.Element => {
                   <input 
                     type="text" 
                     value={question}
-                    onChange={(e) => setQuestion(e.target.value)}
+                    readOnly
                     onFocus={() => setShowQuestionExamples(true)}
                     onBlur={() => setTimeout(() => setShowQuestionExamples(false), 200)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        handleSendQuestion();
-                      }
-                    }}
+                    onClick={() => setShowQuestionExamples(true)}
                     placeholder="Choose a question"
-                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-14 sm:pr-20 rounded-xl border border-[#afafaf80] bg-white text-black text-sm sm:text-sm md:text-base hover:border-black focus:outline-none focus:border-black transition-colors placeholder:text-gray-400 placeholder:text-xs sm:placeholder:text-sm [font-family:'Manrope',Helvetica]"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-14 sm:pr-20 rounded-xl border border-[#afafaf80] bg-white text-black text-sm sm:text-sm md:text-base hover:border-black focus:outline-none focus:border-black transition-colors placeholder:text-gray-400 placeholder:text-xs sm:placeholder:text-sm cursor-pointer [font-family:'Manrope',Helvetica]"
                   />
                   <button
                     type="button"
