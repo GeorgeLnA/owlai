@@ -71,7 +71,7 @@ const Boot = (): JSX.Element => {
     <>
       {shouldShowLoader && <LoadingScreen loop={false} onComplete={() => setLoaderDone(true)} />}
       <div className="opacity-100">
-        <Page />
+        <Page loadingComplete={loaderDone} />
       </div>
     </>
   );

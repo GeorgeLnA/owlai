@@ -285,7 +285,11 @@ export const Section01_BrandStrip = (): JSX.Element => {
                   <img
                     src={brand.image}
                     alt={brand.alt}
-                    className={`logo w-full max-w-full object-contain opacity-60 ${isPoint72 ? "h-11 sm:h-14 md:h-16" : "h-9 sm:h-11 md:h-14"}`}
+                    className={`logo w-full max-w-full object-contain opacity-80 ${isPoint72 ? "h-11 sm:h-14 md:h-16" : "h-9 sm:h-11 md:h-14"}`}
+                    style={{
+                      filter: 'contrast(1.1) saturate(1.2)',
+                      imageRendering: 'crisp-edges'
+                    }}
                     draggable="false"
                   />
                 </li>
@@ -301,7 +305,11 @@ export const Section01_BrandStrip = (): JSX.Element => {
                   <img
                     src={brand.image}
                     alt={brand.alt}
-                    className={`logo w-full max-w-full object-contain opacity-60 ${isPoint72 ? "h-11 sm:h-14 md:h-16" : "h-9 sm:h-11 md:h-14"}`}
+                    className={`logo w-full max-w-full object-contain opacity-80 ${isPoint72 ? "h-11 sm:h-14 md:h-16" : "h-9 sm:h-11 md:h-14"}`}
+                    style={{
+                      filter: 'contrast(1.1) saturate(1.2)',
+                      imageRendering: 'crisp-edges'
+                    }}
                     draggable="false"
                   />
                 </li>

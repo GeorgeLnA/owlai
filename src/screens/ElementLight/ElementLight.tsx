@@ -15,7 +15,11 @@ import TargetCursor from "../../components/ui/target-cursor";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const ElementLight = (): JSX.Element => {
+type ElementLightProps = {
+  loadingComplete?: boolean;
+};
+
+export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JSX.Element => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroSectionRef = useRef<HTMLElement>(null);
   const brandStripRef = useRef<HTMLDivElement>(null);
@@ -27,7 +31,7 @@ export const ElementLight = (): JSX.Element => {
   const demoButtonTextRef = useRef<HTMLSpanElement>(null);
   const demoButtonContainerRef = useRef<HTMLDivElement>(null);
   const muteButtonRef = useRef<HTMLDivElement>(null);
-  const [videoUnmuted, setVideoUnmuted] = useState(false);
+  const [videoUnmuted, setVideoUnmuted] = useState(true);
   const [showMuteButton, setShowMuteButton] = useState(true);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
@@ -178,6 +182,14 @@ export const ElementLight = (): JSX.Element => {
     const button = muteButtonRef.current;
     const brandStripElement = brandStripRef.current;
 
+    // Initialize button position (hidden initially)
+    gsap.set(button, {
+      left: '0px',
+      top: '0px',
+      x: 0,
+      y: 0,
+    });
+
     // Initial check - hide if brand strip has already scrolled past
     if (brandStripElement) {
       const rect = brandStripElement.getBoundingClientRect();
@@ -197,19 +209,21 @@ export const ElementLight = (): JSX.Element => {
       // Only move button if it should be visible
       if (!shouldShow) return;
 
-      // Position button further to the right and up to avoid interfering with cursor
-      const offsetX = 100; // Distance to the right of cursor (increased further)
-      const offsetY = -60; // Distance up from cursor (increased further, negative = up)
+      // Position button at fixed distance from cursor (viewport coordinates)
+      // Using fixed positioning so it's always relative to viewport, not document
+      const offsetX = 60; // Distance to the right of cursor
+      const offsetY = -40; // Distance up from cursor (negative = up)
       
-      // Calculate target position relative to cursor
+      // Calculate position directly in viewport coordinates
       const targetLeft = e.clientX + offsetX;
-      const targetRight = window.innerWidth - targetLeft;
-      const targetX = targetRight - 16; // Move from initial right-4 position
-      const targetY = e.clientY + offsetY - 16; // Move from initial top-4 position
+      const targetTop = e.clientY + offsetY;
       
+      // Use left and top directly for fixed positioning (viewport coordinates)
       gsap.to(button, {
-        x: -targetX, // Negative because we're moving from right edge
-        y: targetY,
+        left: `${targetLeft}px`,
+        top: `${targetTop}px`,
+        x: 0, // Reset any transform
+        y: 0, // Reset any transform
         duration: 0.3,
         ease: 'power2.out',
       });
@@ -228,6 +242,46 @@ export const ElementLight = (): JSX.Element => {
       document.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
+
+  // Prevent video from playing until loading is complete
+  useEffect(() => {
+    if (!videoRef.current) return;
+    
+    const video = videoRef.current;
+    
+    if (!loadingComplete) {
+      // Ensure video is paused and muted during loading
+      video.pause();
+      video.muted = true;
+      
+      // Prevent any play attempts
+      const preventPlay = (e: Event) => {
+        e.preventDefault();
+        video.pause();
+      };
+      
+      video.addEventListener('play', preventPlay);
+      video.addEventListener('playing', preventPlay);
+      
+      return () => {
+        video.removeEventListener('play', preventPlay);
+        video.removeEventListener('playing', preventPlay);
+      };
+    }
+  }, [loadingComplete]);
+
+  // Start video only after loading animation and curtain are fully up
+  useEffect(() => {
+    if (!loadingComplete || !videoRef.current) {
+      return;
+    }
+
+    // Loading is complete - start the video immediately
+    const video = videoRef.current;
+    video.muted = false;
+    setVideoUnmuted(true);
+    video.play().catch(err => console.log('Video play error:', err));
+  }, [loadingComplete]);
 
   // Dynamic logo changes based on scroll position with smooth mix-blend transitions
   useEffect(() => {
@@ -557,30 +611,30 @@ export const ElementLight = (): JSX.Element => {
           {/* Hero Section */}
           <section 
             ref={heroSectionRef}
-            className="relative pt-32 pb-12 px-6 md:px-14 max-w-[1640px] mx-auto w-full"
+            className="relative pt-32 pb-12 px-6 md:px-14 w-full"
           >
-            {/* Text Above Video */}
-            <div className="mb-8 md:mb-12 text-center">
-              <h1 className="text-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
-                Turn Every Analyst Into an Alpha Engine
-              </h1>
-            </div>
-            
             {/* Full-width Video Frame */}
             <div className="relative w-full rounded-xl overflow-hidden aspect-video cursor-pointer" onClick={toggleSound}>
                 <video
                   ref={videoRef}
                   className="absolute inset-0 w-full h-full object-cover z-0"
-                  autoPlay
-                  muted
                   loop
                   playsInline
                   preload="auto"
+                  muted={!loadingComplete}
                   onLoadStart={() => console.log('Video loading started')}
                   onCanPlay={() => {
                     console.log('Video can play');
                     const fallback = document.getElementById('fallback-bg');
                     if (fallback) fallback.style.display = 'none';
+                    // Don't start video here - wait for loadingComplete
+                    const video = videoRef.current;
+                    if (video) {
+                      // Pause video if loading is not complete
+                      if (!loadingComplete) {
+                        video.pause();
+                      }
+                    }
                   }}
                   onError={(e) => {
                     console.error('Video failed to load:', e);
@@ -589,7 +643,7 @@ export const ElementLight = (): JSX.Element => {
                     if (fallback) fallback.style.display = 'block';
                   }}
                 >
-                  <source src="/Pre-CTA MP4.mp4" type="video/mp4" />
+                  <source src="/Owl Ai Lpv (optimised).webm" type="video/webm" />
                   Your browser does not support the video tag.
                 </video>
                 
@@ -599,9 +653,12 @@ export const ElementLight = (): JSX.Element => {
                 {/* Sound indicator */}
                 <div 
                   ref={muteButtonRef} 
-                  className={`absolute top-4 right-4 z-30 transition-opacity duration-150 ease-out ${
+                  className={`fixed z-30 transition-opacity duration-150 ease-out ${
                     showMuteButton ? 'opacity-100' : 'opacity-0'
                   }`}
+                  style={{
+                    pointerEvents: showMuteButton ? 'auto' : 'none'
+                  }}
                 >
                   <div className="bg-white rounded-xl px-2.5 py-2">
                     <div className="text-black text-[10px] sm:text-xs [font-family:'Manrope',Helvetica]">
@@ -609,6 +666,13 @@ export const ElementLight = (): JSX.Element => {
                     </div>
                   </div>
                 </div>
+            </div>
+            
+            {/* Text Below Video */}
+            <div className="mt-8 md:mt-12 pb-10 md:pb-18 lg:pb-22 text-center">
+              <h1 className="text-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
+                Turn Every Analyst Into an Alpha Engine
+              </h1>
             </div>
           </section>
 

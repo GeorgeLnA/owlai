@@ -110,7 +110,7 @@ export const Section05_Reviews = (): JSX.Element => {
 
   return (
     <section
-      className="flex flex-col max-w-[1640px] mx-auto w-full items-start gap-6 md:gap-10 px-6 md:px-14 py-8 md:py-16"
+      className="flex flex-col w-full items-start gap-6 md:gap-10 px-6 md:px-14 py-8 md:py-16"
       aria-label="Section 5 — Results"
     >
       {/* Heading */}

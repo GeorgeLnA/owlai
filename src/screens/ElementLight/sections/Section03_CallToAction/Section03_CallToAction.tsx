@@ -8,7 +8,7 @@ export const Section03_CallToAction = (): JSX.Element => {
       className="w-full py-12 sm:py-16 md:py-[120px] bg-black rounded-none sm:rounded-xl mx-0"
       aria-label="Section — Final CTA"
     >
-      <div className="flex flex-col max-w-[1640px] mx-auto items-start gap-4 sm:gap-6 md:gap-10 px-4 sm:px-6 md:px-14">
+      <div className="flex flex-col w-full items-start gap-4 sm:gap-6 md:gap-10 px-4 sm:px-6 md:px-14">
         <DividerSection />
         
         {/* Request a Demo Section */}

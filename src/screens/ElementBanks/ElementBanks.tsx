@@ -8,9 +8,21 @@ import { ResultsSectionBanks } from "./sections/ResultsSectionBanks";
 import { FinalCTABanks } from "./sections/FinalCTABanks";
 import { FooterBanks } from "./sections/FooterBanks";
 
-export const ElementBanks = (): JSX.Element => {
+type ElementBanksProps = {
+  loadingComplete?: boolean;
+};
+
+export const ElementBanks = ({ loadingComplete = false }: ElementBanksProps): JSX.Element => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoUnmuted, setVideoUnmuted] = useState(false);
+
+  // Start video when loading is complete
+  useEffect(() => {
+    if (loadingComplete && videoRef.current) {
+      const video = videoRef.current;
+      video.play().catch(err => console.log('Video play error:', err));
+    }
+  }, [loadingComplete]);
 
   const toggleSound = () => {
     const video = videoRef.current;
@@ -88,7 +100,7 @@ export const ElementBanks = (): JSX.Element => {
             <video
               ref={videoRef}
               className="absolute inset-0 w-full h-full object-cover z-0"
-              autoPlay
+              autoPlay={loadingComplete}
               muted
               loop
               playsInline

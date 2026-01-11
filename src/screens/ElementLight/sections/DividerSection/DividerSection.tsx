@@ -74,7 +74,7 @@ export const DividerSection = (): JSX.Element => {
 
             {/* Content anchored to bottom */}
             <div className="absolute inset-x-0 bottom-0 z-10">
-              <div className="max-w-[1640px] mx-auto px-4 sm:px-6 md:px-10 pb-6 sm:pb-10 md:pb-14 lg:pb-16">
+              <div className="w-full px-4 sm:px-6 md:px-10 pb-6 sm:pb-10 md:pb-14 lg:pb-16">
                 <div className="w-full lg:w-[720px]">
                   {/* Title */}
                   <h3 className="[font-family:'Manrope',Helvetica] font-bold text-wezomcomwhite text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[64px] leading-tight md:leading-[64px] tracking-[-2px] sm:tracking-[-3px] md:tracking-[-3.2px]">

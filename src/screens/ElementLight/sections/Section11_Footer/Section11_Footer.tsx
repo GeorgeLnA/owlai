@@ -32,7 +32,7 @@ export const Section11_Footer = (): JSX.Element => {
       className="w-full pb-0 bg-white"
       aria-label="Section 11 — Footer"
     >
-      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 md:gap-12 p-6 md:p-10 lg:p-12 max-w-[1640px] mx-auto">
+      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 md:gap-12 p-6 md:p-10 lg:p-12 w-full">
         {/* Left Column - Logo and Contact */}
         <div className="flex flex-col items-start justify-start">
           {/* Logo */}
@@ -97,7 +97,7 @@ export const Section11_Footer = (): JSX.Element => {
       </div>
 
       {/* Copyright and Privacy */}
-      <div className="w-full border-t border-[#afafaf60] pt-6 md:pt-8 pb-6 md:pb-8 px-6 md:px-10 lg:px-12 max-w-[1640px] mx-auto mt-8 md:mt-12">
+      <div className="w-full border-t border-[#afafaf60] pt-6 md:pt-8 pb-6 md:pb-8 px-6 md:px-10 lg:px-12 mt-8 md:mt-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
           <div className="flex items-center gap-3">
             <span className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-sm md:text-base leading-tight">
