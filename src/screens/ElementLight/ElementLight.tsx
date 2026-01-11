@@ -33,70 +33,17 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
   const demoButtonContainerRef = useRef<HTMLDivElement>(null);
   const muteButtonRef = useRef<HTMLDivElement>(null);
   const [videoUnmuted, setVideoUnmuted] = useState(false);
+  const unmuteButtonRef = useRef<HTMLButtonElement>(null);
   const [showMuteButton, setShowMuteButton] = useState(true);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [isPlaying, setIsPlaying] = useState(false);
-  const playButtonRef = useRef<HTMLButtonElement>(null);
-
-  const handlePlayClick = () => {
-    const video = videoRef.current;
-    const button = playButtonRef.current;
-    
-    if (video) {
-      // Trigger mouseleave on button before it disappears to reset cursor
-      if (button) {
-        // Use setTimeout to ensure the event fires before state change
-        setTimeout(() => {
-          const leaveEvent = new MouseEvent('mouseleave', {
-            bubbles: true,
-            cancelable: true,
-            view: window,
-          });
-          button.dispatchEvent(leaveEvent);
-        }, 0);
-      }
-      
-      video.muted = false;
-      setVideoUnmuted(true);
-      video.play().then(() => {
-        // Delay state update slightly to allow mouseleave to process
-        setTimeout(() => {
-          setIsPlaying(true);
-        }, 50);
-      }).catch(err => {
-        console.log('Video play error:', err);
-      });
-    }
-  };
 
   const toggleSound = () => {
     const video = videoRef.current;
-    if (video && isPlaying) {
+    if (video) {
       video.muted = !video.muted;
       setVideoUnmuted(!video.muted);
       console.log('ElementLight: Video sound toggled, muted:', video.muted);
-    }
-  };
-
-  const handleVideoClick = (e: React.MouseEvent) => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    // If video is paused, play it
-    if (video.paused) {
-      if (!isPlaying) {
-        // First time playing - unmute and play
-        handlePlayClick();
-      } else {
-        // Resume playing
-        video.play().then(() => {
-          setIsPlaying(true);
-        });
-      }
-    } else {
-      // If video is playing, pause it
-      video.pause();
-      setIsPlaying(false);
     }
   };
 
@@ -246,8 +193,8 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
       // Update cursor position
       setCursorPosition({ x: e.clientX, y: e.clientY });
 
-      // Check button visibility (only show when video is playing)
-      const shouldShow = checkButtonVisibility(e.clientX, e.clientY) && isPlaying;
+      // Check button visibility
+      const shouldShow = checkButtonVisibility(e.clientX, e.clientY);
       setShowMuteButton(shouldShow);
 
       // Only move button if it should be visible
@@ -311,39 +258,30 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
         video.removeEventListener('play', preventPlay);
         video.removeEventListener('playing', preventPlay);
       };
+    } else {
+      // Loading complete - allow autoplay
+      video.muted = true;
+      setVideoUnmuted(false);
+      video.play().then(() => {
+        setIsPlaying(true);
+      }).catch(err => {
+        console.log('Video autoplay error:', err);
+      });
     }
   }, [loadingComplete]);
 
-  // Initialize video after loading is complete (but don't autoplay)
+  // Animate unmute button with GSAP hover effect (desktop only)
   useEffect(() => {
-    if (!loadingComplete || !videoRef.current) {
-      return;
-    }
+    if (!unmuteButtonRef.current || videoUnmuted) return;
+    
+    // Check if mobile (screen width < 768px)
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) return;
 
-    // Loading is complete - video is ready but paused
-    const video = videoRef.current;
-    video.muted = true;
-    setVideoUnmuted(false);
-    setIsPlaying(false);
-  }, [loadingComplete]);
-
-  // Animate play button with GSAP
-  useEffect(() => {
-    if (!playButtonRef.current || isPlaying) return;
-
-    const button = playButtonRef.current;
+    const button = unmuteButtonRef.current;
     const textElement = button.querySelector('span');
     
-    // Create bouncing animation
-    gsap.to(button, {
-      y: -10,
-      duration: 0.6,
-      ease: "power2.inOut",
-      yoyo: true,
-      repeat: -1,
-    });
-
-    // Hover animation - smooth transition to white
+    // Hover animation - smooth transition to white (desktop only)
     const handleMouseEnter = () => {
       gsap.to(button, {
         backgroundColor: '#ffffff',
@@ -383,27 +321,7 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
       button.removeEventListener('mouseenter', handleMouseEnter);
       button.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [isPlaying]);
-
-  // Reset cursor when play button disappears (when video starts playing)
-  useEffect(() => {
-    if (isPlaying) {
-      // Button has been removed, force cursor reset by triggering mouseover
-      // on a non-target element (video container)
-      setTimeout(() => {
-        if (videoContainerRef.current) {
-          // Create a synthetic mouseover event on the video container
-          // This will trigger the cursor to reset since video container is not a cursor-target
-          const overEvent = new MouseEvent('mouseover', {
-            bubbles: true,
-            cancelable: true,
-            view: window,
-          });
-          videoContainerRef.current.dispatchEvent(overEvent);
-        }
-      }, 50);
-    }
-  }, [isPlaying]);
+  }, [videoUnmuted]);
 
   // Dynamic logo changes based on scroll position with smooth mix-blend transitions
   useEffect(() => {
@@ -717,7 +635,7 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
         <a 
           href="#final-cta" 
           ref={demoButtonRef}
-          className="cursor-target inline-flex items-center justify-center h-10 sm:h-11 md:h-12 px-6 sm:px-8 md:px-10 rounded-xl bg-white text-black font-semibold text-sm sm:text-base md:text-lg hover:bg-gray-100 transition-colors duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
+          className="cursor-target inline-flex items-center justify-center h-10 sm:h-11 md:h-12 px-6 sm:px-8 md:px-10 rounded-xl bg-white text-black font-semibold text-sm sm:text-base md:text-lg md:hover:bg-gray-100 transition-colors duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
           style={{ 
             mixBlendMode: 'difference',
             opacity: 1,
@@ -746,11 +664,12 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
             <div 
               ref={videoContainerRef}
               className="relative w-full rounded-xl overflow-hidden aspect-video cursor-pointer" 
-              onClick={handleVideoClick}
+              onClick={toggleSound}
             >
                 <video
                   ref={videoRef}
                   className="absolute inset-0 w-full h-full object-cover z-0"
+                  autoPlay
                   loop
                   playsInline
                   preload="auto"
@@ -760,12 +679,16 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
                     console.log('Video can play');
                     const fallback = document.getElementById('fallback-bg');
                     if (fallback) fallback.style.display = 'none';
-                    // Ensure video is muted and paused if loading is not complete
+                    // Ensure video is muted if loading is not complete
                     const video = videoRef.current;
                     if (video) {
                       if (!loadingComplete) {
                         video.pause();
                         video.muted = true;
+                      } else {
+                        // Loading complete - ensure muted and playing
+                        video.muted = true;
+                        setVideoUnmuted(false);
                       }
                     }
                   }}
@@ -789,27 +712,45 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
                 {/* Fallback background gradient - only show if video fails */}
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gray-900 via-black to-gray-800 z-0" id="fallback-bg"></div>
                 
-                {/* Play Button Overlay - shown when video is paused */}
-                {!isPlaying && (
-                  <div className="absolute inset-0 flex items-center justify-center z-20 bg-black/25">
+                {/* Sound indicator - Desktop (follows cursor) */}
+                <div 
+                  ref={muteButtonRef} 
+                  className={`hidden md:block fixed z-30 transition-opacity duration-150 ease-out ${
+                    showMuteButton ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  style={{
+                    pointerEvents: showMuteButton ? 'auto' : 'none'
+                  }}
+                >
+                  <div className="bg-white rounded-xl px-2.5 py-2">
+                    <div className="text-black text-[10px] sm:text-xs [font-family:'Manrope',Helvetica]">
+                      {videoUnmuted ? "Sound Off" : "Sound On"}
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Click to Unmute Button - shown when video is muted */}
+                {!videoUnmuted && (
+                  <div className="absolute top-4 right-4 z-30">
                     <button
-                      ref={playButtonRef}
+                      ref={unmuteButtonRef}
                       onClick={(e) => {
                         e.stopPropagation();
-                        handlePlayClick();
+                        toggleSound();
                       }}
-                      className="cursor-target group relative px-8 py-4 md:px-10 md:py-5 lg:px-12 lg:py-6 rounded-xl flex items-center justify-center hover:scale-105"
+                      className="cursor-target group relative px-6 py-3 md:px-8 md:py-4 lg:px-10 lg:py-5 rounded-xl flex items-center justify-center md:hover:scale-105"
                       style={{ backgroundColor: '#000000' }}
                     >
                       <span 
-                        className="text-base md:text-lg lg:text-xl font-semibold [font-family:'Manrope',Helvetica]"
+                        className="text-white text-sm md:text-base lg:text-lg font-semibold [font-family:'Manrope',Helvetica]"
                         style={{ color: '#ffffff' }}
                       >
-                        Play
+                        Click to Unmute
                       </span>
                     </button>
                   </div>
                 )}
+                
                 
             </div>
           </section>
