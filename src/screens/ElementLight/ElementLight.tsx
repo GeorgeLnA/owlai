@@ -21,6 +21,7 @@ type ElementLightProps = {
 
 export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JSX.Element => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLElement>(null);
   const brandStripRef = useRef<HTMLDivElement>(null);
   const blogSectionRef = useRef<HTMLDivElement>(null);
@@ -31,45 +32,88 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
   const demoButtonTextRef = useRef<HTMLSpanElement>(null);
   const demoButtonContainerRef = useRef<HTMLDivElement>(null);
   const muteButtonRef = useRef<HTMLDivElement>(null);
-  const [videoUnmuted, setVideoUnmuted] = useState(true);
+  const [videoUnmuted, setVideoUnmuted] = useState(false);
   const [showMuteButton, setShowMuteButton] = useState(true);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [isPlaying, setIsPlaying] = useState(false);
+  const playButtonRef = useRef<HTMLButtonElement>(null);
+
+  const handlePlayClick = () => {
+    const video = videoRef.current;
+    const button = playButtonRef.current;
+    
+    if (video) {
+      // Trigger mouseleave on button before it disappears to reset cursor
+      if (button) {
+        // Use setTimeout to ensure the event fires before state change
+        setTimeout(() => {
+          const leaveEvent = new MouseEvent('mouseleave', {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+          });
+          button.dispatchEvent(leaveEvent);
+        }, 0);
+      }
+      
+      video.muted = false;
+      setVideoUnmuted(true);
+      video.play().then(() => {
+        // Delay state update slightly to allow mouseleave to process
+        setTimeout(() => {
+          setIsPlaying(true);
+        }, 50);
+      }).catch(err => {
+        console.log('Video play error:', err);
+      });
+    }
+  };
 
   const toggleSound = () => {
     const video = videoRef.current;
-    if (video) {
+    if (video && isPlaying) {
       video.muted = !video.muted;
       setVideoUnmuted(!video.muted);
       console.log('ElementLight: Video sound toggled, muted:', video.muted);
     }
   };
 
-  // Check button visibility helper function
+  const handleVideoClick = (e: React.MouseEvent) => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // If video is paused, play it
+    if (video.paused) {
+      if (!isPlaying) {
+        // First time playing - unmute and play
+        handlePlayClick();
+      } else {
+        // Resume playing
+        video.play().then(() => {
+          setIsPlaying(true);
+        });
+      }
+    } else {
+      // If video is playing, pause it
+      video.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  // Check button visibility helper function - only show when cursor is over video container
   const checkButtonVisibility = (x: number, y: number): boolean => {
-    const heroElement = heroSectionRef.current;
-    const blogElement = blogSectionRef.current;
+    const videoContainer = videoContainerRef.current;
     const brandStripElement = brandStripRef.current;
 
-    if (!heroElement || !brandStripElement) return false;
+    if (!videoContainer || !brandStripElement) return false;
 
-    // Check if cursor is within hero section bounds
-    const heroRect = heroElement.getBoundingClientRect();
-    const isInHeroSection = 
-      x >= heroRect.left &&
-      x <= heroRect.right &&
-      y >= heroRect.top &&
-      y <= heroRect.bottom;
-
-    // Check if cursor is over blog section
-    let isOverBlog = false;
-    if (blogElement) {
-      const blogRect = blogElement.getBoundingClientRect();
-      isOverBlog = 
-        x >= blogRect.left &&
-        x <= blogRect.right &&
-        y >= blogRect.top &&
-        y <= blogRect.bottom;
-    }
+    // Check if cursor is specifically over the video container
+    const videoRect = videoContainer.getBoundingClientRect();
+    const isOverVideoContainer = 
+      x >= videoRect.left &&
+      x <= videoRect.right &&
+      y >= videoRect.top &&
+      y <= videoRect.bottom;
 
     // Check if cursor is over brand strip
     const brandStripRect = brandStripElement.getBoundingClientRect();
@@ -79,8 +123,8 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
       y >= brandStripRect.top &&
       y <= brandStripRect.bottom;
 
-    // Only show if: in hero section, not over blog, not over brand strip, and brand strip hasn't scrolled past
-    return isInHeroSection && !isOverBlog && !isOverBrandStrip && brandStripRect.top > 0;
+    // Only show if: over video container, not over brand strip, and brand strip hasn't scrolled past
+    return isOverVideoContainer && !isOverBrandStrip && brandStripRect.top > 0;
   };
 
   useEffect(() => {
@@ -202,8 +246,8 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
       // Update cursor position
       setCursorPosition({ x: e.clientX, y: e.clientY });
 
-      // Check button visibility
-      const shouldShow = checkButtonVisibility(e.clientX, e.clientY);
+      // Check button visibility (only show when video is playing)
+      const shouldShow = checkButtonVisibility(e.clientX, e.clientY) && isPlaying;
       setShowMuteButton(shouldShow);
 
       // Only move button if it should be visible
@@ -241,7 +285,7 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, []);
+  }, [isPlaying]);
 
   // Prevent video from playing until loading is complete
   useEffect(() => {
@@ -270,18 +314,96 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
     }
   }, [loadingComplete]);
 
-  // Start video only after loading animation and curtain are fully up
+  // Initialize video after loading is complete (but don't autoplay)
   useEffect(() => {
     if (!loadingComplete || !videoRef.current) {
       return;
     }
 
-    // Loading is complete - start the video immediately
+    // Loading is complete - video is ready but paused
     const video = videoRef.current;
-    video.muted = false;
-    setVideoUnmuted(true);
-    video.play().catch(err => console.log('Video play error:', err));
+    video.muted = true;
+    setVideoUnmuted(false);
+    setIsPlaying(false);
   }, [loadingComplete]);
+
+  // Animate play button with GSAP
+  useEffect(() => {
+    if (!playButtonRef.current || isPlaying) return;
+
+    const button = playButtonRef.current;
+    const textElement = button.querySelector('span');
+    
+    // Create bouncing animation
+    gsap.to(button, {
+      y: -10,
+      duration: 0.6,
+      ease: "power2.inOut",
+      yoyo: true,
+      repeat: -1,
+    });
+
+    // Hover animation - smooth transition to white
+    const handleMouseEnter = () => {
+      gsap.to(button, {
+        backgroundColor: '#ffffff',
+        duration: 0.4,
+        ease: "power2.out",
+      });
+      if (textElement) {
+        gsap.to(textElement, {
+          color: '#000000',
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      }
+    };
+
+    const handleMouseLeave = () => {
+      gsap.to(button, {
+        backgroundColor: '#000000',
+        duration: 0.4,
+        ease: "power2.out",
+      });
+      if (textElement) {
+        gsap.to(textElement, {
+          color: '#ffffff',
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      }
+    };
+
+    button.addEventListener('mouseenter', handleMouseEnter);
+    button.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      gsap.killTweensOf(button);
+      gsap.killTweensOf(textElement);
+      button.removeEventListener('mouseenter', handleMouseEnter);
+      button.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [isPlaying]);
+
+  // Reset cursor when play button disappears (when video starts playing)
+  useEffect(() => {
+    if (isPlaying) {
+      // Button has been removed, force cursor reset by triggering mouseover
+      // on a non-target element (video container)
+      setTimeout(() => {
+        if (videoContainerRef.current) {
+          // Create a synthetic mouseover event on the video container
+          // This will trigger the cursor to reset since video container is not a cursor-target
+          const overEvent = new MouseEvent('mouseover', {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+          });
+          videoContainerRef.current.dispatchEvent(overEvent);
+        }
+      }, 50);
+    }
+  }, [isPlaying]);
 
   // Dynamic logo changes based on scroll position with smooth mix-blend transitions
   useEffect(() => {
@@ -613,28 +735,45 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
             ref={heroSectionRef}
             className="relative pt-32 pb-12 px-6 md:px-14 w-full"
           >
+            {/* Text Above Video */}
+            <div className="mb-8 md:mb-12 pb-10 md:pb-18 lg:pb-22 text-center">
+              <h1 className="text-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
+                Turn Any Analyst Into an Alpha Engine<br className="hidden md:block" /> in <span className="text-[#246193]">2 Minutes</span>
+              </h1>
+            </div>
+            
             {/* Full-width Video Frame */}
-            <div className="relative w-full rounded-xl overflow-hidden aspect-video cursor-pointer" onClick={toggleSound}>
+            <div 
+              ref={videoContainerRef}
+              className="relative w-full rounded-xl overflow-hidden aspect-video cursor-pointer" 
+              onClick={handleVideoClick}
+            >
                 <video
                   ref={videoRef}
                   className="absolute inset-0 w-full h-full object-cover z-0"
                   loop
                   playsInline
                   preload="auto"
-                  muted={!loadingComplete}
+                  muted
                   onLoadStart={() => console.log('Video loading started')}
                   onCanPlay={() => {
                     console.log('Video can play');
                     const fallback = document.getElementById('fallback-bg');
                     if (fallback) fallback.style.display = 'none';
-                    // Don't start video here - wait for loadingComplete
+                    // Ensure video is muted and paused if loading is not complete
                     const video = videoRef.current;
                     if (video) {
-                      // Pause video if loading is not complete
                       if (!loadingComplete) {
                         video.pause();
+                        video.muted = true;
                       }
                     }
+                  }}
+                  onPlay={() => {
+                    setIsPlaying(true);
+                  }}
+                  onPause={() => {
+                    setIsPlaying(false);
                   }}
                   onError={(e) => {
                     console.error('Video failed to load:', e);
@@ -650,29 +789,28 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
                 {/* Fallback background gradient - only show if video fails */}
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gray-900 via-black to-gray-800 z-0" id="fallback-bg"></div>
                 
-                {/* Sound indicator */}
-                <div 
-                  ref={muteButtonRef} 
-                  className={`fixed z-30 transition-opacity duration-150 ease-out ${
-                    showMuteButton ? 'opacity-100' : 'opacity-0'
-                  }`}
-                  style={{
-                    pointerEvents: showMuteButton ? 'auto' : 'none'
-                  }}
-                >
-                  <div className="bg-white rounded-xl px-2.5 py-2">
-                    <div className="text-black text-[10px] sm:text-xs [font-family:'Manrope',Helvetica]">
-                      {videoUnmuted ? "Sound Off" : "Sound On"}
-                    </div>
+                {/* Play Button Overlay - shown when video is paused */}
+                {!isPlaying && (
+                  <div className="absolute inset-0 flex items-center justify-center z-20 bg-black/25">
+                    <button
+                      ref={playButtonRef}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePlayClick();
+                      }}
+                      className="cursor-target group relative px-8 py-4 md:px-10 md:py-5 lg:px-12 lg:py-6 rounded-xl flex items-center justify-center hover:scale-105"
+                      style={{ backgroundColor: '#000000' }}
+                    >
+                      <span 
+                        className="text-base md:text-lg lg:text-xl font-semibold [font-family:'Manrope',Helvetica]"
+                        style={{ color: '#ffffff' }}
+                      >
+                        Play
+                      </span>
+                    </button>
                   </div>
-                </div>
-            </div>
-            
-            {/* Text Below Video */}
-            <div className="mt-8 md:mt-12 pb-10 md:pb-18 lg:pb-22 text-center">
-              <h1 className="text-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
-                Turn Every Analyst Into an Alpha Engine
-              </h1>
+                )}
+                
             </div>
           </section>
 
