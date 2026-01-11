@@ -23,8 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-# Large video files
-public/*.mp4
-public/*.mov
-public/Pre-CTA MP4.mp4
-public/pre-CTA.mov
+# Large video files - using Git LFS for these
+# public/*.mp4
+# public/*.mov
+# public/Pre-CTA MP4.mp4
+# public/pre-CTA.mov
