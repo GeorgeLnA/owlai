@@ -372,11 +372,10 @@ export const ElementLight = (): JSX.Element => {
         const bgType = detectBackgroundColor(heroSection);
         const isDarkBg = bgType === 'dark' || progress < 0.4;
         
-        // Keep logo white (normal blend) when on hero section
-        // Blend mode will be applied when scrolling off hero via separate trigger
+        // Keep blend mode active from start
         if (isDarkBg) {
           const blendProgress = Math.min(progress / 0.4, 1);
-          logo.style.mixBlendMode = 'normal';
+          logo.style.mixBlendMode = 'difference';
           gsap.to(logo, {
             filter: 'none',
             opacity: 1, // Full opacity
@@ -385,9 +384,9 @@ export const ElementLight = (): JSX.Element => {
             overwrite: true
           });
         } else {
-          // Still white on hero, blend will be applied when off hero
+          // Keep blend mode active
           const transitionProgress = (progress - 0.4) / 0.6;
-          logo.style.mixBlendMode = 'normal';
+          logo.style.mixBlendMode = 'difference';
           gsap.to(logo, {
             filter: 'none',
             opacity: 1, // Full opacity
@@ -454,9 +453,9 @@ export const ElementLight = (): JSX.Element => {
       triggers.push(sectionTrigger);
     });
 
-    // Initialize logo - white on hero (no blend)
+    // Initialize logo - blend mode from start
     if (logo) {
-      logo.style.mixBlendMode = 'normal';
+      logo.style.mixBlendMode = 'difference';
       gsap.set(logo, {
         filter: 'none',
         opacity: 1, // Full opacity
@@ -464,51 +463,25 @@ export const ElementLight = (): JSX.Element => {
       });
     }
 
-    // Initialize button - white on hero (no blend)
+    // Initialize button - blend mode from start
     const demoButton = demoButtonRef.current;
     if (demoButton) {
-      demoButton.style.mixBlendMode = 'normal';
+      demoButton.style.mixBlendMode = 'difference';
       gsap.set(demoButton, {
         opacity: 1
       });
     }
 
-    // Scroll trigger to switch from white (on hero) to blend (off hero)
-    const heroBlendTrigger = ScrollTrigger.create({
-      trigger: heroSection,
-      start: "bottom top",
-      onEnter: () => {
-        // Scrolled off hero - apply blend mode
-        if (logo) {
-          logo.style.mixBlendMode = 'difference';
-        }
-        if (logoContainer) {
-          logoContainer.classList.add('mix-blend-difference');
-        }
-        if (demoButton) {
-          demoButton.style.mixBlendMode = 'difference';
-        }
-        if (demoButtonContainer) {
-          demoButtonContainer.classList.add('mix-blend-difference');
-        }
-      },
-      onLeaveBack: () => {
-        // Scrolled back to hero - remove blend mode, make white
-        if (logo) {
-          logo.style.mixBlendMode = 'normal';
-        }
-        if (logoContainer) {
-          logoContainer.classList.remove('mix-blend-difference');
-        }
-        if (demoButton) {
-          demoButton.style.mixBlendMode = 'normal';
-        }
-        if (demoButtonContainer) {
-          demoButtonContainer.classList.remove('mix-blend-difference');
-        }
-      }
-    });
-    triggers.push(heroBlendTrigger);
+    // Initialize containers with blend mode class
+    if (logoContainer) {
+      logoContainer.classList.add('mix-blend-difference');
+    }
+    if (demoButtonContainer) {
+      demoButtonContainer.classList.add('mix-blend-difference');
+    }
+
+    // Blend mode is now active from start, no need to toggle on/off
+    // Keeping trigger for any future effects if needed
 
     // Initialize logo container position (top left)
     if (logoContainer) {
@@ -553,7 +526,7 @@ export const ElementLight = (): JSX.Element => {
           alt="OWL AI Logo" 
           className="h-11 sm:h-12 md:h-14 w-auto"
           style={{ 
-            mixBlendMode: 'normal',
+            mixBlendMode: 'difference',
             filter: 'none',
             willChange: 'mix-blend-mode, filter, opacity'
           }}
@@ -570,7 +543,7 @@ export const ElementLight = (): JSX.Element => {
           ref={demoButtonRef}
           className="cursor-target inline-flex items-center justify-center h-10 sm:h-11 md:h-12 px-6 sm:px-8 md:px-10 rounded-xl bg-white text-black font-semibold text-sm sm:text-base md:text-lg hover:bg-gray-100 transition-colors duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
           style={{ 
-            mixBlendMode: 'normal',
+            mixBlendMode: 'difference',
             opacity: 1,
             willChange: 'mix-blend-mode, opacity'
           }}
@@ -584,75 +557,63 @@ export const ElementLight = (): JSX.Element => {
           {/* Hero Section */}
           <section 
             ref={heroSectionRef}
-            className="relative w-full h-[90vh] bg-black flex items-end justify-center overflow-hidden cursor-pointer" 
-            onClick={toggleSound}
+            className="relative pt-32 pb-12 px-6 md:px-14 max-w-[1640px] mx-auto w-full"
           >
-            {/* Background Video */}
-            <video
-              ref={videoRef}
-              className="absolute inset-0 w-full h-full object-cover z-0"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              onLoadStart={() => console.log('Video loading started')}
-              onCanPlay={() => {
-                console.log('Video can play');
-                const fallback = document.getElementById('fallback-bg');
-                if (fallback) fallback.style.display = 'none';
-              }}
-              onError={(e) => {
-                console.error('Video failed to load:', e);
-                e.currentTarget.style.display = 'none';
-                const fallback = document.getElementById('fallback-bg');
-                if (fallback) fallback.style.display = 'block';
-              }}
-            >
-              <source src="/OWLAI DEMO.mp4" type="video/mp4" />
-              <source src="/OWLAI DEMO.mov" type="video/quicktime" />
-              Your browser does not support the video tag.
-            </video>
-            
-            {/* Fallback background gradient - only show if video fails */}
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800 z-0" id="fallback-bg"></div>
-            
-            {/* Light overlay for better text readability */}
-            <div className="absolute inset-0 bg-black bg-opacity-10 z-10"></div>
-            
-            {/* Sound indicator - shows until Section01_BrandStrip is scrolled past or cursor is over it */}
-            <div 
-              ref={muteButtonRef} 
-              className={`fixed top-4 right-4 z-30 pointer-events-none transition-opacity duration-150 ease-out ${
-                showMuteButton ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
-              <div className="bg-white rounded-xl px-2.5 py-2">
-                <div className="text-black text-[10px] sm:text-xs [font-family:'Manrope',Helvetica]">
-                  {videoUnmuted ? "Sound Off" : "Sound On"}
-                </div>
-              </div>
+            {/* Text Above Video */}
+            <div className="mb-8 md:mb-12 text-center">
+              <h1 className="text-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
+                Turn Every Analyst Into an Alpha Engine
+              </h1>
             </div>
             
-            {/* Content */}
-            <div className="relative z-20 text-center px-4 sm:px-6 mb-12 sm:mb-16 md:mb-20 lg:mb-24">
-              <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-5 sm:mb-6 md:mb-8">Turn Every Analyst Into an Alpha Engine</h1>
-              <div className="flex flex-col items-center justify-center gap-4 sm:gap-5">
-                {/* Primary CTA - Stands out more */}
-                <a 
-                  href="#final-cta" 
-                  ref={demoButtonRef}
-                  onClick={(e) => e.stopPropagation()}
-                  className="cursor-target inline-flex items-center justify-center h-12 sm:h-14 md:h-16 px-8 sm:px-10 md:px-12 rounded-xl bg-white text-black font-semibold text-base sm:text-lg md:text-xl hover:bg-gray-100 hover:scale-105 transition-transform duration-300 focus:outline-none shadow-[0_4px_20px_rgba(255,255,255,0.3)] [font-family:'Manrope',Helvetica]"
+            {/* Full-width Video Frame */}
+            <div className="relative w-full rounded-xl overflow-hidden aspect-video cursor-pointer" onClick={toggleSound}>
+                <video
+                  ref={videoRef}
+                  className="absolute inset-0 w-full h-full object-cover z-0"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  onLoadStart={() => console.log('Video loading started')}
+                  onCanPlay={() => {
+                    console.log('Video can play');
+                    const fallback = document.getElementById('fallback-bg');
+                    if (fallback) fallback.style.display = 'none';
+                  }}
+                  onError={(e) => {
+                    console.error('Video failed to load:', e);
+                    e.currentTarget.style.display = 'none';
+                    const fallback = document.getElementById('fallback-bg');
+                    if (fallback) fallback.style.display = 'block';
+                  }}
                 >
-                  <span ref={demoButtonTextRef} className="inline-block">Request a Demo</span>
-                </a>
-              </div>
+                  <source src="/Pre-CTA MP4.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+                
+                {/* Fallback background gradient - only show if video fails */}
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gray-900 via-black to-gray-800 z-0" id="fallback-bg"></div>
+                
+                {/* Sound indicator */}
+                <div 
+                  ref={muteButtonRef} 
+                  className={`absolute top-4 right-4 z-30 transition-opacity duration-150 ease-out ${
+                    showMuteButton ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
+                  <div className="bg-white rounded-xl px-2.5 py-2">
+                    <div className="text-black text-[10px] sm:text-xs [font-family:'Manrope',Helvetica]">
+                      {videoUnmuted ? "Sound Off" : "Sound On"}
+                    </div>
+                  </div>
+                </div>
             </div>
           </section>
 
           {/* Brand Strip - Separate section filling remaining 10% */}
-          <div ref={brandStripRef} className="relative w-full h-[10vh]">
+          <div ref={brandStripRef} className="relative w-full h-[15vh] md:h-[18vh]">
             <Section01_BrandStrip />
           </div>
 

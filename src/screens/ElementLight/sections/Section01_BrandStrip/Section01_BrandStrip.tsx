@@ -238,7 +238,7 @@ export const Section01_BrandStrip = (): JSX.Element => {
   }, []);
 
   return (
-    <section className="relative w-full h-full border-y border-[#66666620] bg-white" aria-label="Section — Social Proof">
+    <section className="relative w-full h-full bg-white" aria-label="Section — Social Proof">
       <div
         ref={containerRef}
         className="relative w-full h-full overflow-hidden flex items-center group"
