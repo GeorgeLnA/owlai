@@ -77,37 +77,38 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
-      console.log('ElementLight: Video element found, starting load...');
       video.load();
       
       // Try to play the video
       const playVideo = async () => {
         try {
-          console.log('ElementLight: Attempting to play video...');
           await video.play();
-          console.log('ElementLight: Video playing successfully');
           const fallback = document.getElementById('fallback-bg');
-          if (fallback) fallback.style.display = 'none';
+          if (fallback) {
+            fallback.classList.add('hidden');
+            fallback.style.display = 'none';
+          }
         } catch (error) {
-          console.log('ElementLight: Video play failed (autoplay blocked), waiting for user interaction');
+          // Autoplay blocked or video failed - show fallback
           const fallback = document.getElementById('fallback-bg');
-          if (fallback) fallback.style.display = 'block';
+          if (fallback) {
+            fallback.classList.remove('hidden');
+            fallback.style.display = 'block';
+          }
         }
       };
       
       // Try to play when video can play
-      video.addEventListener('canplay', () => {
-        console.log('ElementLight: Video can play');
-        playVideo();
-      });
-      video.addEventListener('loadeddata', () => {
-        console.log('ElementLight: Video data loaded');
-        playVideo();
-      });
-      video.addEventListener('error', (e) => {
-        console.error('ElementLight: Video error:', e);
+      video.addEventListener('canplay', playVideo);
+      video.addEventListener('loadeddata', playVideo);
+      video.addEventListener('error', () => {
+        // Video failed to load - show fallback immediately
         const fallback = document.getElementById('fallback-bg');
-        if (fallback) fallback.style.display = 'block';
+        if (fallback) {
+          fallback.classList.remove('hidden');
+          fallback.style.display = 'block';
+        }
+        if (video) video.style.display = 'none';
       });
       
       // Also try immediately
@@ -117,8 +118,6 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
         video.removeEventListener('canplay', playVideo);
         video.removeEventListener('loadeddata', playVideo);
       };
-    } else {
-      console.log('ElementLight: Video element not found');
     }
   }, []);
 
@@ -264,8 +263,8 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
       setVideoUnmuted(false);
       video.play().then(() => {
         setIsPlaying(true);
-      }).catch(err => {
-        console.log('Video autoplay error:', err);
+      }).catch(() => {
+        // Autoplay blocked - this is expected behavior
       });
     }
   }, [loadingComplete]);
@@ -674,11 +673,12 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
                   playsInline
                   preload="auto"
                   muted
-                  onLoadStart={() => console.log('Video loading started')}
                   onCanPlay={() => {
-                    console.log('Video can play');
                     const fallback = document.getElementById('fallback-bg');
-                    if (fallback) fallback.style.display = 'none';
+                    if (fallback) {
+                      fallback.classList.add('hidden');
+                      fallback.style.display = 'none';
+                    }
                     // Ensure video is muted if loading is not complete
                     const video = videoRef.current;
                     if (video) {
@@ -699,10 +699,13 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
                     setIsPlaying(false);
                   }}
                   onError={(e) => {
-                    console.error('Video failed to load:', e);
+                    // Video failed to load - hide video and show fallback
                     e.currentTarget.style.display = 'none';
                     const fallback = document.getElementById('fallback-bg');
-                    if (fallback) fallback.style.display = 'block';
+                    if (fallback) {
+                      fallback.classList.remove('hidden');
+                      fallback.style.display = 'block';
+                    }
                   }}
                 >
                   <source src="/Owl Ai Lpv (optimised).webm" type="video/webm" />
@@ -710,7 +713,12 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
                 </video>
                 
                 {/* Fallback background gradient - only show if video fails */}
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gray-900 via-black to-gray-800 z-0" id="fallback-bg"></div>
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gray-900 via-black to-gray-800 z-0 hidden flex items-center justify-center" id="fallback-bg">
+                  <div className="text-white/60 text-sm text-center px-4">
+                    <p className="mb-2">Video loading...</p>
+                    <p className="text-xs opacity-50">If this persists, ensure Git LFS is installed and run: git lfs pull</p>
+                  </div>
+                </div>
                 
                 {/* Sound indicator - Desktop (follows cursor) */}
                 <div 

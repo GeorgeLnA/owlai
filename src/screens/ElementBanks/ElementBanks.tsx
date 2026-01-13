@@ -20,7 +20,9 @@ export const ElementBanks = ({ loadingComplete = false }: ElementBanksProps): JS
   useEffect(() => {
     if (loadingComplete && videoRef.current) {
       const video = videoRef.current;
-      video.play().catch(err => console.log('Video play error:', err));
+      video.play().catch(() => {
+        // Autoplay blocked - this is expected behavior
+      });
     }
   }, [loadingComplete]);
 
@@ -29,48 +31,46 @@ export const ElementBanks = ({ loadingComplete = false }: ElementBanksProps): JS
     if (video) {
       video.muted = !video.muted;
       setVideoUnmuted(!video.muted);
-      console.log('Banks: Video sound toggled, muted:', video.muted);
     }
   };
 
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
-      console.log('Banks video element found, starting load...');
       video.load();
       const tryPlay = async () => {
         try {
-          console.log('Attempting to play Banks video...');
           await video.play();
-          console.log('Banks video playing successfully');
           const fallback = document.getElementById('fallback-bg-banks');
-          if (fallback) fallback.style.display = 'none';
+          if (fallback) {
+            fallback.classList.add('hidden');
+            fallback.style.display = 'none';
+          }
         } catch (e) {
-          console.error('Banks video failed to play:', e);
+          // Autoplay blocked or video failed - show fallback
           const fallback = document.getElementById('fallback-bg-banks');
-          if (fallback) fallback.style.display = 'block';
+          if (fallback) {
+            fallback.classList.remove('hidden');
+            fallback.style.display = 'block';
+          }
         }
       };
-      video.addEventListener('canplay', () => {
-        console.log('Banks video can play');
-        tryPlay();
-      });
-      video.addEventListener('loadeddata', () => {
-        console.log('Banks video data loaded');
-        tryPlay();
-      });
-      video.addEventListener('error', (e) => {
-        console.error('Banks video error:', e);
+      video.addEventListener('canplay', tryPlay);
+      video.addEventListener('loadeddata', tryPlay);
+      video.addEventListener('error', () => {
+        // Video failed to load - hide video and show fallback
         const fallback = document.getElementById('fallback-bg-banks');
-        if (fallback) fallback.style.display = 'block';
+        if (fallback) {
+          fallback.classList.remove('hidden');
+          fallback.style.display = 'block';
+        }
+        if (video) video.style.display = 'none';
       });
       tryPlay();
       return () => {
         video.removeEventListener('canplay', tryPlay);
         video.removeEventListener('loadeddata', tryPlay);
       };
-    } else {
-      console.log('Banks video element not found');
     }
   }, []);
 
@@ -105,6 +105,15 @@ export const ElementBanks = ({ loadingComplete = false }: ElementBanksProps): JS
               loop
               playsInline
               preload="auto"
+              onError={(e) => {
+                // Video failed to load - hide video and show fallback
+                e.currentTarget.style.display = 'none';
+                const fallback = document.getElementById('fallback-bg-banks');
+                if (fallback) {
+                  fallback.classList.remove('hidden');
+                  fallback.style.display = 'block';
+                }
+              }}
             >
               <source src="/OWLAI DEMO.mp4" type="video/mp4" />
               <source src="/OWLAI DEMO.mov" type="video/quicktime" />
@@ -112,7 +121,12 @@ export const ElementBanks = ({ loadingComplete = false }: ElementBanksProps): JS
             </video>
 
             {/* Fallback gradient */}
-            <div id="fallback-bg-banks" className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800 z-0" />
+            <div id="fallback-bg-banks" className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800 z-0 hidden flex items-center justify-center">
+              <div className="text-white/60 text-sm text-center px-4">
+                <p className="mb-2">Video loading...</p>
+                <p className="text-xs opacity-50">If this persists, ensure Git LFS is installed and run: git lfs pull</p>
+              </div>
+            </div>
             <div className="absolute inset-0 bg-black/10 z-10" />
 
             {/* Sound indicator */}

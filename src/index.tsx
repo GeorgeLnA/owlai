@@ -29,9 +29,9 @@ const Boot = (): JSX.Element => {
           const video = document.createElement('video');
           video.preload = 'metadata';
           video.oncanplaythrough = () => resolve(true);
-          video.onerror = () => resolve(true);
+          video.onerror = () => resolve(true); // Continue even if video fails
           video.onloadstart = () => resolve(true); // Fallback
-          video.src = '/OWLAI DEMO.mp4';
+          video.src = '/Owl Ai Lpv (optimised).webm';
           
           // Timeout for video loading
           setTimeout(() => resolve(true), 1500);

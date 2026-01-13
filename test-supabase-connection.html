@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Supabase Connection Test</title>
+</head>
+<body>
+    <h1>Supabase Connection Test</h1>
+    <button onclick="testConnection()">Test Connection</button>
+    <div id="result"></div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        window.testConnection = async function() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing...';
+
+            const supabaseUrl = 'https://pvlraozeyijcottvyqvr.supabase.co';
+            const supabaseKey = 'sb_publishable_3JZ03eyGTQ7Ru9VurXYLVg_uKnMhzJk';
+
+            const supabase = createClient(supabaseUrl, supabaseKey);
+
+            try {
+                // Try to insert a test record
+                const { data, error } = await supabase
+                    .from('owl_ai_contact_submissions')
+                    .insert([
+                        {
+                            name: 'Test User',
+                            email: 'test@example.com',
+                            telephone: '1234567890'
+                        }
+                    ])
+                    .select();
+
+                if (error) {
+                    resultDiv.innerHTML = `
+                        <h3>Error:</h3>
+                        <pre>${JSON.stringify(error, null, 2)}</pre>
+                        <p><strong>Error Code:</strong> ${error.code}</p>
+                        <p><strong>Error Message:</strong> ${error.message}</p>
+                        <p><strong>Hint:</strong> ${error.hint || 'No hint available'}</p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <h3 style="color: green;">Success!</h3>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                }
+            } catch (err) {
+                resultDiv.innerHTML = `
+                    <h3>Exception:</h3>
+                    <pre>${JSON.stringify(err, null, 2)}</pre>
+                `;
+            }
+        };
+    </script>
+</body>
+</html>
+
