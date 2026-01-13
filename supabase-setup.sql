@@ -19,5 +19,5 @@ CREATE INDEX IF NOT EXISTS idx_owl_ai_contact_submissions_created_at
   ON owl_ai_contact_submissions(created_at DESC);
 
 -- If the table already exists, add the problems column (run this if you're updating an existing table)
--- ALTER TABLE owl_ai_contact_submissions ADD COLUMN IF NOT EXISTS problems TEXT;
+ALTER TABLE owl_ai_contact_submissions ADD COLUMN IF NOT EXISTS problems TEXT;
 
