@@ -5,7 +5,7 @@ const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const EMAILJS_ADMIN_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID;
 const EMAILJS_CLIENT_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_CLIENT_TEMPLATE_ID;
-const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || 'admin@owlai.com';
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || 'bwebster@owlaisolutions.com';
 
 // Initialize EmailJS
 if (EMAILJS_PUBLIC_KEY) {
