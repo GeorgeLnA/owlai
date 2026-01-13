@@ -9,6 +9,7 @@ import LoadingScreen from "./components/ui/loading-screen";
 const Boot = (): JSX.Element => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [loaderDone, setLoaderDone] = useState(false);
+  const [pathname, setPathname] = useState(window.location.pathname);
 
   useEffect(() => {
     let timeoutId: number;
@@ -62,16 +63,40 @@ const Boot = (): JSX.Element => {
     };
   }, []);
 
+  // Listen for pathname changes (for browser back/forward navigation)
+  useEffect(() => {
+    const handlePopState = () => {
+      setPathname(window.location.pathname);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    
+    // Also listen for manual navigation
+    const originalPushState = history.pushState;
+    history.pushState = function(...args) {
+      originalPushState.apply(history, args);
+      setPathname(window.location.pathname);
+    };
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      history.pushState = originalPushState;
+    };
+  }, []);
+
   const shouldShowLoader = !(isLoaded && loaderDone);
 
+  // Use pathname for routing
   const params = new URLSearchParams(window.location.search);
   const icp = params.get("icp");
-  const page = params.get("page");
+
+  // Skip loading screen for demo pages
+  const isDemoPage = pathname === "/demo" || pathname === "/demo-success";
 
   let Page;
-  if (page === "demo") {
+  if (pathname === "/demo") {
     Page = DemoPage;
-  } else if (page === "demo-success") {
+  } else if (pathname === "/demo-success") {
     Page = DemoSuccessPage;
   } else if (icp === "banks") {
     Page = ElementBanks;
@@ -81,9 +106,9 @@ const Boot = (): JSX.Element => {
 
   return (
     <>
-      {shouldShowLoader && <LoadingScreen loop={false} onComplete={() => setLoaderDone(true)} />}
+      {shouldShowLoader && !isDemoPage && <LoadingScreen loop={false} onComplete={() => setLoaderDone(true)} />}
       <div className="opacity-100">
-        <Page loadingComplete={loaderDone} />
+        <Page loadingComplete={isDemoPage ? true : loaderDone} />
       </div>
     </>
   );

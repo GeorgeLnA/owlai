@@ -296,7 +296,7 @@ export const Section05_Reviews = (): JSX.Element => {
                   onChange={handleInputChange}
                   placeholder="Enter your name"
                   required
-                  className="w-full px-4 py-3 rounded-xl border border-[#afafaf80] bg-white text-wezomcomblack text-sm md:text-base hover:border-wezomcomblack focus:outline-none focus:border-wezomcomblack transition-colors [font-family:'Manrope',Helvetica]"
+                  className="cursor-target w-full px-4 py-3 rounded-xl border border-[#afafaf80] bg-white text-wezomcomblack text-sm md:text-base hover:border-wezomcomblack focus:outline-none focus:border-wezomcomblack transition-colors [font-family:'Manrope',Helvetica]"
                 />
               </div>
 
@@ -313,7 +313,7 @@ export const Section05_Reviews = (): JSX.Element => {
                   onChange={handleInputChange}
                   placeholder="Enter your email"
                   required
-                  className="w-full px-4 py-3 rounded-xl border border-[#afafaf80] bg-white text-wezomcomblack text-sm md:text-base hover:border-wezomcomblack focus:outline-none focus:border-wezomcomblack transition-colors [font-family:'Manrope',Helvetica]"
+                  className="cursor-target w-full px-4 py-3 rounded-xl border border-[#afafaf80] bg-white text-wezomcomblack text-sm md:text-base hover:border-wezomcomblack focus:outline-none focus:border-wezomcomblack transition-colors [font-family:'Manrope',Helvetica]"
                 />
               </div>
 
@@ -330,7 +330,7 @@ export const Section05_Reviews = (): JSX.Element => {
                   onChange={handleInputChange}
                   placeholder="Enter your telephone number"
                   required
-                  className="w-full px-4 py-3 rounded-xl border border-[#afafaf80] bg-white text-wezomcomblack text-sm md:text-base hover:border-wezomcomblack focus:outline-none focus:border-wezomcomblack transition-colors [font-family:'Manrope',Helvetica]"
+                  className="cursor-target w-full px-4 py-3 rounded-xl border border-[#afafaf80] bg-white text-wezomcomblack text-sm md:text-base hover:border-wezomcomblack focus:outline-none focus:border-wezomcomblack transition-colors [font-family:'Manrope',Helvetica]"
                 />
               </div>
 

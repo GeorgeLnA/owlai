@@ -370,7 +370,7 @@ export const PortfolioSection = (): JSX.Element => {
                     value={groupName}
                     onChange={(e) => setGroupName(e.target.value)}
                     placeholder="Enter group name"
-                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-[#afafaf80] bg-white text-black text-sm md:text-base hover:border-black focus:outline-none focus:border-black transition-colors [font-family:'Manrope',Helvetica]"
+                    className="cursor-target w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-[#afafaf80] bg-white text-black text-sm md:text-base hover:border-black focus:outline-none focus:border-black transition-colors [font-family:'Manrope',Helvetica]"
                   />
                 </div>
 
@@ -521,7 +521,7 @@ export const PortfolioSection = (): JSX.Element => {
                     onBlur={() => setTimeout(() => setShowQuestionExamples(false), 200)}
                     onClick={() => setShowQuestionExamples(true)}
                     placeholder="Choose a question"
-                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-14 sm:pr-20 rounded-xl border border-[#afafaf80] bg-white text-black text-sm sm:text-sm md:text-base hover:border-black focus:outline-none focus:border-black transition-colors placeholder:text-gray-400 placeholder:text-xs sm:placeholder:text-sm cursor-pointer [font-family:'Manrope',Helvetica]"
+                    className="cursor-target w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-14 sm:pr-20 rounded-xl border border-[#afafaf80] bg-white text-black text-sm sm:text-sm md:text-base hover:border-black focus:outline-none focus:border-black transition-colors placeholder:text-gray-400 placeholder:text-xs sm:placeholder:text-sm cursor-pointer [font-family:'Manrope',Helvetica]"
                   />
                   <button
                     type="button"
@@ -565,7 +565,7 @@ export const PortfolioSection = (): JSX.Element => {
                     <select
                       value={selectedYear}
                       onChange={(e) => setSelectedYear(e.target.value)}
-                      className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-[#afafaf80] bg-white text-black text-xs sm:text-sm md:text-base hover:border-black focus:outline-none focus:border-black transition-colors [font-family:'Manrope',Helvetica]"
+                      className="cursor-target w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-[#afafaf80] bg-white text-black text-xs sm:text-sm md:text-base hover:border-black focus:outline-none focus:border-black transition-colors [font-family:'Manrope',Helvetica]"
                     >
                       <option value="">Select year</option>
                       {years.map((year) => (
@@ -584,7 +584,7 @@ export const PortfolioSection = (): JSX.Element => {
                     <select
                       value={selectedPeerGroup}
                       onChange={(e) => setSelectedPeerGroup(e.target.value)}
-                      className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-[#afafaf80] bg-white text-black text-xs sm:text-sm md:text-base hover:border-black focus:outline-none focus:border-black transition-colors [font-family:'Manrope',Helvetica]"
+                      className="cursor-target w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-[#afafaf80] bg-white text-black text-xs sm:text-sm md:text-base hover:border-black focus:outline-none focus:border-black transition-colors [font-family:'Manrope',Helvetica]"
                     >
                       <option value="">Select peer group</option>
                       {peerGroups.map((group) => (

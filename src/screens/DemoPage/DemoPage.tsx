@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
-import { useGSAP } from "@gsap/react";
 import { sendAdminNotification, sendClientConfirmation } from "../../lib/emailjs";
 import { supabase } from "../../lib/supabase";
 import TargetCursor from "../../components/ui/target-cursor";
@@ -33,7 +32,6 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
   const formRef = useRef<HTMLFormElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
   const formContainerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
   const logoContainerRef = useRef<HTMLDivElement>(null);
@@ -118,39 +116,6 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
     };
   }, []);
 
-  // Animate page entrance
-  useGSAP(() => {
-    if (!loadingComplete) return;
-
-    const tl = gsap.timeline();
-
-    if (titleRef.current) {
-      tl.from(titleRef.current, {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: "power3.out",
-      });
-    }
-
-    if (subtitleRef.current) {
-      tl.from(subtitleRef.current, {
-        opacity: 0,
-        y: 20,
-        duration: 0.6,
-        ease: "power3.out",
-      }, "-=0.4");
-    }
-
-    if (formContainerRef.current) {
-      tl.from(formContainerRef.current, {
-        opacity: 0,
-        y: 20,
-        duration: 0.6,
-        ease: "power3.out",
-      }, "-=0.3");
-    }
-  }, [loadingComplete]);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -227,13 +192,12 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
 
       // Redirect to success page with user data
       const params = new URLSearchParams({
-        page: "demo-success",
         name: formData.name,
         email: formData.email,
         company: formData.company,
         title: formData.title || "",
       });
-      window.location.href = `?${params.toString()}`;
+      window.location.href = `/demo-success?${params.toString()}`;
     } catch (error) {
       console.error("Form submission error:", error);
       setSubmitStatus("error");
@@ -361,7 +325,7 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col w-full items-center justify-start pt-32 pb-20 px-6 md:px-14 max-w-4xl mx-auto">
+      <div className="flex flex-col w-full items-center justify-start pt-20 pb-20 px-6 md:px-14 h-screen">
         {/* Title Section */}
         <div className="w-full text-center mb-8 md:mb-12">
           <h1
@@ -370,44 +334,67 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
           >
             Request a Free Demo
           </h1>
-          <p
-            ref={subtitleRef}
-            className="text-gray-600 text-base sm:text-lg md:text-xl [font-family:'Manrope',Helvetica] max-w-2xl mx-auto"
-          >
-            See how OWL AI can transform your research workflow. Fill out the form below and we'll get in touch with you shortly.
-          </p>
         </div>
 
         {/* Form Container */}
         <div
           ref={formContainerRef}
-          className="w-full bg-white rounded-2xl border border-gray-200 shadow-lg p-6 sm:p-8 md:p-10 lg:p-12"
+          className="w-full max-w-2xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-lg p-6 sm:p-8 md:p-10 lg:p-12"
         >
           <form ref={formRef} onSubmit={handleSubmit} className="w-full space-y-6">
-            {/* Name - Required */}
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
-              >
-                Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className={`w-full h-12 px-4 rounded-xl bg-white border ${
-                  errors.name ? "border-red-500" : "border-gray-300"
-                } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
-                placeholder="Enter your full name"
-              />
-              {errors.name && (
-                <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">
-                  {errors.name}
-                </p>
-              )}
+            {/* Name and Company - Side by Side */}
+            <div className="flex flex-col sm:flex-row gap-6">
+              {/* Name - Required */}
+              <div className="flex-1">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
+                >
+                  Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
+                    errors.name ? "border-red-500" : "border-gray-300"
+                  } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
+                  placeholder="Enter your full name"
+                />
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">
+                    {errors.name}
+                  </p>
+                )}
+              </div>
+
+              {/* Company - Required */}
+              <div className="flex-1">
+                <label
+                  htmlFor="company"
+                  className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
+                >
+                  Company <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  value={formData.company}
+                  onChange={handleChange}
+                  className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
+                    errors.company ? "border-red-500" : "border-gray-300"
+                  } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
+                  placeholder="Enter your company name"
+                />
+                {errors.company && (
+                  <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">
+                    {errors.company}
+                  </p>
+                )}
+              </div>
             </div>
 
             {/* Email - Required */}
@@ -424,7 +411,7 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full h-12 px-4 rounded-xl bg-white border ${
+                className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
                   errors.email ? "border-red-500" : "border-gray-300"
                 } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
                 placeholder="Enter your email address"
@@ -436,68 +423,45 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
               )}
             </div>
 
-            {/* Company - Required */}
-            <div>
-              <label
-                htmlFor="company"
-                className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
-              >
-                Company <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                id="company"
-                name="company"
-                value={formData.company}
-                onChange={handleChange}
-                className={`w-full h-12 px-4 rounded-xl bg-white border ${
-                  errors.company ? "border-red-500" : "border-gray-300"
-                } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
-                placeholder="Enter your company name"
-              />
-              {errors.company && (
-                <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">
-                  {errors.company}
-                </p>
-              )}
-            </div>
+            {/* Title and Phone Number - Side by Side */}
+            <div className="flex flex-col sm:flex-row gap-6">
+              {/* Title - Optional */}
+              <div className="flex-1">
+                <label
+                  htmlFor="title"
+                  className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
+                >
+                  Title <span className="text-gray-400 text-xs">(Optional)</span>
+                </label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
+                  placeholder="Enter your job title"
+                />
+              </div>
 
-            {/* Title - Optional */}
-            <div>
-              <label
-                htmlFor="title"
-                className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
-              >
-                Title <span className="text-gray-400 text-xs">(Optional)</span>
-              </label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                className="w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
-                placeholder="Enter your job title"
-              />
-            </div>
-
-            {/* Phone - Optional */}
-            <div>
-              <label
-                htmlFor="phone"
-                className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
-              >
-                Phone Number <span className="text-gray-400 text-xs">(Optional)</span>
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
-                placeholder="Enter your phone number"
-              />
+              {/* Phone - Optional */}
+              <div className="flex-1">
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
+                >
+                  Phone Number <span className="text-gray-400 text-xs">(Optional)</span>
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
+                  placeholder="Enter your phone number"
+                />
+              </div>
             </div>
 
             {/* Submit Button */}
