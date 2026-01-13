@@ -166,29 +166,25 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
         // Continue with email sending even if Supabase fails
       }
 
-      // Prepare data for emailjs
-      const submissionData = {
+      // Prepare data for emailjs - matching Get in Touch form pattern exactly
+      const emailData = {
         name: formData.name,
         email: formData.email,
-        telephone: formData.phone || "Not provided",
-        company: formData.company,
-        title: formData.title || "Not provided",
+        telephone: formData.phone || "",
+        company: formData.company || "",
+        title: formData.title || "",
       };
 
-      // Send emails via EmailJS - wait for them to complete before redirecting
-      try {
-        await Promise.all([
-          sendAdminNotification(submissionData),
-          sendClientConfirmation(submissionData),
-        ]);
-        console.log('All emails sent successfully');
-      } catch (err) {
+      // Send emails via EmailJS (same pattern as Get in Touch form)
+      Promise.all([
+        sendAdminNotification(emailData),
+        sendClientConfirmation(emailData)
+      ]).catch(err => {
         console.warn('Email sending failed (non-critical):', err);
-        // Continue with redirect even if emails fail
-      }
+      });
 
-      // Small delay to ensure emails are processed before redirect
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Small delay to ensure emails start sending before redirect
+      await new Promise(resolve => setTimeout(resolve, 300));
 
       // Redirect to success page with user data
       const params = new URLSearchParams({
