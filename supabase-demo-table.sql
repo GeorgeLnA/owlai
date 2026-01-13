@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS owl_ai_demo_requests (
   company TEXT NOT NULL,
   title TEXT,
   phone TEXT,
+  problems TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()) NOT NULL
 );
 
@@ -22,4 +23,7 @@ CREATE INDEX IF NOT EXISTS idx_owl_ai_demo_requests_created_at
 -- Create an index on email for lookups
 CREATE INDEX IF NOT EXISTS idx_owl_ai_demo_requests_email 
   ON owl_ai_demo_requests(email);
+
+-- If the table already exists, add the problems column (run this if you're updating an existing table)
+-- ALTER TABLE owl_ai_demo_requests ADD COLUMN IF NOT EXISTS problems TEXT;
 
