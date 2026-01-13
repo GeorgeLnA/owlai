@@ -10,7 +10,6 @@ interface FormData {
   company: string;
   title: string;
   phone: string;
-  problems: string;
 }
 
 interface FormErrors {
@@ -26,7 +25,6 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
     company: "",
     title: "",
     phone: "",
-    problems: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -160,7 +158,6 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
           company: formData.company,
           title: formData.title || null,
           phone: formData.phone || null,
-          problems: formData.problems || null,
         })
         .select();
 
@@ -205,7 +202,7 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     
@@ -461,28 +458,6 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
                   placeholder="Enter your phone number"
                 />
               </div>
-            </div>
-
-            {/* Problems/Challenges - Optional */}
-            <div>
-              <label
-                htmlFor="problems"
-                className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
-              >
-                Tell us about your challenges <span className="text-gray-400 text-xs">(Optional)</span>
-              </label>
-              <p className="text-xs text-gray-500 mb-3 [font-family:'Manrope',Helvetica]">
-                Describe the problems or challenges you're looking to solve with OWL AI...
-              </p>
-              <textarea
-                id="problems"
-                name="problems"
-                value={formData.problems}
-                onChange={handleChange}
-                rows={4}
-                className="cursor-target w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500 resize-none"
-                placeholder="Describe the problems or challenges you're looking to solve with OWL AI..."
-              />
             </div>
 
             {/* Submit Button */}

@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS owl_ai_contact_submissions (
   name TEXT NOT NULL,
   email TEXT NOT NULL,
   telephone TEXT NOT NULL,
+  problems TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()) NOT NULL
 );
 
@@ -16,4 +17,7 @@ CREATE TABLE IF NOT EXISTS owl_ai_contact_submissions (
 -- Create an index on created_at for better query performance
 CREATE INDEX IF NOT EXISTS idx_owl_ai_contact_submissions_created_at 
   ON owl_ai_contact_submissions(created_at DESC);
+
+-- If the table already exists, add the problems column (run this if you're updating an existing table)
+-- ALTER TABLE owl_ai_contact_submissions ADD COLUMN IF NOT EXISTS problems TEXT;
 
