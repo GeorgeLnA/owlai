@@ -136,9 +136,18 @@ export const Section05_Reviews = (): JSX.Element => {
       }
 
       // Send emails via EmailJS (non-blocking)
+      // Using same client confirmation template for both forms
+      const emailData = {
+        name: formData.name,
+        email: formData.email,
+        telephone: formData.telephone,
+        company: "", // Not in contact form
+        title: "", // Not in contact form
+      };
+      
       Promise.all([
-        sendAdminNotification(formData),
-        sendClientConfirmation(formData)
+        sendAdminNotification(emailData),
+        sendClientConfirmation(emailData)
       ]).catch(err => {
         console.warn('Email sending failed (non-critical):', err);
       });

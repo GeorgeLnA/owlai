@@ -632,7 +632,7 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
         className="fixed top-6 sm:top-7 md:top-8 right-6 md:right-14 z-50 pointer-events-auto"
       >
         <a 
-          href="#final-cta" 
+          href="?page=demo" 
           ref={demoButtonRef}
           className="cursor-target inline-flex items-center justify-center h-10 sm:h-11 md:h-12 px-6 sm:px-8 md:px-10 rounded-xl bg-white text-black font-semibold text-sm sm:text-base md:text-lg md:hover:bg-gray-100 transition-colors duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
           style={{ 

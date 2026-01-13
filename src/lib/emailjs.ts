@@ -16,16 +16,26 @@ export interface FormSubmissionData {
   name: string;
   email: string;
   telephone: string;
+  company?: string;
+  title?: string;
+  problems?: string;
+  message?: string;
 }
 
 export const sendAdminNotification = async (data: FormSubmissionData): Promise<void> => {
   if (!EMAILJS_PUBLIC_KEY || !EMAILJS_SERVICE_ID || !EMAILJS_ADMIN_TEMPLATE_ID) {
     console.warn('EmailJS not configured. Skipping admin notification.');
+    console.warn('Missing:', {
+      publicKey: !EMAILJS_PUBLIC_KEY,
+      serviceId: !EMAILJS_SERVICE_ID,
+      templateId: !EMAILJS_ADMIN_TEMPLATE_ID
+    });
     return;
   }
 
   try {
-    await emailjs.send(
+    console.log('Sending admin notification email to:', ADMIN_EMAIL);
+    const result = await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_ADMIN_TEMPLATE_ID,
       {
@@ -34,16 +44,28 @@ export const sendAdminNotification = async (data: FormSubmissionData): Promise<v
         name: data.name,
         email: data.email,
         telephone: data.telephone,
-        message: `New form submission from ${data.name}`,
+        company: data.company || "Not provided",
+        title: data.title || "Not provided",
+        problems: data.problems || "Not provided",
+        message: data.message || `New form submission from ${data.name}${data.company ? ` at ${data.company}` : ""}${data.problems ? `\n\nProblems they're looking to solve:\n${data.problems}` : ""}`,
         submission_date: new Date().toLocaleString(),
         // Also include user_ prefixed versions for backward compatibility
         user_name: data.name,
         user_email: data.email,
         user_telephone: data.telephone,
+        user_company: data.company || "Not provided",
+        user_title: data.title || "Not provided",
+        user_problems: data.problems || "Not provided",
       }
     );
-  } catch (error) {
+    console.log('Admin notification email sent successfully:', result);
+  } catch (error: any) {
     console.error('Failed to send admin notification:', error);
+    console.error('Error details:', {
+      status: error?.status,
+      text: error?.text,
+      message: error?.message
+    });
     // Don't throw - we don't want email failures to break form submission
   }
 };
@@ -51,30 +73,46 @@ export const sendAdminNotification = async (data: FormSubmissionData): Promise<v
 export const sendClientConfirmation = async (data: FormSubmissionData): Promise<void> => {
   if (!EMAILJS_PUBLIC_KEY || !EMAILJS_SERVICE_ID || !EMAILJS_CLIENT_TEMPLATE_ID) {
     console.warn('EmailJS not configured. Skipping client confirmation.');
+    console.warn('Missing:', {
+      publicKey: !EMAILJS_PUBLIC_KEY,
+      serviceId: !EMAILJS_SERVICE_ID,
+      templateId: !EMAILJS_CLIENT_TEMPLATE_ID
+    });
     return;
   }
 
   try {
-    await emailjs.send(
+    console.log('Sending client confirmation email to:', data.email);
+    const result = await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_CLIENT_TEMPLATE_ID,
       {
         to_email: data.email,
         to_name: data.name,
         from_name: 'OWL AI Team',
-        // EmailJS template variables - matching your template
+        // EmailJS template variables - unified for both forms
         name: data.name,
         email: data.email,
-        telephone: data.telephone,
+        telephone: data.telephone || "",
+        company: data.company || "",
+        title: data.title || "",
         submission_date: new Date().toLocaleString(),
         // Also include user_ prefixed versions for backward compatibility
         user_name: data.name,
         user_email: data.email,
-        user_telephone: data.telephone,
+        user_telephone: data.telephone || "",
+        user_company: data.company || "",
+        user_title: data.title || "",
       }
     );
-  } catch (error) {
+    console.log('Client confirmation email sent successfully:', result);
+  } catch (error: any) {
     console.error('Failed to send client confirmation:', error);
+    console.error('Error details:', {
+      status: error?.status,
+      text: error?.text,
+      message: error?.message
+    });
     // Don't throw - we don't want email failures to break form submission
   }
 };

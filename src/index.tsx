@@ -2,6 +2,8 @@ import { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { ElementLight } from "./screens/ElementLight";
 import { ElementBanks } from "./screens/ElementBanks/ElementBanks";
+import { DemoPage } from "./screens/DemoPage";
+import { DemoSuccessPage } from "./screens/DemoSuccessPage";
 import LoadingScreen from "./components/ui/loading-screen";
 
 const Boot = (): JSX.Element => {
@@ -64,8 +66,18 @@ const Boot = (): JSX.Element => {
 
   const params = new URLSearchParams(window.location.search);
   const icp = params.get("icp");
+  const page = params.get("page");
 
-  const Page = icp === "banks" ? ElementBanks : ElementLight;
+  let Page;
+  if (page === "demo") {
+    Page = DemoPage;
+  } else if (page === "demo-success") {
+    Page = DemoSuccessPage;
+  } else if (icp === "banks") {
+    Page = ElementBanks;
+  } else {
+    Page = ElementLight;
+  }
 
   return (
     <>
