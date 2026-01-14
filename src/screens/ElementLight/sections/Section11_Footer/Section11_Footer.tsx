@@ -10,7 +10,7 @@ export const Section11_Footer = (): JSX.Element => {
       title: "PLATFORM",
       links: [
         { id: 1, title: "Platform", url: "#platform" },
-        { id: 2, title: "Request a Demo", url: "#final-cta" },
+        { id: 2, title: "Request a Demo", url: "/demo" },
       ],
     },
     {
@@ -88,7 +88,7 @@ export const Section11_Footer = (): JSX.Element => {
             Ready to get started?
           </h3>
           <a
-            href="#final-cta"
+            href="/demo"
             className="cursor-target inline-flex items-center justify-center h-12 md:h-14 px-8 md:px-10 rounded-xl bg-black text-white font-semibold text-base md:text-lg hover:bg-[#246193] transition-colors duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
           >
             Request a Demo

@@ -142,7 +142,7 @@ export const ElementBanks = ({ loadingComplete = false }: ElementBanksProps): JS
             <div className="relative z-20 text-center px-4 sm:px-6 mt-28 sm:mt-32 md:mt-36">
               <h1 className="text-white text-3xl sm:text-4xl md:text-6xl font-bold mb-6 sm:mb-8 md:mb-12">Automate Governance. Accelerate Research. Strengthen Compliance.</h1>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-                <a href="#final-cta" className="cursor-target inline-flex items-center justify-center h-11 sm:h-12 px-6 sm:px-8 rounded-[40px] bg-white text-black font-semibold transition-colors duration-300 focus:outline-none">
+                <a href="/demo" className="cursor-target inline-flex items-center justify-center h-11 sm:h-12 px-6 sm:px-8 rounded-[40px] bg-white text-black font-semibold transition-colors duration-300 focus:outline-none">
                   Request a Demo
                 </a>
                 <a href="#platform" className="cursor-target inline-flex items-center justify-center h-11 sm:h-12 px-6 sm:px-8 rounded-[40px] border border-solid border-white text-white hover:bg-white hover:text-black transition-colors duration-300 focus:outline-none">
