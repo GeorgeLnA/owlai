@@ -23,7 +23,7 @@ export const Section11_Footer = (): JSX.Element => {
   ];
 
   // Contact information
-  const contactInfo = ["hello@owlai.com", "+1 (555) 123-4567"];
+  const contactInfo = ["+1 (424) 800-3834"];
 
 
   return (
@@ -101,7 +101,7 @@ export const Section11_Footer = (): JSX.Element => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
           <div className="flex items-center gap-3">
             <span className="[font-family:'Manrope',Helvetica] font-semibold text-wezomcomblack text-sm md:text-base leading-tight">
-              © 2025
+              © 2026
             </span>
             <span className="text-wezomcomblack text-lg">•</span>
             <span className="[font-family:'Manrope',Helvetica] font-semibold text-black text-sm md:text-base leading-tight">

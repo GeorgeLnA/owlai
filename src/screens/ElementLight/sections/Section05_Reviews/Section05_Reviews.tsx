@@ -36,9 +36,9 @@ const testimonials: Testimonial[] = [
     company: "Pension Fund"
   },
   {
-    quote: "OWL's objective, consensus-based ratings are a true differentiator in ESG investing.",
-    author: "Ben Wallach",
-    company: "Head of Product Development & Management | WisdomTree Asset Management"
+    quote: "The real-time data processing and AI-driven analysis have transformed how we approach market research and investment decisions.",
+    author: "Sarah Chen",
+    company: "Director of Research | Global Investment Advisors"
   },
   {
     quote: "Seamless integration with our existing data infrastructure.",
