@@ -1,31 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { sendAdminNotification } from "../../lib/emailjs";
 import TargetCursor from "../../components/ui/target-cursor";
 
-interface ProblemsFormData {
-  problems: string;
-}
-
 export const DemoSuccessPage = ({ loadingComplete = false }: { loadingComplete?: boolean }): JSX.Element => {
-  const [problemsData, setProblemsData] = useState<ProblemsFormData>({
-    problems: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const formContainerRef = useRef<HTMLDivElement>(null);
   const checkmarkRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
   const logoContainerRef = useRef<HTMLDivElement>(null);
 
-  // Get user data from URL params (passed from demo page)
   const params = new URLSearchParams(window.location.search);
   const userName = params.get("name") || "";
-  const userEmail = params.get("email") || "";
 
   // Logo scroll animation - same logic as landing page
   useEffect(() => {
@@ -148,70 +135,7 @@ export const DemoSuccessPage = ({ loadingComplete = false }: { loadingComplete?:
         "-=0.4"
       );
     }
-
-    if (formContainerRef.current) {
-      tl.from(
-        formContainerRef.current,
-        {
-          opacity: 0,
-          y: 20,
-          duration: 0.6,
-          ease: "power3.out",
-        },
-        "-=0.3"
-      );
-    }
   }, [loadingComplete]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!problemsData.problems.trim()) {
-      return; // Optional field, can submit empty
-    }
-
-    setIsSubmitting(true);
-    setSubmitStatus("idle");
-
-    try {
-      // Send additional information to admin
-      const submissionData = {
-        name: userName,
-        email: userEmail,
-        telephone: "Not provided",
-        company: params.get("company") || "Not provided",
-        title: params.get("title") || "Not provided",
-        problems: problemsData.problems,
-        message: `Additional information from ${userName}: ${problemsData.problems}`,
-      };
-
-      await sendAdminNotification(submissionData);
-
-      setSubmitStatus("success");
-
-      // Animate success
-      if (formContainerRef.current) {
-        gsap.fromTo(
-          formContainerRef.current,
-          { scale: 0.95, opacity: 0.8 },
-          { scale: 1, opacity: 1, duration: 0.4, ease: "power2.out" }
-        );
-      }
-
-      // Clear form
-      setProblemsData({ problems: "" });
-    } catch (error) {
-      console.error("Form submission error:", error);
-      setSubmitStatus("error");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { value } = e.target;
-    setProblemsData({ problems: value });
-  };
 
   // Logo scroll animation - same logic as landing page
   useEffect(() => {
@@ -359,80 +283,6 @@ export const DemoSuccessPage = ({ loadingComplete = false }: { loadingComplete?:
               ? `We've received your request, ${userName}! Our team will be in touch with you shortly.`
               : "We've received your request! Our team will be in touch with you shortly."}
           </p>
-        </div>
-
-        {/* Problems Form Container */}
-        <div
-          ref={formContainerRef}
-          className="w-full bg-white rounded-2xl border border-gray-200 shadow-lg p-6 sm:p-8 md:p-10 lg:p-12"
-        >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-4 md:mb-6 [font-family:'Manrope',Helvetica]">
-            What are the problems you're looking to solve with our software?
-          </h2>
-          <p className="text-gray-600 text-sm sm:text-base mb-6 [font-family:'Manrope',Helvetica]">
-            Help us understand your needs better by sharing the challenges you're facing. This information will help us prepare a more tailored demo for you.
-          </p>
-
-          <form onSubmit={handleSubmit} className="w-full space-y-6">
-            {/* Problems Textarea */}
-            <div>
-              <label
-                htmlFor="problems"
-                className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
-              >
-                Tell us about your challenges <span className="text-gray-400 text-xs">(Optional)</span>
-              </label>
-              <textarea
-                id="problems"
-                name="problems"
-                value={problemsData.problems}
-                onChange={handleChange}
-                rows={6}
-                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500 resize-none"
-                placeholder="Describe the problems or challenges you're looking to solve with OWL AI..."
-              />
-            </div>
-
-            {/* Submit Button */}
-            <div className="pt-4">
-              <button
-                type="submit"
-                disabled={isSubmitting || !problemsData.problems.trim()}
-                className="cursor-target w-full h-12 md:h-14 px-8 md:px-10 rounded-xl bg-black text-white font-semibold text-base md:text-lg hover:bg-black hover:opacity-90 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
-              >
-                {isSubmitting ? "Submitting..." : "Submit"}
-              </button>
-            </div>
-
-            {/* Status Messages */}
-            {submitStatus === "success" && (
-              <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-xl">
-                <p className="text-green-800 text-sm [font-family:'Manrope',Helvetica] font-semibold">
-                  ✓ Thank you for sharing! This information will help us prepare a better demo for you.
-                </p>
-              </div>
-            )}
-
-            {submitStatus === "error" && (
-              <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl">
-                <p className="text-red-800 text-sm [font-family:'Manrope',Helvetica] font-semibold">
-                  ✗ Something went wrong. Please try again or contact us directly.
-                </p>
-              </div>
-            )}
-          </form>
-
-          {/* Skip Option */}
-          {!problemsData.problems.trim() && submitStatus === "idle" && (
-            <div className="mt-6 text-center">
-              <a
-                href="/"
-                className="cursor-target inline-flex items-center text-gray-500 hover:text-black transition-colors duration-300 [font-family:'Manrope',Helvetica] font-semibold text-sm"
-              >
-                Skip for now →
-              </a>
-            </div>
-          )}
         </div>
 
         {/* Back Link */}

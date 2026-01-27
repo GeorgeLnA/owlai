@@ -5,7 +5,9 @@ const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const EMAILJS_ADMIN_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID;
 const EMAILJS_CLIENT_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_CLIENT_TEMPLATE_ID;
-const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || 'lampostlead@owlaisolutions.com';
+
+/** Admin notifications always go to this address. Not overridable via env. */
+const ADMIN_EMAIL = 'lampostlead@owlaisolutions.com';
 
 // Initialize EmailJS
 if (EMAILJS_PUBLIC_KEY) {

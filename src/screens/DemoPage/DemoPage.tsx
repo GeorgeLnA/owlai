@@ -10,6 +10,7 @@ interface FormData {
   company: string;
   title: string;
   phone: string;
+  problems: string;
 }
 
 interface FormErrors {
@@ -25,6 +26,7 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
     company: "",
     title: "",
     phone: "",
+    problems: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -158,6 +160,7 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
           company: formData.company,
           title: formData.title || null,
           phone: formData.phone || null,
+          problems: formData.problems.trim() || null,
         })
         .select();
 
@@ -173,6 +176,7 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
         telephone: formData.phone || "",
         company: formData.company || "",
         title: formData.title || "",
+        problems: formData.problems.trim() || "",
       };
 
       // Send emails via EmailJS (same pattern as Get in Touch form)
@@ -192,6 +196,7 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
         email: formData.email,
         company: formData.company,
         title: formData.title || "",
+        problems: formData.problems.trim() || "",
       });
       window.location.href = `/demo-success?${params.toString()}`;
     } catch (error) {
@@ -202,7 +207,7 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     
@@ -458,6 +463,26 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
                   placeholder="Enter your phone number"
                 />
               </div>
+            </div>
+
+            {/* Problems - Optional */}
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor="problems"
+                className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
+              >
+                What are the problems you're looking to solve with our software?{" "}
+                <span className="text-gray-400 text-xs font-normal">(Optional)</span>
+              </label>
+              <input
+                type="text"
+                id="problems"
+                name="problems"
+                value={formData.problems}
+                onChange={handleChange}
+                placeholder="Describe the problems or challenges you're looking to solve with OWL AI..."
+                className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
+              />
             </div>
 
             {/* Submit Button */}
