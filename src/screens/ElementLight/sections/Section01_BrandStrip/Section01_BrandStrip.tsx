@@ -11,7 +11,6 @@ type BrandItem = {
 
 const brands: BrandItem[] = [
   { image: "/photo logos hero/prudential-logo-cropped.jpg", alt: "Prudential" },
-  { image: "/photo logos hero/worldquant-logo-cropped.jpg", alt: "WorldQuant" },
   { image: "/photo logos hero/Federated-Hermes-logo-cropped.jpg", alt: "Federated Hermes" },
   { image: "/photo logos hero/Point72-logo-cropped.jpg", alt: "Point72" },
   { image: "/photo logos hero/Dun-and-Bradstreet-logo-cropped.jpg", alt: "Dun and Bradstreet" },
