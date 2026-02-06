@@ -327,6 +327,7 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
     const overlay = topOverlayRef.current;
     const logo = logoRef.current;
     const logoContainer = logoContainerRef.current;
+    const demoButtonContainer = demoButtonContainerRef.current;
     if (!overlay || !logo) return;
 
     const heroSection = document.querySelector('section');
@@ -334,24 +335,23 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
 
     const triggers: ScrollTrigger[] = [];
 
-    // GSAP animation for logo and button hide/show (not scroll-scrubbed, triggered animations)
+    // GSAP animation for logo hide/show on scroll (button stays visible)
     let lastScrollY = window.scrollY;
     let isHidden = false;
     let scrollTimeout: number | null = null;
-    const demoButtonContainer = demoButtonContainerRef.current;
-    
+
     const handleScroll = () => {
       if (!logoContainer) return;
-      
+
       const currentScrollY = window.scrollY;
       const scrollingDown = currentScrollY > lastScrollY;
-      
+
       // Clear existing timeout
       if (scrollTimeout) {
         clearTimeout(scrollTimeout);
       }
-      
-      // If scrolling down and scrolled past threshold, hide logo and button
+
+      // If scrolling down and scrolled past threshold, hide logo only
       if (scrollingDown && currentScrollY > 50 && !isHidden) {
         gsap.to(logoContainer, {
           y: -100,
@@ -359,17 +359,9 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
           ease: 'power2.inOut',
           overwrite: true
         });
-        if (demoButtonContainer) {
-          gsap.to(demoButtonContainer, {
-            y: -100,
-            duration: 0.5,
-            ease: 'power2.inOut',
-            overwrite: true
-          });
-        }
         isHidden = true;
-      } 
-      // If scrolling up or at top, show logo and button
+      }
+      // If scrolling up or at top, show logo
       else if ((!scrollingDown || currentScrollY <= 50) && isHidden) {
         gsap.to(logoContainer, {
           y: 0,
@@ -377,20 +369,12 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
           ease: 'power2.inOut',
           overwrite: true
         });
-        if (demoButtonContainer) {
-          gsap.to(demoButtonContainer, {
-            y: 0,
-            duration: 0.5,
-            ease: 'power2.inOut',
-            overwrite: true
-          });
-        }
         isHidden = false;
       }
-      
+
       lastScrollY = currentScrollY;
-      
-      // Set timeout to handle scroll end - show logo and button if near top
+
+      // Set timeout to handle scroll end - show logo if near top
       scrollTimeout = window.setTimeout(() => {
         if (currentScrollY <= 50 && logoContainer && isHidden) {
           gsap.to(logoContainer, {
@@ -399,14 +383,6 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
             ease: 'power2.inOut',
             overwrite: true
           });
-          if (demoButtonContainer) {
-            gsap.to(demoButtonContainer, {
-              y: 0,
-              duration: 0.5,
-              ease: 'power2.inOut',
-              overwrite: true
-            });
-          }
           isHidden = false;
         }
       }, 150);
@@ -492,6 +468,30 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
     });
     triggers.push(heroScrollTrigger);
 
+    // Button expands as user scrolls: 88% → 115% (larger final size)
+    if (demoButtonContainer) {
+      const initialScroll = window.scrollY;
+      const expandProgress = Math.min(initialScroll / 300, 1);
+      const initialScale = 0.88 + expandProgress * 0.27; // 0.88 → 1.15
+      gsap.set(demoButtonContainer, {
+        left: "50%",
+        xPercent: -50,
+        transformOrigin: "center center",
+        scale: initialScale
+      });
+      const buttonExpandTrigger = ScrollTrigger.create({
+        trigger: document.body,
+        start: "top top",
+        end: "+=300",
+        scrub: 1.5,
+        onUpdate: (self) => {
+          const scale = 0.88 + self.progress * 0.27; // 88% → 115% over scroll
+          gsap.set(demoButtonContainer, { scale });
+        }
+      });
+      triggers.push(buttonExpandTrigger);
+    }
+
     // Note: Blend mode switching is handled by heroBlendTrigger below
     // This trigger is kept for any other future effects
 
@@ -517,11 +517,6 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
               overwrite: true
             });
           }
-          if (demoButton) {
-            demoButton.style.mixBlendMode = 'difference';
-            demoButton.classList.remove('text-white');
-            demoButton.classList.add('text-black');
-          }
         },
         onEnterBack: () => {
           const bgType = detectBackgroundColor(section);
@@ -535,11 +530,6 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
               ease: 'power2.inOut',
               overwrite: true
             });
-          }
-          if (demoButton) {
-            demoButton.style.mixBlendMode = 'difference';
-            demoButton.classList.remove('text-white');
-            demoButton.classList.add('text-black');
           }
         }
       });
@@ -556,22 +546,11 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
       });
     }
 
-    // Initialize button - blend mode from start
-    const demoButton = demoButtonRef.current;
-    if (demoButton) {
-      demoButton.style.mixBlendMode = 'difference';
-      gsap.set(demoButton, {
-        opacity: 1
-      });
-    }
-
     // Initialize containers with blend mode class
     if (logoContainer) {
       logoContainer.classList.add('mix-blend-difference');
     }
-    if (demoButtonContainer) {
-      demoButtonContainer.classList.add('mix-blend-difference');
-    }
+    // demoButtonContainer: no mix-blend, solid black button
 
     // Blend mode is now active from start, no need to toggle on/off
     // Keeping trigger for any future effects if needed
@@ -617,7 +596,7 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
           ref={logoRef}
           src="/photo logos hero/cropped-OWL-AI-white.png" 
           alt="OWL AI Logo" 
-          className="h-11 sm:h-12 md:h-14 w-auto"
+          className="h-9 sm:h-10 md:h-12 w-auto"
           style={{ 
             mixBlendMode: 'difference',
             filter: 'none',
@@ -626,22 +605,17 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
         />
       </div>
 
-      {/* Request a Demo Button - Top Right (Independent Element, slides with GSAP) */}
+      {/* Request a Demo Button - Centred (Independent Element, slides with GSAP) */}
       <div
         ref={demoButtonContainerRef}
-        className="fixed top-6 sm:top-7 md:top-8 right-6 md:right-14 z-50 pointer-events-auto"
+        className="fixed top-6 sm:top-7 md:top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-auto"
       >
         <a 
           href="/demo" 
           ref={demoButtonRef}
-          className="cursor-target inline-flex items-center justify-center h-10 sm:h-11 md:h-12 px-6 sm:px-8 md:px-10 rounded-xl bg-white text-black font-semibold text-sm sm:text-base md:text-lg md:hover:bg-gray-100 transition-colors duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
-          style={{ 
-            mixBlendMode: 'difference',
-            opacity: 1,
-            willChange: 'mix-blend-mode, opacity'
-          }}
+          className="cursor-target inline-flex items-center justify-center h-14 sm:h-16 md:h-[4.5rem] px-9 sm:px-11 md:px-16 rounded-xl bg-[#246193] text-white font-semibold text-lg sm:text-xl md:text-2xl md:hover:bg-[#1a4a6b] transition-colors duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
         >
-          <span ref={demoButtonTextRef} className="inline-block">Free Demo</span>
+          <span ref={demoButtonTextRef} className="inline-block">Request a Free Demo</span>
         </a>
       </div>
       
