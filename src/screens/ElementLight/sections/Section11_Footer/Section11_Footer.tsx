@@ -89,9 +89,17 @@ export const Section11_Footer = (): JSX.Element => {
           </h3>
           <a
             href="/demo"
-            className="cursor-target inline-flex items-center justify-center h-12 md:h-14 px-8 md:px-10 rounded-xl bg-black text-white font-semibold text-base md:text-lg hover:bg-[#246193] transition-colors duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
+            className="cursor-target inline-flex items-center justify-center w-[220px] h-12 md:h-14 rounded-xl bg-black text-white font-semibold text-base md:text-lg hover:bg-[#246193] transition-colors duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
           >
             Request a Demo
+          </a>
+          <a
+            href="https://calendly.com/aipowered-investment-research-saas/30min"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cursor-target mt-3 inline-flex items-center justify-center w-[220px] h-12 md:h-14 rounded-xl bg-[#246193] text-white font-semibold text-base md:text-lg hover:bg-[#1a4a6b] transition-colors duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
+          >
+            Call with Founder
           </a>
         </div>
       </div>

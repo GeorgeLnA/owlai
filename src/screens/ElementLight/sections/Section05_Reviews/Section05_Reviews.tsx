@@ -273,7 +273,7 @@ export const Section05_Reviews = (): JSX.Element => {
       </div>
 
       {/* Request Demo Form */}
-      <div className="mt-8 md:mt-12 w-full flex justify-center">
+      <div className="mt-8 md:mt-12 w-full flex flex-col items-center">
         <div className="w-full max-w-3xl mx-auto bg-[#246193] rounded-2xl border border-[#246193]/30 shadow-lg p-6 sm:p-8 md:p-10 lg:p-12">
           <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 tracking-tight [font-family:'Manrope',Helvetica]">
             Request a Free Demo
@@ -407,6 +407,21 @@ export const Section05_Reviews = (): JSX.Element => {
               </button>
             </div>
           </form>
+        </div>
+
+        {/* Separate: Book a call with Founder */}
+        <div className="w-full max-w-3xl mx-auto mt-6 rounded-2xl border border-gray-200 bg-white shadow-lg p-6 sm:p-8">
+          <p className="text-center text-wezomcomblack text-sm md:text-base mb-4 [font-family:'Manrope',Helvetica]">
+            Or book a call with the Founder of this platform
+          </p>
+          <a
+            href="https://calendly.com/aipowered-investment-research-saas/30min"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cursor-target flex items-center justify-center w-full py-3 px-6 rounded-xl bg-[#246193] text-white font-semibold text-sm md:text-base hover:bg-[#1a4a6b] transition-colors [font-family:'Manrope',Helvetica]"
+          >
+            Book a call →
+          </a>
         </div>
       </div>
     </section>
