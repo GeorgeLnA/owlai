@@ -624,7 +624,7 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
           {/* Hero Section */}
           <section 
             ref={heroSectionRef}
-            className="relative pt-32 pb-12 px-6 md:px-14 w-full"
+            className="relative pt-32 pb-12 px-[175px] md:px-[175px] w-full"
           >
             {/* Text Above Video */}
             <div className="mb-8 md:mb-12 pb-10 md:pb-18 lg:pb-22 text-center">

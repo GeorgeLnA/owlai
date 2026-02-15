@@ -11,13 +11,13 @@ export const VerticalDividerSection = (): JSX.Element => {
       <div className="flex flex-col items-start relative pt-6 pb-6 lg:pb-0 pl-0">
         <Card className="border-none shadow-none bg-transparent w-full">
           <CardContent className="flex flex-col items-start p-0 text-left">
-            <div className="w-full px-4 lg:px-10 pt-6">
+            <div className="w-full px-[50px] lg:px-[50px] pt-6">
               <p className="[font-family:'Manrope',Helvetica] font-medium text-wezomcomdove-gray text-base lg:text-lg leading-[25.2px] max-w-prose">
                 {missionText}
               </p>
             </div>
 
-            <div className="pt-6 lg:pt-10 px-4 lg:px-10">
+            <div className="pt-6 lg:pt-10 px-[50px] lg:px-[50px]">
               <Button className="rounded-xl px-6 lg:px-8 py-3 lg:py-[12.8px] bg-[#553194] hover:bg-[#553194]/90">
                 <span className="[font-family:'Manrope',Helvetica] font-semibold text-white text-sm lg:text-base tracking-[-0.16px] leading-[22.4px]">
                   ABOUT US

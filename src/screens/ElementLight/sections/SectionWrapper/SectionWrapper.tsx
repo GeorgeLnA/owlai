@@ -53,7 +53,7 @@ export const SectionWrapper = (): JSX.Element => {
   ];
 
   return (
-    <section className="flex flex-col lg:flex-row w-full items-end justify-center gap-8 py-8 md:py-16 px-4 md:px-0">
+    <section className="flex flex-col lg:flex-row w-full items-end justify-center gap-8 py-8 md:py-16 px-[50px] md:px-[50px]">
       {/* Left Column - Heading and CTA */}
       <div className="flex flex-col w-full lg:w-1/2 max-w-[680px] items-start gap-4 lg:pr-10">
         {/* Subtitle with dot */}
