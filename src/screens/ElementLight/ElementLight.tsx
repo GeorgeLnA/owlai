@@ -13,8 +13,6 @@ import { Section09_SectionWrapper } from "./sections/Section09_SectionWrapper";
 import { Section10_IntroductionAndInsights } from "./sections/Section10_IntroductionAndInsights";
 import { Section11_Footer } from "./sections/Section11_Footer";
 import TargetCursor from "../../components/ui/target-cursor";
-import { useRequestForm } from "../../contexts/RequestFormContext";
-
 gsap.registerPlugin(ScrollTrigger);
 
 type ElementLightProps = {
@@ -30,10 +28,9 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
   const topOverlayRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
   const logoContainerRef = useRef<HTMLDivElement>(null);
-  const demoButtonRef = useRef<HTMLButtonElement>(null);
+  const demoButtonRef = useRef<HTMLAnchorElement>(null);
   const demoButtonTextRef = useRef<HTMLSpanElement>(null);
   const demoButtonContainerRef = useRef<HTMLDivElement>(null);
-  const { openRequestForm } = useRequestForm();
   const muteButtonRef = useRef<HTMLDivElement>(null);
   const [videoUnmuted, setVideoUnmuted] = useState(false);
   const unmuteButtonRef = useRef<HTMLButtonElement>(null);
@@ -613,14 +610,13 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
         ref={demoButtonContainerRef}
         className="fixed top-6 sm:top-7 md:top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-auto"
       >
-        <button
-          type="button"
+        <a
+          href="/demo"
           ref={demoButtonRef}
-          onClick={openRequestForm}
           className="cursor-target inline-flex items-center justify-center h-14 sm:h-16 md:h-[4.5rem] px-9 sm:px-11 md:px-16 rounded-xl bg-[#246193] text-white font-semibold text-lg sm:text-xl md:text-2xl md:hover:bg-[#1a4a6b] transition-colors duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
         >
           <span ref={demoButtonTextRef} className="inline-block">Test Lampost Beta for Free</span>
-        </button>
+        </a>
       </div>
       
       <div className="flex flex-col w-full items-start">

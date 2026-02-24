@@ -1,10 +1,8 @@
 "use client";
 
 import React from "react";
-import { useRequestForm } from "../../../../contexts/RequestFormContext";
 
 export const Section11_Footer = (): JSX.Element => {
-  const { openRequestForm } = useRequestForm();
 
   // Footer links organized in columns - based on actual sections on the page
   const footerLinks = [
@@ -72,22 +70,12 @@ export const Section11_Footer = (): JSX.Element => {
                   key={link.id}
                   className="group inline-flex cursor-pointer items-center justify-start gap-1"
                 >
-                  {link.url === "/demo" ? (
-                    <button
-                      type="button"
-                      onClick={openRequestForm}
-                      className="cursor-target text-[15px] text-wezomcomdove-gray [font-family:'Manrope',Helvetica] font-semibold transition-colors duration-300 hover:text-black text-left bg-transparent border-0 p-0"
-                    >
-                      {link.title}
-                    </button>
-                  ) : (
-                    <a
-                      href={link.url}
-                      className="cursor-target text-[15px] text-wezomcomdove-gray [font-family:'Manrope',Helvetica] font-semibold transition-colors duration-300 hover:text-black"
-                    >
-                      {link.title}
-                    </a>
-                  )}
+                  <a
+                    href={link.url}
+                    className="cursor-target text-[15px] text-wezomcomdove-gray [font-family:'Manrope',Helvetica] font-semibold transition-colors duration-300 hover:text-black"
+                  >
+                    {link.title}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -99,13 +87,12 @@ export const Section11_Footer = (): JSX.Element => {
           <h3 className="text-lg md:text-xl font-bold text-black mb-4 [font-family:'Manrope',Helvetica]">
             Ready to get started?
           </h3>
-          <button
-            type="button"
-            onClick={openRequestForm}
+          <a
+            href="/demo"
             className="cursor-target inline-flex items-center justify-center w-[220px] h-12 md:h-14 rounded-xl bg-black text-white font-semibold text-base md:text-lg hover:bg-[#246193] transition-colors duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
           >
             Free Lampost Beta
-          </button>
+          </a>
           <a
             href="https://calendly.com/aipowered-investment-research-saas/30min"
             target="_blank"

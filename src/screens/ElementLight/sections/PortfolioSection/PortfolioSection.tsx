@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useRequestForm } from "../../../../contexts/RequestFormContext";
 
 export const PortfolioSection = (): JSX.Element => {
   const sectionRef = useRef<HTMLElement>(null);
-  const { openRequestForm } = useRequestForm();
   const companies = [
     { id: 1, name: "Apple Inc.", ticker: "AAPL" },
     { id: 2, name: "Microsoft Corporation", ticker: "MSFT" },
@@ -605,13 +603,12 @@ export const PortfolioSection = (): JSX.Element => {
 
       {/* CTA Button */}
       <div className="w-full flex justify-center mt-8 md:mt-10">
-        <button
-          type="button"
-          onClick={openRequestForm}
+        <a
+          href="/demo"
           className="cursor-target inline-flex items-center justify-center h-12 sm:h-14 md:h-16 px-8 sm:px-10 md:px-12 rounded-xl bg-white text-black font-semibold text-base sm:text-lg md:text-xl hover:bg-black hover:text-white hover:border hover:border-black hover:scale-105 transition-all duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
         >
           Test Lampost Beta for Free
-        </button>
+        </a>
       </div>
     </section>
   );
