@@ -266,7 +266,7 @@ export const PortfolioSection = (): JSX.Element => {
       </div>
 
       {/* Large Platform UI preview box - Hero style */}
-      <div className="w-full h-[85vh] sm:h-[75vh] md:h-[80vh] lg:h-[85vh] rounded-xl border border-[#afafaf80] bg-gradient-to-br from-white via-gray-50/50 to-gray-100/30 backdrop-blur-md flex flex-col sm:flex-row shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] overflow-hidden relative">
+      <div className="w-full rounded-xl border border-[#afafaf80] bg-gradient-to-br from-white via-gray-50/50 to-gray-100/30 backdrop-blur-md flex flex-col sm:flex-row shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] overflow-hidden relative">
         {/* Decorative gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-tr from-[#553194]/5 via-transparent to-[#553194]/5 pointer-events-none" />
         
@@ -306,18 +306,17 @@ export const PortfolioSection = (): JSX.Element => {
 
         {/* Right side - Dynamic Content */}
         <div 
-          className="flex-1 relative z-10 overflow-hidden cursor-auto bg-white min-h-0"
+          className="flex-1 relative z-10 min-w-0 cursor-auto bg-white"
           onMouseEnter={() => {
             setIsHovering(true);
             setHasInteracted(true);
           }}
           onMouseLeave={() => setIsHovering(false)}
         >
-          {/* Preview Screen */}
+          {/* Preview Screen - hidden */}
           <div 
-            className={`absolute inset-0 flex items-center justify-center p-6 md:p-8 transition-all duration-500 ease-in-out ${
-              'opacity-0 pointer-events-none translate-y-2'
-            }`}
+            className="absolute inset-0 flex items-center justify-center p-6 md:p-8 opacity-0 pointer-events-none"
+            aria-hidden
           >
             <div className="text-center">
               <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 tracking-tight [font-family:'Manrope',Helvetica]">
@@ -329,18 +328,14 @@ export const PortfolioSection = (): JSX.Element => {
             </div>
           </div>
 
-          {/* Content Screen */}
-          <div 
-            className={`absolute inset-0 transition-all duration-500 ease-in-out ${
-              'opacity-100 pointer-events-auto translate-y-0'
-            }`}
-          >
-            {/* Peer Groups View */}
+          {/* Content Screen - in flow so height fits content */}
+          <div className="relative transition-all duration-500 ease-in-out">
+            {/* Peer Groups View - in flow when active so box fits content */}
             <div 
-              className={`absolute inset-0 flex flex-col p-4 sm:p-6 md:p-8 overflow-y-auto transition-all duration-500 ease-in-out ${
+              className={`flex flex-col p-4 sm:p-6 md:p-8 transition-all duration-500 ease-in-out ${
                 activeView === 'peerGroups'
-                  ? 'opacity-100 pointer-events-auto translate-x-0' 
-                  : 'opacity-0 pointer-events-none translate-x-4'
+                  ? 'relative opacity-100 pointer-events-auto translate-x-0' 
+                  : 'absolute inset-0 opacity-0 pointer-events-none translate-x-4'
               }`}
             >
               <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-4 sm:mb-6 tracking-tight [font-family:'Manrope',Helvetica]">
@@ -359,7 +354,7 @@ export const PortfolioSection = (): JSX.Element => {
                 </div>
               )}
               
-              <div className="flex flex-col gap-4 sm:gap-6 flex-1 min-h-0">
+              <div className="flex flex-col gap-4 sm:gap-6">
                 {/* Group Name Field */}
                 <div className="flex flex-col gap-2">
                   <label className="text-xs sm:text-sm md:text-base font-semibold text-black [font-family:'Manrope',Helvetica]">
@@ -436,12 +431,12 @@ export const PortfolioSection = (): JSX.Element => {
               </div>
             </div>
 
-            {/* Research Tool View */}
+            {/* Research Tool View - in flow when active so box fits content */}
             <div 
-              className={`absolute inset-0 flex flex-col p-4 sm:p-6 md:p-8 overflow-y-auto transition-all duration-500 ease-in-out ${
+              className={`flex flex-col p-4 sm:p-6 md:p-8 transition-all duration-500 ease-in-out ${
                 activeView === 'researchTool'
-                  ? 'opacity-100 pointer-events-auto translate-x-0' 
-                  : 'opacity-0 pointer-events-none translate-x-4'
+                  ? 'relative opacity-100 pointer-events-auto translate-x-0' 
+                  : 'absolute inset-0 opacity-0 pointer-events-none translate-x-4'
               }`}
             >
               <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-3 sm:mb-4 tracking-tight [font-family:'Manrope',Helvetica]">
@@ -451,7 +446,7 @@ export const PortfolioSection = (): JSX.Element => {
                 Get the information you need quickly and efficiently.
               </p>
               
-              <div className="flex flex-col gap-4 sm:gap-6 flex-1 min-h-0">
+              <div className="flex flex-col gap-4 sm:gap-6">
                 {/* Results Display Area */}
                 <div className="w-full px-3 sm:px-4 py-4 sm:py-6 rounded-xl border border-[#afafaf80] bg-white min-h-[80px] sm:min-h-[96px] text-black text-xs sm:text-sm md:text-base [font-family:'Manrope',Helvetica] relative">
                   {!selectedYear ? (
