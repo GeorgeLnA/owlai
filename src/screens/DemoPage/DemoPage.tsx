@@ -31,93 +31,12 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [currentStep, setCurrentStep] = useState<1 | 2>(1);
   const formRef = useRef<HTMLFormElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const formContainerRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLImageElement>(null);
-  const logoContainerRef = useRef<HTMLDivElement>(null);
-
-  // Logo scroll animation - same logic as landing page
-  useEffect(() => {
-    const logo = logoRef.current;
-    const logoContainer = logoContainerRef.current;
-    if (!logo || !logoContainer) return;
-
-    // Initialize logo container position
-    gsap.set(logoContainer, {
-      x: 0,
-      y: 0,
-    });
-
-    // Initialize logo styling
-    if (logo) {
-      gsap.set(logo, {
-        opacity: 1,
-      });
-    }
-
-    // GSAP animation for logo hide/show on scroll
-    let lastScrollY = window.scrollY;
-    let isHidden = false;
-    let scrollTimeout: number | null = null;
-
-    const handleScroll = () => {
-      if (!logoContainer) return;
-
-      const currentScrollY = window.scrollY;
-      const scrollingDown = currentScrollY > lastScrollY;
-
-      // Clear existing timeout
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-
-      // If scrolling down and scrolled past threshold, hide logo
-      if (scrollingDown && currentScrollY > 50 && !isHidden) {
-        gsap.to(logoContainer, {
-          y: -100,
-          duration: 0.5,
-          ease: "power2.inOut",
-          overwrite: true,
-        });
-        isHidden = true;
-      }
-      // If scrolling up or at top, show logo
-      else if ((!scrollingDown || currentScrollY <= 50) && isHidden) {
-        gsap.to(logoContainer, {
-          y: 0,
-          duration: 0.5,
-          ease: "power2.inOut",
-          overwrite: true,
-        });
-        isHidden = false;
-      }
-
-      lastScrollY = currentScrollY;
-
-      // Set timeout to handle scroll end - show logo if near top
-      scrollTimeout = window.setTimeout(() => {
-        if (currentScrollY <= 50 && logoContainer && isHidden) {
-          gsap.to(logoContainer, {
-            y: 0,
-            duration: 0.5,
-            ease: "power2.inOut",
-            overwrite: true,
-          });
-          isHidden = false;
-        }
-      }, 150);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (scrollTimeout) clearTimeout(scrollTimeout);
-    };
-  }, []);
-
+  const stepContentRef = useRef<HTMLDivElement>(null);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -142,6 +61,7 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (currentStep !== 2) return;
 
     if (!validateForm()) {
       return;
@@ -210,120 +130,27 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    
-    // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
 
-  // Logo scroll animation - same logic as landing page
+  const goToNextStep = () => {
+    if (!validateForm()) return;
+    setCurrentStep(2);
+  };
+
+  const goToPrevStep = () => setCurrentStep(1);
+
   useEffect(() => {
-    const logo = logoRef.current;
-    const logoContainer = logoContainerRef.current;
-    if (!logo || !logoContainer) return;
-
-    // GSAP animation for logo hide/show based on scroll
-    let lastScrollY = window.scrollY;
-    let isHidden = false;
-    let scrollTimeout: number | null = null;
-
-    const handleScroll = () => {
-      if (!logoContainer) return;
-
-      const currentScrollY = window.scrollY;
-      const scrollingDown = currentScrollY > lastScrollY;
-
-      // Clear existing timeout
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-
-      // If scrolling down and scrolled past threshold, hide logo
-      if (scrollingDown && currentScrollY > 50 && !isHidden) {
-        gsap.to(logoContainer, {
-          y: -100,
-          duration: 0.5,
-          ease: "power2.inOut",
-          overwrite: true,
-        });
-        isHidden = true;
-      }
-      // If scrolling up or at top, show logo
-      else if ((!scrollingDown || currentScrollY <= 50) && isHidden) {
-        gsap.to(logoContainer, {
-          y: 0,
-          duration: 0.5,
-          ease: "power2.inOut",
-          overwrite: true,
-        });
-        isHidden = false;
-      }
-
-      lastScrollY = currentScrollY;
-
-      // Set timeout to handle scroll end - show logo if near top
-      scrollTimeout = window.setTimeout(() => {
-        if (currentScrollY <= 50 && logoContainer && isHidden) {
-          gsap.to(logoContainer, {
-            y: 0,
-            duration: 0.5,
-            ease: "power2.inOut",
-            overwrite: true,
-          });
-          isHidden = false;
-        }
-      }, 150);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    // Initialize logo styling
-    if (logo) {
-      logo.style.mixBlendMode = "difference";
-      gsap.set(logo, {
-        filter: "none",
-        opacity: 1,
-      });
-    }
-
-    // Initialize logo container position
-    if (logoContainer) {
-      gsap.set(logoContainer, {
-        x: 0,
-        y: 0,
-      });
-    }
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (scrollTimeout) clearTimeout(scrollTimeout);
-    };
-  }, []);
+    const el = stepContentRef.current;
+    if (!el) return;
+    gsap.fromTo(el, { opacity: 0, x: 8 }, { opacity: 1, x: 0, duration: 0.3, ease: "power2.out" });
+  }, [currentStep]);
 
   return (
     <div ref={containerRef} className="relative w-full bg-white overflow-x-hidden min-h-screen">
       <TargetCursor spinDuration={6} hideDefaultCursor={true} />
-      
-      {/* Header with Logo */}
-      <div
-        ref={logoContainerRef}
-        className="fixed top-6 sm:top-7 md:top-8 left-6 md:left-14 z-50 pointer-events-none"
-      >
-        <a href="/" className="cursor-target">
-          <img
-            ref={logoRef}
-            src="/photo logos hero/cropped-OWL-AI-white.png"
-            alt="OWL AI Logo"
-            className="h-11 sm:h-12 md:h-14 w-auto brightness-0 cursor-pointer pointer-events-auto hover:opacity-80 transition-opacity duration-300"
-            style={{
-              mixBlendMode: "difference",
-              filter: "none",
-              willChange: "mix-blend-mode, filter, opacity",
-            }}
-          />
-        </a>
-      </div>
 
       {/* Main Content */}
       <div className="flex flex-col w-full items-center justify-start pt-20 pb-20 px-6 md:px-14 h-screen">
@@ -343,162 +170,171 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
           className="w-full max-w-2xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-lg p-6 sm:p-8 md:p-10 lg:p-12"
         >
           <form ref={formRef} onSubmit={handleSubmit} className="w-full space-y-6">
-            {/* Name and Company - Side by Side */}
-            <div className="flex flex-col sm:flex-row gap-6">
-              {/* Name - Required */}
-              <div className="flex-1">
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
-                >
-                  Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
-                    errors.name ? "border-red-500" : "border-gray-300"
-                  } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
-                  placeholder="Enter your full name"
-                />
-                {errors.name && (
-                  <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">
-                    {errors.name}
-                  </p>
-                )}
-              </div>
+            <div ref={stepContentRef} className="space-y-6">
+              {currentStep === 1 && (
+                <>
+                  <div className="flex flex-col sm:flex-row gap-6">
+                    <div className="flex-1">
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
+                      >
+                        Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
+                          errors.name ? "border-red-500" : "border-gray-300"
+                        } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
+                        placeholder="Enter your full name"
+                      />
+                      {errors.name && (
+                        <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">{errors.name}</p>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <label
+                        htmlFor="company"
+                        className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
+                      >
+                        Company <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="company"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
+                        className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
+                          errors.company ? "border-red-500" : "border-gray-300"
+                        } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
+                        placeholder="Enter your company name"
+                      />
+                      {errors.company && (
+                        <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">{errors.company}</p>
+                      )}
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
+                    >
+                      Email <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
+                        errors.email ? "border-red-500" : "border-gray-300"
+                      } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
+                      placeholder="Enter your email address"
+                    />
+                    {errors.email && (
+                      <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">{errors.email}</p>
+                    )}
+                  </div>
+                </>
+              )}
 
-              {/* Company - Required */}
-              <div className="flex-1">
-                <label
-                  htmlFor="company"
-                  className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
-                >
-                  Company <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="company"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleChange}
-                  className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
-                    errors.company ? "border-red-500" : "border-gray-300"
-                  } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
-                  placeholder="Enter your company name"
-                />
-                {errors.company && (
-                  <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">
-                    {errors.company}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Email - Required */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
-              >
-                Email <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
-                placeholder="Enter your email address"
-              />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">
-                  {errors.email}
-                </p>
+              {currentStep === 2 && (
+                <>
+                  <div className="flex flex-col sm:flex-row gap-6">
+                    <div className="flex-1">
+                      <label
+                        htmlFor="title"
+                        className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
+                      >
+                        Title <span className="text-gray-400 text-xs">(Optional)</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value={formData.title}
+                        onChange={handleChange}
+                        className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
+                        placeholder="Enter your job title"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <label
+                        htmlFor="phone"
+                        className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
+                      >
+                        Phone Number <span className="text-gray-400 text-xs">(Optional)</span>
+                      </label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
+                        placeholder="Enter your phone number"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="problems"
+                      className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
+                    >
+                      What are the problems you're looking to solve with our software?{" "}
+                      <span className="text-gray-400 text-xs font-normal">(Optional)</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="problems"
+                      name="problems"
+                      value={formData.problems}
+                      onChange={handleChange}
+                      placeholder="Describe the problems or challenges you're looking to solve with OWL AI..."
+                      className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
+                    />
+                  </div>
+                </>
               )}
             </div>
 
-            {/* Title and Phone Number - Side by Side */}
-            <div className="flex flex-col sm:flex-row gap-6">
-              {/* Title - Optional */}
-              <div className="flex-1">
-                <label
-                  htmlFor="title"
-                  className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
+            <div className="pt-4 flex gap-3">
+              {currentStep === 2 && (
+                <button
+                  type="button"
+                  onClick={goToPrevStep}
+                  className="cursor-target flex-1 sm:flex-none h-12 md:h-14 px-6 md:px-8 rounded-xl bg-gray-200 text-black font-semibold text-base hover:bg-gray-300 transition-all duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
                 >
-                  Title <span className="text-gray-400 text-xs">(Optional)</span>
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleChange}
-                  className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
-                  placeholder="Enter your job title"
-                />
-              </div>
-
-              {/* Phone - Optional */}
-              <div className="flex-1">
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
+                  Back
+                </button>
+              )}
+              {currentStep === 1 ? (
+                <button
+                  type="button"
+                  onClick={goToNextStep}
+                  className="cursor-target w-full h-12 md:h-14 px-8 md:px-10 rounded-xl bg-black text-white font-semibold text-base md:text-lg hover:bg-black hover:opacity-90 transition-all duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
                 >
-                  Phone Number <span className="text-gray-400 text-xs">(Optional)</span>
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
-                  placeholder="Enter your phone number"
-                />
-              </div>
+                  Next
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="cursor-target flex-1 h-12 md:h-14 px-8 md:px-10 rounded-xl bg-black text-white font-semibold text-base md:text-lg hover:bg-black hover:opacity-90 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
+                >
+                  {isSubmitting ? "Submitting..." : "Submit Request"}
+                </button>
+              )}
             </div>
 
-            {/* Problems - Optional */}
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor="problems"
-                className="block text-sm font-semibold text-black mb-2 [font-family:'Manrope',Helvetica]"
-              >
-                What are the problems you're looking to solve with our software?{" "}
-                <span className="text-gray-400 text-xs font-normal">(Optional)</span>
-              </label>
-              <input
-                type="text"
-                id="problems"
-                name="problems"
-                value={formData.problems}
-                onChange={handleChange}
-                placeholder="Describe the problems or challenges you're looking to solve with OWL AI..."
-                className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
-              />
-            </div>
-
-            {/* Submit Button */}
-            <div className="pt-4">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="cursor-target w-full h-12 md:h-14 px-8 md:px-10 rounded-xl bg-black text-white font-semibold text-base md:text-lg hover:bg-black hover:opacity-90 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
-              >
-                {isSubmitting ? "Submitting..." : "Submit Request"}
-              </button>
-            </div>
-
-            {/* Status Messages */}
             {submitStatus === "error" && (
-              <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl">
+              <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
                 <p className="text-red-800 text-sm [font-family:'Manrope',Helvetica] font-semibold">
                   ✗ Something went wrong. Please try again or contact us directly.
                 </p>

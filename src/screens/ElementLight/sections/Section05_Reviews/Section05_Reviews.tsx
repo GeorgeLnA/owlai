@@ -66,6 +66,7 @@ export const Section05_Reviews = (): JSX.Element => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentStep, setCurrentStep] = useState<1 | 2>(1);
   const [submitStatus, setSubmitStatus] = useState<{
     type: 'success' | 'error' | null;
     message: string;
@@ -119,8 +120,16 @@ export const Section05_Reviews = (): JSX.Element => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const goToNextStep = () => {
+    if (!validateForm()) return;
+    setCurrentStep(2);
+  };
+
+  const goToPrevStep = () => setCurrentStep(1);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (currentStep !== 2) return;
     if (!validateForm()) return;
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: '' });
@@ -279,113 +288,114 @@ export const Section05_Reviews = (): JSX.Element => {
             Test Lampost Beta for Free
           </h3>
           <form onSubmit={handleSubmit} className="w-full space-y-6">
-            {/* Name and Company - Side by Side */}
-            <div className="flex flex-col sm:flex-row gap-6">
-              <div className="flex-1">
-                <label htmlFor="name" className="block text-sm font-semibold text-white mb-2 [font-family:'Manrope',Helvetica]">
-                  Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder="Enter your full name"
-                  className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
-                    errors.name ? 'border-red-500' : 'border-gray-300'
-                  } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
-                />
-                {errors.name && <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">{errors.name}</p>}
-              </div>
-              <div className="flex-1">
-                <label htmlFor="company" className="block text-sm font-semibold text-white mb-2 [font-family:'Manrope',Helvetica]">
-                  Company <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="company"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleInputChange}
-                  placeholder="Enter your company name"
-                  className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
-                    errors.company ? 'border-red-500' : 'border-gray-300'
-                  } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
-                />
-                {errors.company && <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">{errors.company}</p>}
-              </div>
-            </div>
+            {currentStep === 1 && (
+              <>
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <div className="flex-1">
+                    <label htmlFor="name" className="block text-sm font-semibold text-white mb-2 [font-family:'Manrope',Helvetica]">
+                      Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="Enter your full name"
+                      className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
+                        errors.name ? 'border-red-500' : 'border-gray-300'
+                      } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
+                    />
+                    {errors.name && <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">{errors.name}</p>}
+                  </div>
+                  <div className="flex-1">
+                    <label htmlFor="company" className="block text-sm font-semibold text-white mb-2 [font-family:'Manrope',Helvetica]">
+                      Company <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="company"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleInputChange}
+                      placeholder="Enter your company name"
+                      className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
+                        errors.company ? 'border-red-500' : 'border-gray-300'
+                      } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
+                    />
+                    {errors.company && <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">{errors.company}</p>}
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-semibold text-white mb-2 [font-family:'Manrope',Helvetica]">
+                    Email <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="Enter your email address"
+                    className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
+                      errors.email ? 'border-red-500' : 'border-gray-300'
+                    } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
+                  />
+                  {errors.email && <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">{errors.email}</p>}
+                </div>
+              </>
+            )}
 
-            {/* Email - Required */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-white mb-2 [font-family:'Manrope',Helvetica]">
-                Email <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="Enter your email address"
-                className={`cursor-target w-full h-12 px-4 rounded-xl bg-white border ${
-                  errors.email ? 'border-red-500' : 'border-gray-300'
-                } focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500`}
-              />
-              {errors.email && <p className="mt-1 text-sm text-red-500 [font-family:'Manrope',Helvetica]">{errors.email}</p>}
-            </div>
+            {currentStep === 2 && (
+              <>
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <div className="flex-1">
+                    <label htmlFor="title" className="block text-sm font-semibold text-white mb-2 [font-family:'Manrope',Helvetica]">
+                      Title <span className="text-white/70 text-xs">(Optional)</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      value={formData.title}
+                      onChange={handleInputChange}
+                      placeholder="Enter your job title"
+                      className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <label htmlFor="phone" className="block text-sm font-semibold text-white mb-2 [font-family:'Manrope',Helvetica]">
+                      Phone Number <span className="text-white/70 text-xs">(Optional)</span>
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="Enter your phone number"
+                      className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="problems" className="block text-sm font-semibold text-white mb-2 [font-family:'Manrope',Helvetica]">
+                    What are the problems you're looking to solve with our software?{' '}
+                    <span className="text-white/70 text-xs font-normal">(Optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="problems"
+                    name="problems"
+                    value={formData.problems}
+                    onChange={handleInputChange}
+                    placeholder="Describe the problems or challenges you're looking to solve with OWL AI..."
+                    className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
+                  />
+                </div>
+              </>
+            )}
 
-            {/* Title and Phone - Side by Side */}
-            <div className="flex flex-col sm:flex-row gap-6">
-              <div className="flex-1">
-                <label htmlFor="title" className="block text-sm font-semibold text-white mb-2 [font-family:'Manrope',Helvetica]">
-                  Title <span className="text-white/70 text-xs">(Optional)</span>
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleInputChange}
-                  placeholder="Enter your job title"
-                  className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
-                />
-              </div>
-              <div className="flex-1">
-                <label htmlFor="phone" className="block text-sm font-semibold text-white mb-2 [font-family:'Manrope',Helvetica]">
-                  Phone Number <span className="text-white/70 text-xs">(Optional)</span>
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  placeholder="Enter your phone number"
-                  className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
-                />
-              </div>
-            </div>
-
-            {/* Problems - Optional */}
-            <div>
-              <label htmlFor="problems" className="block text-sm font-semibold text-white mb-2 [font-family:'Manrope',Helvetica]">
-                What are the problems you're looking to solve with our software?{' '}
-                <span className="text-white/70 text-xs font-normal">(Optional)</span>
-              </label>
-              <input
-                type="text"
-                id="problems"
-                name="problems"
-                value={formData.problems}
-                onChange={handleInputChange}
-                placeholder="Describe the problems or challenges you're looking to solve with OWL AI..."
-                className="cursor-target w-full h-12 px-4 rounded-xl bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#246193] focus:border-transparent transition-all duration-300 [font-family:'Manrope',Helvetica] text-black placeholder:text-gray-500"
-              />
-            </div>
-
-            {/* Status Message */}
             {submitStatus.type && (
               <div
                 className={`p-4 rounded-xl ${
@@ -396,15 +406,33 @@ export const Section05_Reviews = (): JSX.Element => {
               </div>
             )}
 
-            {/* Submit Button */}
-            <div className="pt-4">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="cursor-target w-full h-12 md:h-14 px-8 md:px-10 rounded-xl bg-white text-[#246193] font-semibold text-base md:text-lg hover:bg-white/90 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
-              >
-                {isSubmitting ? 'Submitting...' : 'Submit Request'}
-              </button>
+            <div className="pt-4 flex gap-3">
+              {currentStep === 2 && (
+                <button
+                  type="button"
+                  onClick={goToPrevStep}
+                  className="cursor-target flex-1 sm:flex-none h-12 md:h-14 px-6 md:px-8 rounded-xl bg-white/20 text-white font-semibold text-base hover:bg-white/30 transition-all duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
+                >
+                  Back
+                </button>
+              )}
+              {currentStep === 1 ? (
+                <button
+                  type="button"
+                  onClick={goToNextStep}
+                  className="cursor-target w-full h-12 md:h-14 px-8 md:px-10 rounded-xl bg-white text-[#246193] font-semibold text-base md:text-lg hover:bg-white/90 transition-all duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
+                >
+                  Next
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="cursor-target flex-1 h-12 md:h-14 px-8 md:px-10 rounded-xl bg-white text-[#246193] font-semibold text-base md:text-lg hover:bg-white/90 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
+                >
+                  {isSubmitting ? 'Submitting...' : 'Submit Request'}
+                </button>
+              )}
             </div>
           </form>
         </div>
