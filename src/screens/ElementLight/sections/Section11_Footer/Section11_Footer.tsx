@@ -10,7 +10,7 @@ export const Section11_Footer = (): JSX.Element => {
       title: "PLATFORM",
       links: [
         { id: 1, title: "Platform", url: "#platform" },
-        { id: 2, title: "Request a Demo", url: "/demo" },
+        { id: 2, title: "Test Lampost Beta for Free", url: "/demo" },
       ],
     },
     {
@@ -91,7 +91,7 @@ export const Section11_Footer = (): JSX.Element => {
             href="/demo"
             className="cursor-target inline-flex items-center justify-center w-[220px] h-12 md:h-14 rounded-xl bg-black text-white font-semibold text-base md:text-lg hover:bg-[#246193] transition-colors duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
           >
-            Request a Demo
+            Free Lampost Beta
           </a>
           <a
             href="https://calendly.com/aipowered-investment-research-saas/30min"

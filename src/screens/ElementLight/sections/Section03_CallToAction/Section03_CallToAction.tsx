@@ -23,7 +23,7 @@ export const Section03_CallToAction = (): JSX.Element => {
             href="/demo"
             className="cursor-target inline-flex items-center justify-center h-11 sm:h-12 md:h-14 lg:h-16 px-6 sm:px-8 md:px-10 lg:px-12 rounded-xl bg-white text-black font-semibold text-sm sm:text-base md:text-lg lg:text-xl hover:bg-gray-100 hover:scale-105 transition-all duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
           >
-            Request a Demo
+            Test Lampost Beta for Free
           </a>
         </div>
       </div>

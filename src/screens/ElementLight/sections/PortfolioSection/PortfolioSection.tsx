@@ -607,7 +607,7 @@ export const PortfolioSection = (): JSX.Element => {
           href="/demo" 
           className="cursor-target inline-flex items-center justify-center h-12 sm:h-14 md:h-16 px-8 sm:px-10 md:px-12 rounded-xl bg-white text-black font-semibold text-base sm:text-lg md:text-xl hover:bg-black hover:text-white hover:border hover:border-black hover:scale-105 transition-all duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
         >
-          Request a Demo
+          Test Lampost Beta for Free
         </a>
       </div>
     </section>

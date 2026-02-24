@@ -333,7 +333,7 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
             ref={titleRef}
             className="text-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 [font-family:'Manrope',Helvetica]"
           >
-            Request a Free Demo
+            Test Lampost Beta for Free
           </h1>
         </div>
 

@@ -615,7 +615,7 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
           ref={demoButtonRef}
           className="cursor-target inline-flex items-center justify-center h-14 sm:h-16 md:h-[4.5rem] px-9 sm:px-11 md:px-16 rounded-xl bg-[#246193] text-white font-semibold text-lg sm:text-xl md:text-2xl md:hover:bg-[#1a4a6b] transition-colors duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
         >
-          <span ref={demoButtonTextRef} className="inline-block">Request a Free Demo</span>
+          <span ref={demoButtonTextRef} className="inline-block">Test Lampost Beta for Free</span>
         </a>
       </div>
       
