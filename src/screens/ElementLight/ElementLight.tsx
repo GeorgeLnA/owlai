@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { HeroSection } from "./sections/HeroSection";
 import { Section01_BrandStrip } from "./sections/Section01_BrandStrip";
+import { BetaTestFormBlock } from "./sections/BetaTestFormBlock";
 import { Section02_OurExpertise } from "./sections/Section02_OurExpertise";
 import { Section03_CallToAction } from "./sections/Section03_CallToAction";
 import { Section04_BlogAndStats } from "./sections/Section04_BlogAndStats";
@@ -12,6 +13,7 @@ import { Section09_SectionWrapper } from "./sections/Section09_SectionWrapper";
 import { Section10_IntroductionAndInsights } from "./sections/Section10_IntroductionAndInsights";
 import { Section11_Footer } from "./sections/Section11_Footer";
 import TargetCursor from "../../components/ui/target-cursor";
+import { useRequestForm } from "../../contexts/RequestFormContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,9 +30,10 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
   const topOverlayRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
   const logoContainerRef = useRef<HTMLDivElement>(null);
-  const demoButtonRef = useRef<HTMLAnchorElement>(null);
+  const demoButtonRef = useRef<HTMLButtonElement>(null);
   const demoButtonTextRef = useRef<HTMLSpanElement>(null);
   const demoButtonContainerRef = useRef<HTMLDivElement>(null);
+  const { openRequestForm } = useRequestForm();
   const muteButtonRef = useRef<HTMLDivElement>(null);
   const [videoUnmuted, setVideoUnmuted] = useState(false);
   const unmuteButtonRef = useRef<HTMLButtonElement>(null);
@@ -610,13 +613,14 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
         ref={demoButtonContainerRef}
         className="fixed top-6 sm:top-7 md:top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-auto"
       >
-        <a 
-          href="/demo" 
+        <button
+          type="button"
           ref={demoButtonRef}
+          onClick={openRequestForm}
           className="cursor-target inline-flex items-center justify-center h-14 sm:h-16 md:h-[4.5rem] px-9 sm:px-11 md:px-16 rounded-xl bg-[#246193] text-white font-semibold text-lg sm:text-xl md:text-2xl md:hover:bg-[#1a4a6b] transition-colors duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
         >
           <span ref={demoButtonTextRef} className="inline-block">Test Lampost Beta for Free</span>
-        </a>
+        </button>
       </div>
       
       <div className="flex flex-col w-full items-start">
@@ -740,6 +744,11 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
           {/* Brand Strip - Separate section filling remaining 10% */}
           <div ref={brandStripRef} className="relative w-full h-[15vh] md:h-[18vh]">
             <Section01_BrandStrip />
+          </div>
+
+          {/* Beta Test Form - duplicate under brand strip */}
+          <div className="relative w-full bg-white overflow-x-hidden py-8 md:py-12 px-6 md:px-14">
+            <BetaTestFormBlock idPrefix="brandstrip-form" />
           </div>
 
           {/* Main Content Area */}

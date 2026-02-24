@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useRequestForm } from "../../../../contexts/RequestFormContext";
 
 export const PortfolioSection = (): JSX.Element => {
   const sectionRef = useRef<HTMLElement>(null);
+  const { openRequestForm } = useRequestForm();
   const companies = [
     { id: 1, name: "Apple Inc.", ticker: "AAPL" },
     { id: 2, name: "Microsoft Corporation", ticker: "MSFT" },
@@ -359,7 +361,7 @@ export const PortfolioSection = (): JSX.Element => {
                 </div>
               )}
               
-              <div className="flex flex-col gap-4 sm:gap-6">
+              <div className="flex flex-col gap-4 sm:gap-6 flex-1 min-h-0">
                 {/* Group Name Field */}
                 <div className="flex flex-col gap-2">
                   <label className="text-xs sm:text-sm md:text-base font-semibold text-black [font-family:'Manrope',Helvetica]">
@@ -451,7 +453,7 @@ export const PortfolioSection = (): JSX.Element => {
                 Get the information you need quickly and efficiently.
               </p>
               
-              <div className="flex flex-col gap-4 sm:gap-6">
+              <div className="flex flex-col gap-4 sm:gap-6 flex-1 min-h-0">
                 {/* Results Display Area */}
                 <div className="w-full px-3 sm:px-4 py-4 sm:py-6 rounded-xl border border-[#afafaf80] bg-white min-h-[80px] sm:min-h-[96px] text-black text-xs sm:text-sm md:text-base [font-family:'Manrope',Helvetica] relative">
                   {!selectedYear ? (
@@ -603,12 +605,13 @@ export const PortfolioSection = (): JSX.Element => {
 
       {/* CTA Button */}
       <div className="w-full flex justify-center mt-8 md:mt-10">
-        <a 
-          href="/demo" 
+        <button
+          type="button"
+          onClick={openRequestForm}
           className="cursor-target inline-flex items-center justify-center h-12 sm:h-14 md:h-16 px-8 sm:px-10 md:px-12 rounded-xl bg-white text-black font-semibold text-base sm:text-lg md:text-xl hover:bg-black hover:text-white hover:border hover:border-black hover:scale-105 transition-all duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
         >
           Test Lampost Beta for Free
-        </a>
+        </button>
       </div>
     </section>
   );

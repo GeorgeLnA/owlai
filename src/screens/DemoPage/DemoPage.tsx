@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
-import { gsap } from "gsap";
+import React, { useState, useRef } from "react";
 import { sendAdminNotification, sendClientConfirmation } from "../../lib/emailjs";
 import { supabase } from "../../lib/supabase";
 import TargetCursor from "../../components/ui/target-cursor";
@@ -32,11 +31,11 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [currentStep, setCurrentStep] = useState<1 | 2>(1);
+  const [demoRequestId, setDemoRequestId] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const formContainerRef = useRef<HTMLDivElement>(null);
-  const stepContentRef = useRef<HTMLDivElement>(null);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -71,22 +70,27 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
     setSubmitStatus("idle");
 
     try {
-      // Save to Supabase first
-      const { data: supabaseData, error: supabaseError } = await supabase
-        .from('owl_ai_demo_requests')
-        .insert({
-          name: formData.name,
-          email: formData.email,
-          company: formData.company,
-          title: formData.title || null,
-          phone: formData.phone || null,
-          problems: formData.problems.trim() || null,
-        })
-        .select();
-
-      if (supabaseError) {
-        console.error('Supabase error:', supabaseError);
-        // Continue with email sending even if Supabase fails
+      if (demoRequestId) {
+        await supabase
+          .from('owl_ai_demo_requests')
+          .update({
+            title: formData.title || null,
+            phone: formData.phone || null,
+            problems: formData.problems.trim() || null,
+          })
+          .eq('id', demoRequestId);
+      } else {
+        const { error: supabaseError } = await supabase
+          .from('owl_ai_demo_requests')
+          .insert({
+            name: formData.name,
+            email: formData.email,
+            company: formData.company,
+            title: formData.title || null,
+            phone: formData.phone || null,
+            problems: formData.problems.trim() || null,
+          });
+        if (supabaseError) console.error('Supabase error:', supabaseError);
       }
 
       // Prepare data for emailjs - matching Get in Touch form pattern exactly
@@ -135,18 +139,41 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
     }
   };
 
-  const goToNextStep = () => {
+  const goToNextStep = async () => {
     if (!validateForm()) return;
+    try {
+      if (demoRequestId) {
+        await supabase
+          .from('owl_ai_demo_requests')
+          .update({
+            name: formData.name,
+            email: formData.email,
+            company: formData.company,
+          })
+          .eq('id', demoRequestId);
+      } else {
+        const { data, error } = await supabase
+          .from('owl_ai_demo_requests')
+          .insert({
+            name: formData.name,
+            email: formData.email,
+            company: formData.company,
+            title: null,
+            phone: null,
+            problems: null,
+          })
+          .select('id')
+          .single();
+        if (!error && data?.id) setDemoRequestId(data.id);
+        if (error) console.error('Supabase save on Next:', error);
+      }
+    } catch (err) {
+      console.error('Error saving on Next:', err);
+    }
     setCurrentStep(2);
   };
 
   const goToPrevStep = () => setCurrentStep(1);
-
-  useEffect(() => {
-    const el = stepContentRef.current;
-    if (!el) return;
-    gsap.fromTo(el, { opacity: 0, x: 8 }, { opacity: 1, x: 0, duration: 0.3, ease: "power2.out" });
-  }, [currentStep]);
 
   return (
     <div ref={containerRef} className="relative w-full bg-white overflow-x-hidden min-h-screen">
@@ -167,10 +194,10 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
         {/* Form Container */}
         <div
           ref={formContainerRef}
-          className="w-full max-w-2xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-lg p-6 sm:p-8 md:p-10 lg:p-12"
+          className="w-full max-w-2xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-lg p-6 sm:p-8 md:p-10 lg:p-12 [transition:none]"
         >
           <form ref={formRef} onSubmit={handleSubmit} className="w-full space-y-6">
-            <div ref={stepContentRef} className="space-y-6">
+            <div className="space-y-6 [transition:none]">
               {currentStep === 1 && (
                 <>
                   <div className="flex flex-col sm:flex-row gap-6">
@@ -304,12 +331,12 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
               )}
             </div>
 
-            <div className="pt-4 flex gap-3">
+            <div className="pt-4 flex flex-wrap gap-3 [transition:none]">
               {currentStep === 2 && (
                 <button
                   type="button"
                   onClick={goToPrevStep}
-                  className="cursor-target flex-1 sm:flex-none h-12 md:h-14 px-6 md:px-8 rounded-xl bg-gray-200 text-black font-semibold text-base hover:bg-gray-300 transition-all duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
+                  className="cursor-target flex-none h-12 md:h-14 px-6 md:px-8 rounded-xl bg-gray-200 text-black font-semibold text-base hover:bg-gray-300 focus:outline-none [font-family:'Manrope',Helvetica]"
                 >
                   Back
                 </button>
@@ -318,7 +345,7 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
                 <button
                   type="button"
                   onClick={goToNextStep}
-                  className="cursor-target w-full h-12 md:h-14 px-8 md:px-10 rounded-xl bg-black text-white font-semibold text-base md:text-lg hover:bg-black hover:opacity-90 transition-all duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
+                  className="cursor-target w-full h-12 md:h-14 px-8 md:px-10 rounded-xl bg-black text-white font-semibold text-base md:text-lg hover:opacity-90 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
                 >
                   Next
                 </button>
@@ -326,7 +353,7 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="cursor-target flex-1 h-12 md:h-14 px-8 md:px-10 rounded-xl bg-black text-white font-semibold text-base md:text-lg hover:bg-black hover:opacity-90 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
+                  className="cursor-target w-full flex-1 min-w-0 h-12 md:h-14 px-8 md:px-10 rounded-xl bg-black text-white font-semibold text-base md:text-lg hover:opacity-90 disabled:bg-gray-400 disabled:cursor-not-allowed focus:outline-none shadow-lg [font-family:'Manrope',Helvetica]"
                 >
                   {isSubmitting ? "Submitting..." : "Submit Request"}
                 </button>

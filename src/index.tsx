@@ -4,7 +4,9 @@ import { ElementLight } from "./screens/ElementLight";
 import { ElementBanks } from "./screens/ElementBanks/ElementBanks";
 import { DemoPage } from "./screens/DemoPage";
 import { DemoSuccessPage } from "./screens/DemoSuccessPage";
+import { AdminPage } from "./screens/AdminPage/AdminPage";
 import LoadingScreen from "./components/ui/loading-screen";
+import { RequestFormProvider } from "./contexts/RequestFormContext";
 
 const Boot = (): JSX.Element => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -90,14 +92,17 @@ const Boot = (): JSX.Element => {
   const params = new URLSearchParams(window.location.search);
   const icp = params.get("icp");
 
-  // Skip loading screen for demo pages
+  // Skip loading screen for demo and admin pages
   const isDemoPage = pathname === "/demo" || pathname === "/demo-success";
+  const isAdminPage = pathname === "/admin";
 
   let Page;
   if (pathname === "/demo") {
     Page = DemoPage;
   } else if (pathname === "/demo-success") {
     Page = DemoSuccessPage;
+  } else if (pathname === "/admin") {
+    Page = AdminPage;
   } else if (icp === "banks") {
     Page = ElementBanks;
   } else {
@@ -105,12 +110,14 @@ const Boot = (): JSX.Element => {
   }
 
   return (
-    <>
-      {shouldShowLoader && !isDemoPage && <LoadingScreen loop={false} onComplete={() => setLoaderDone(true)} />}
+    <RequestFormProvider>
+      {shouldShowLoader && !isDemoPage && !isAdminPage && (
+        <LoadingScreen loop={false} onComplete={() => setLoaderDone(true)} />
+      )}
       <div className="opacity-100">
-        <Page loadingComplete={isDemoPage ? true : loaderDone} />
+        <Page loadingComplete={isDemoPage || isAdminPage ? true : loaderDone} />
       </div>
-    </>
+    </RequestFormProvider>
   );
 };
 
