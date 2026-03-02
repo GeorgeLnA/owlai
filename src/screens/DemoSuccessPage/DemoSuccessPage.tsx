@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import TargetCursor from "../../components/ui/target-cursor";
+import { CalendlyWidget } from "../../components/CalendlyWidget";
 
 export const DemoSuccessPage = ({ loadingComplete = false }: { loadingComplete?: boolean }): JSX.Element => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -284,6 +285,9 @@ export const DemoSuccessPage = ({ loadingComplete = false }: { loadingComplete?:
               : "We've received your request! Our team will be in touch with you shortly."}
           </p>
         </div>
+
+        {/* Calendly - Book a Call */}
+        <CalendlyWidget />
 
         {/* Back Link */}
         <div className="mt-8">
