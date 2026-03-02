@@ -587,16 +587,16 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
         className="fixed top-0 left-0 right-0 h-[144px] bg-transparent pointer-events-none z-40"
       ></div>
       
-      {/* OWL AI Logo - Top Left (Independent Element, slides with GSAP) */}
+      {/* OWL AI Logo - Top Left (hidden on mobile) */}
       <div 
         ref={logoContainerRef} 
-        className="fixed top-6 sm:top-7 md:top-8 left-6 md:left-14 z-50 pointer-events-none"
+        className="hidden sm:block fixed top-6 md:top-8 left-6 md:left-14 z-50 pointer-events-none"
       >
         <img 
           ref={logoRef}
           src="/photo logos hero/cropped-OWL-AI-white.png" 
           alt="OWL AI Logo" 
-          className="h-9 sm:h-10 md:h-12 w-auto"
+          className="h-7 sm:h-9 md:h-10 lg:h-12 w-auto"
           style={{ 
             mixBlendMode: 'difference',
             filter: 'none',
@@ -608,12 +608,12 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
       {/* Request a Demo Button - Centred (Independent Element, slides with GSAP) */}
       <div
         ref={demoButtonContainerRef}
-        className="fixed top-6 sm:top-7 md:top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-auto"
+        className="fixed top-4 sm:top-6 md:top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-auto w-[calc(100%-2rem)] max-w-[300px] sm:max-w-none sm:w-auto px-2 sm:px-0"
       >
         <a
           href="/demo"
           ref={demoButtonRef}
-          className="cursor-target inline-flex items-center justify-center h-14 sm:h-16 md:h-[4.5rem] px-9 sm:px-11 md:px-16 rounded-xl bg-[#246193] text-white font-semibold text-lg sm:text-xl md:text-2xl md:hover:bg-[#1a4a6b] transition-colors duration-300 focus:outline-none [font-family:'Manrope',Helvetica]"
+          className="cursor-target inline-flex items-center justify-center min-h-11 sm:min-h-12 md:h-14 lg:h-[4.5rem] px-4 sm:px-6 md:px-9 lg:px-16 py-3 sm:py-3.5 rounded-xl bg-[#246193] text-white font-semibold text-sm sm:text-base md:text-lg lg:text-2xl md:hover:bg-[#1a4a6b] transition-colors duration-300 focus:outline-none [font-family:'Manrope',Helvetica] touch-manipulation w-full sm:w-auto text-center"
         >
           <span ref={demoButtonTextRef} className="inline-block">Test Lampost Beta for Free</span>
         </a>
@@ -624,12 +624,12 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
           {/* Hero Section */}
           <section 
             ref={heroSectionRef}
-            className="relative pt-32 pb-12 px-[175px] md:px-[175px] w-full"
+            className="relative pt-24 sm:pt-28 md:pt-32 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-12 lg:px-24 xl:px-[175px] w-full"
           >
             {/* Text Above Video */}
-            <div className="mb-8 md:mb-12 pb-10 md:pb-18 lg:pb-22 text-center">
-              <h1 className="text-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
-                Turn Any Analyst Into an Alpha Engine<br className="hidden md:block" /> in <span className="text-[#246193]">2 Minutes</span>
+            <div className="mb-6 sm:mb-8 md:mb-12 pb-6 sm:pb-8 md:pb-10 lg:pb-18 text-center">
+              <h1 className="text-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
+                Turn Any Analyst Into an Alpha Engine<br className="hidden sm:block" /> in <span className="text-[#246193]">2 Minutes</span>
               </h1>
             </div>
             
@@ -713,18 +713,18 @@ export const ElementLight = ({ loadingComplete = false }: ElementLightProps): JS
                 
                 {/* Click to Unmute Button - shown when video is muted */}
                 {!videoUnmuted && (
-                  <div className="absolute top-4 right-4 z-30">
+                  <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-30">
                     <button
                       ref={unmuteButtonRef}
                       onClick={(e) => {
                         e.stopPropagation();
                         toggleSound();
                       }}
-                      className="cursor-target group relative px-6 py-3 md:px-8 md:py-4 lg:px-10 lg:py-5 rounded-xl flex items-center justify-center md:hover:scale-105"
+                      className="cursor-target group relative px-4 py-2.5 sm:px-6 sm:py-3 md:px-8 md:py-4 lg:px-10 lg:py-5 rounded-lg sm:rounded-xl flex items-center justify-center md:hover:scale-105 touch-manipulation"
                       style={{ backgroundColor: '#000000' }}
                     >
                       <span 
-                        className="text-white text-sm md:text-base lg:text-lg font-semibold [font-family:'Manrope',Helvetica]"
+                        className="text-white text-xs sm:text-sm md:text-base lg:text-lg font-semibold [font-family:'Manrope',Helvetica]"
                         style={{ color: '#ffffff' }}
                       >
                         Click to Unmute
