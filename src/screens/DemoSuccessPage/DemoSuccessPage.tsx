@@ -281,8 +281,8 @@ export const DemoSuccessPage = ({ loadingComplete = false }: { loadingComplete?:
             className="text-gray-600 text-base sm:text-lg md:text-xl [font-family:'Manrope',Helvetica] max-w-2xl mx-auto"
           >
             {userName
-              ? `We've received your request, ${userName}! Our team will be in touch with you shortly.`
-              : "We've received your request! Our team will be in touch with you shortly."}
+              ? `We've received your request, ${userName}! Now feel free to book a call with a Founder.`
+              : "We've received your request! Now feel free to book a call with a Founder."}
           </p>
         </div>
 

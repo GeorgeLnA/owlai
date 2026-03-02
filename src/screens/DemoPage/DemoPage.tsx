@@ -187,7 +187,7 @@ export const DemoPage = ({ loadingComplete = false }: { loadingComplete?: boolea
             ref={titleRef}
             className="text-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 [font-family:'Manrope',Helvetica]"
           >
-            Test Lampost Beta for Free
+            {currentStep === 1 ? "Test Lampost Beta for Free" : "Step 2"}
           </h1>
         </div>
 

@@ -47,9 +47,15 @@ export function RequestFormModal({ onClose, onSubmit }: Props): JSX.Element {
     try {
       await onSubmit(formData);
       setSuccess(true);
-      setTimeout(() => {
-        onClose();
-      }, 1500);
+      await new Promise((r) => setTimeout(r, 300));
+      const params = new URLSearchParams({
+        name: formData.name,
+        email: formData.email,
+        company: formData.company,
+        title: formData.title || "",
+        problems: formData.problems.trim() || "",
+      });
+      window.location.href = `/demo-success?${params.toString()}`;
     } catch (err) {
       setErrors({ form: "Something went wrong. Please try again." });
     } finally {

@@ -127,14 +127,16 @@ export const BetaTestFormBlock = ({ idPrefix = "form" }: Props): JSX.Element => 
         sendClientConfirmation(emailData),
       ]).catch((err) => console.warn("Email sending failed:", err));
 
-      setSubmitStatus({
-        type: "success",
-        message: "Thank you! We'll get back to you soon.",
-      });
-      setFormData({ name: "", email: "", company: "", title: "", phone: "", problems: "" });
-      setDemoRequestId(null);
+      await new Promise((resolve) => setTimeout(resolve, 300));
 
-      setTimeout(() => setSubmitStatus({ type: null, message: "" }), 5000);
+      const params = new URLSearchParams({
+        name: formData.name,
+        email: formData.email,
+        company: formData.company,
+        title: formData.title || "",
+        problems: formData.problems.trim() || "",
+      });
+      window.location.href = `/demo-success?${params.toString()}`;
     } catch (error: unknown) {
       console.error("Error submitting form:", error);
       setSubmitStatus({
@@ -152,7 +154,7 @@ export const BetaTestFormBlock = ({ idPrefix = "form" }: Props): JSX.Element => 
     <div className="w-full flex flex-col items-center">
       <div className="w-full max-w-3xl mx-auto bg-[#246193] rounded-2xl border border-[#246193]/30 shadow-lg p-6 sm:p-8 md:p-10 lg:p-12">
         <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 tracking-tight [font-family:'Manrope',Helvetica]">
-          Test Lampost Beta for Free
+          {currentStep === 1 ? "Test Lampost Beta for Free" : "Step 2"}
         </h3>
         <form onSubmit={handleSubmit} className="w-full space-y-6">
           {currentStep === 1 && (
