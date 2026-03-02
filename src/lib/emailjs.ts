@@ -6,8 +6,12 @@ const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const EMAILJS_ADMIN_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID;
 const EMAILJS_CLIENT_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_CLIENT_TEMPLATE_ID;
 
-/** Admin notifications always go to this address. Not overridable via env. */
-const ADMIN_EMAIL = 'lampostlead@owlaisolutions.com';
+/** Admin notifications go to these addresses. Not overridable via env. */
+const ADMIN_EMAILS = [
+  'lampostlead@owlaisolutions.com',
+  'david@leadandallure.com',
+  'george@leadandallure.com',
+];
 
 // Initialize EmailJS
 if (EMAILJS_PUBLIC_KEY) {
@@ -36,41 +40,39 @@ export const sendAdminNotification = async (data: FormSubmissionData): Promise<v
   }
 
   try {
-    console.log('Sending admin notification email to:', ADMIN_EMAIL);
-    
     // Helper function to normalize empty values to "Not provided"
     const normalizeField = (value: string | undefined): string => {
       if (!value || value.trim() === "") return "Not provided";
       return value.trim();
     };
-    
+
     const telephoneValue = normalizeField(data.telephone);
-    
-    const result = await emailjs.send(
-      EMAILJS_SERVICE_ID,
-      EMAILJS_ADMIN_TEMPLATE_ID,
-      {
-        to_email: ADMIN_EMAIL,
-        // EmailJS template variables - unified for both demo and contact forms
-        // All fields will show "Not provided" if empty, suitable for both form types
-        name: data.name || "Not provided",
-        email: data.email || "Not provided",
-        telephone: telephoneValue,
-        company: normalizeField(data.company),
-        title: normalizeField(data.title),
-        problems: normalizeField(data.problems),
-        message: data.message || `New form submission from ${data.name}${data.company && data.company.trim() ? ` at ${data.company}` : ""}${data.problems && data.problems.trim() ? `\n\nProblems they're looking to solve:\n${data.problems}` : ""}`,
-        submission_date: new Date().toLocaleString(),
-        // Also include user_ prefixed versions for backward compatibility
-        user_name: data.name || "Not provided",
-        user_email: data.email || "Not provided",
-        user_telephone: telephoneValue,
-        user_company: normalizeField(data.company),
-        user_title: normalizeField(data.title),
-        user_problems: normalizeField(data.problems),
-      }
+    const baseParams = {
+      name: data.name || "Not provided",
+      email: data.email || "Not provided",
+      telephone: telephoneValue,
+      company: normalizeField(data.company),
+      title: normalizeField(data.title),
+      problems: normalizeField(data.problems),
+      message: data.message || `New form submission from ${data.name}${data.company && data.company.trim() ? ` at ${data.company}` : ""}${data.problems && data.problems.trim() ? `\n\nProblems they're looking to solve:\n${data.problems}` : ""}`,
+      submission_date: new Date().toLocaleString(),
+      user_name: data.name || "Not provided",
+      user_email: data.email || "Not provided",
+      user_telephone: telephoneValue,
+      user_company: normalizeField(data.company),
+      user_title: normalizeField(data.title),
+      user_problems: normalizeField(data.problems),
+    };
+
+    const results = await Promise.all(
+      ADMIN_EMAILS.map((to_email) =>
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ADMIN_TEMPLATE_ID, {
+          ...baseParams,
+          to_email,
+        })
+      )
     );
-    console.log('Admin notification email sent successfully:', result);
+    console.log('Admin notification emails sent successfully to:', ADMIN_EMAILS, results);
   } catch (error: any) {
     console.error('Failed to send admin notification:', error);
     console.error('Error details:', {
